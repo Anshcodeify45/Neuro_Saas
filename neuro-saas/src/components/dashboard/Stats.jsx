@@ -35,7 +35,7 @@ const Stats = () => {
       {data.map((item, i) => (
         <div
           key={i}
-          className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow hover:shadow-lg transition group"
+          className="bg-white dark:bg-gray-900 p-5 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition"
         >
 
           {/* ICON */}

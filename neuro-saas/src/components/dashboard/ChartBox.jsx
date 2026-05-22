@@ -13,7 +13,7 @@ const data = [
 
 const ChartBox = () => {
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+    <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
 
       {/* TITLE */}
       <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
@@ -21,7 +21,7 @@ const ChartBox = () => {
       </h2>
 
       {/* CHART */}
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={180}>
         <LineChart data={data}>
 
           <XAxis dataKey="name" stroke="#9CA3AF" />

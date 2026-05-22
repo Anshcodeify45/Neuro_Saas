@@ -21,16 +21,16 @@ const Dashboard = () => {
   }, [dark]);
 
  return (
-  <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+  <div className="flex h-screen overflow-hidden bg-[#f5f7fb] dark:bg-gray-950 text-gray-900 dark:text-white">
 
     {/* SIDEBAR */}
     <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
 
     {/* MAIN AREA */}
-    <div className="flex-1 flex flex-col transition-all duration-300">
+    <div div className="flex-1 flex flex-col p-4 transition-all duration-300">
 
       {/* TOPBAR */}
-      <div className="sticky top-0 z-50 flex justify-between items-center px-6 py-4 bg-white dark:bg-gray-800 shadow">
+      <div className="sticky top-3 z-50 flex justify-between items-center px-5 py-3 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm max-w-[1400px] mx-auto w-full">
 
         <Topbar />
 
@@ -44,7 +44,7 @@ const Dashboard = () => {
       </div>
 
       {/* CONTENT */}
-      <div className="p-6 space-y-6">
+      <div className="flex-1 flex flex-col overflow-y-auto p-4 gap-4">
         <Stats />
         <ChartBox />
         <Table />
