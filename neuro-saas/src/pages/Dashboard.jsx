@@ -1,58 +1,97 @@
-import React, { useState, useEffect } from "react";
-import Sidebar from "../components/dashboard/Sidebar";
-import Topbar from "../components/dashboard/Topbar";
+import React from "react";
+
 import Stats from "../components/dashboard/Stats";
 import ChartBox from "../components/dashboard/ChartBox";
 import Table from "../components/dashboard/Table";
 
 const Dashboard = () => {
-  const [dark, setDark] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  return (
+    <div className="space-y-6 scrollbar-hide">
 
-  // 🌙 GLOBAL DARK MODE CONTROL (CORRECT WAY)
-  useEffect(() => {
-    const root = document.documentElement;
+      {/* PAGE HEADER */}
+      <div>
+        <h1 className="text-3xl font-bold">
+          Dashboard
+        </h1>
 
-    if (dark) {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-  }, [dark]);
+        <p className="text-gray-500 mt-1">
+          Welcome back, here’s what’s happening today.
+        </p>
+      </div>
 
- return (
-  <div className="flex h-screen overflow-hidden bg-[#f5f7fb] dark:bg-gray-950 text-gray-900 dark:text-white">
+      {/* STATS */}
+      <Stats />
 
-    {/* SIDEBAR */}
-    <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
+      {/* CHART + SIDE PANEL */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
-    {/* MAIN AREA */}
-    <div div className="flex-1 flex flex-col p-4 transition-all duration-300">
+        {/* MAIN CHART */}
+        <div className="xl:col-span-2">
+          <ChartBox />
+        </div>
 
-      {/* TOPBAR */}
-      <div className="sticky top-3 z-50 flex justify-between items-center px-5 py-3 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm max-w-[1400px] mx-auto w-full">
+        {/* ACTIVITY PANEL */}
+        <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
 
-        <Topbar />
+          <h2 className="text-lg font-semibold mb-5">
+            Recent Activity
+          </h2>
 
-        <button
-          onClick={() => setDark(!dark)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:scale-105 transition"
-        >
-          {dark ? "Light Mode" : "Dark Mode"}
-        </button>
+          <div className="space-y-4">
+
+            <div className="flex items-start gap-3">
+              <div className="w-2 h-2 mt-2 rounded-full bg-green-500"></div>
+
+              <div>
+                <p className="font-medium">
+                  New User Registered
+                </p>
+
+                <p className="text-sm text-gray-500">
+                  2 minutes ago
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <div className="w-2 h-2 mt-2 rounded-full bg-blue-500"></div>
+
+              <div>
+                <p className="font-medium">
+                  Revenue Updated
+                </p>
+
+                <p className="text-sm text-gray-500">
+                  10 minutes ago
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <div className="w-2 h-2 mt-2 rounded-full bg-purple-500"></div>
+
+              <div>
+                <p className="font-medium">
+                  New Subscription
+                </p>
+
+                <p className="text-sm text-gray-500">
+                  30 minutes ago
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
-      {/* CONTENT */}
-      <div className="flex-1 flex flex-col overflow-y-auto p-4 gap-4">
-        <Stats />
-        <ChartBox />
-        <Table />
-      </div>
+      {/* TABLE */}
+      <Table />
 
     </div>
-  </div>
-);
+  );
 };
 
 export default Dashboard;
