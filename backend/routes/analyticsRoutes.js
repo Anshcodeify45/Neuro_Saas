@@ -24,4 +24,25 @@ router.get("/stats", async (req, res) => {
   }
 });
 
+router.get("/user-trend", async (req, res) => {
+  try {
+    const users = await User.find();
+
+    // create last 7 days labels
+    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+    // mock distribution logic (real SaaS later uses timestamps)
+    const data = days.map((day, index) => {
+      return {
+        name: day,
+        users: Math.floor(Math.random() * (users.length + 5)),
+      };
+    });
+
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;
