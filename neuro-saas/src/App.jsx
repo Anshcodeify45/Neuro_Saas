@@ -8,6 +8,8 @@ import Analytics from "./components/dashboard/Analytics";
 import Settings from "./components/dashboard/Settings";
 
 import DashboardLayout from "./pages/DashboardLayout";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -17,9 +19,14 @@ function App() {
 
         {/* LANDING PAGE */}
         <Route path="/" element={<Home />} />
-
+        {/* REGISTER PAGE */}
+        <Route path="/register" element={<Register />} />
+        {/* LOGIN PAGE */}
+        <Route path="/login" element={<Login />} />
         {/* DASHBOARD LAYOUT WRAPPER */}
         <Route path="/dashboard" element={<DashboardLayout />}>
+
+        
 
           {/* DEFAULT DASHBOARD PAGE */}
           <Route index element={<Dashboard />} />
@@ -28,7 +35,7 @@ function App() {
           <Route path="users" element={<Users />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="settings" element={<Settings />} />
-
+         
         </Route>
 
       </Routes>
