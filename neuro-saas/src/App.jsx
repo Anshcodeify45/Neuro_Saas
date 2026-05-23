@@ -10,6 +10,7 @@ import Settings from "./components/dashboard/Settings";
 import DashboardLayout from "./pages/DashboardLayout";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -24,7 +25,14 @@ function App() {
         {/* LOGIN PAGE */}
         <Route path="/login" element={<Login />} />
         {/* DASHBOARD LAYOUT WRAPPER */}
-        <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
 
         
 
