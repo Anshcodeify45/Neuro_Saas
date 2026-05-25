@@ -8,7 +8,6 @@ const DashboardLayout = () => {
   const [dark, setDark] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  // DARK MODE
   useEffect(() => {
     const root = document.documentElement;
 
@@ -20,32 +19,46 @@ const DashboardLayout = () => {
   }, [dark]);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#f5f7fb] dark:bg-gray-950 text-gray-900 dark:text-white">
+    <div className="h-screen flex overflow-hidden bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-white transition-colors duration-300">
 
       {/* SIDEBAR */}
-      <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
+      <div className="shrink-0">
+        <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
+      </div>
 
-      {/* MAIN AREA */}
-      <div className="flex-1 flex flex-col p-4">
+      {/* MAIN */}
+      <div className="flex-1 flex flex-col">
 
         {/* TOPBAR */}
-        <div className="sticky top-3 z-50 flex justify-between items-center px-5 py-3 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm max-w-[1400px] mx-auto w-full">
+        <div className="sticky top-0 z-50 w-full flex justify-center">
 
-          <Topbar />
+          <div className="w-full max-w-[1400px] mx-4 mt-4">
 
-          <button
-            onClick={() => setDark(!dark)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:scale-105 transition"
-          >
-            {dark ? "Light Mode" : "Dark Mode"}
-          </button>
+            <div className="flex items-center justify-between px-5 py-3 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md shadow-sm">
+
+              <Topbar />
+
+              <button
+                onClick={() => setDark(!dark)}
+                className="text-sm px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
+              >
+                {dark ? "Light Mode" : "Dark Mode"}
+              </button>
+
+            </div>
+
+          </div>
 
         </div>
 
-        {/* PAGE CONTENT */}
-        <div className="flex-1 overflow-y-auto p-4 no-scrollbar">
-          <Outlet />
-        </div>
+        {/* CONTENT AREA */}
+        <main className="flex-1 overflow-y-auto px-4 py-6">
+
+          <div className="max-w-[1400px] mx-auto">
+            <Outlet />
+          </div>
+
+        </main>
 
       </div>
 

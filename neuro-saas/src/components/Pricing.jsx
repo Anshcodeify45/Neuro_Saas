@@ -26,62 +26,83 @@ const Pricing = () => {
   ];
 
   return (
-    <section className="px-6 py-20 bg-gray-50">
-      
+    <section className="py-24 bg-gray-50">
+
       {/* Heading */}
-      <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-gray-900">
-          Simple Pricing
+      <div className="text-center max-w-2xl mx-auto px-6 mb-16">
+
+        <h2 className="text-4xl font-semibold text-gray-900 tracking-tight">
+          Simple, Transparent Pricing
         </h2>
-        <p className="text-gray-600 mt-4">
-          Choose a plan that fits your needs
+
+        <p className="mt-4 text-gray-500 text-lg">
+          Choose a plan that fits your workflow. Upgrade or downgrade anytime.
         </p>
+
       </div>
 
       {/* Cards */}
-      <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto px-6 grid gap-6 md:grid-cols-3">
+
         {plans.map((plan, index) => (
           <div
             key={index}
-            className={`p-8 rounded-xl border shadow-sm transition hover:shadow-lg bg-white ${
-              plan.highlight ? "border-blue-600 scale-105" : ""
+            className={`relative rounded-2xl border bg-white p-8 transition shadow-sm hover:shadow-md ${
+              plan.highlight ? "border-blue-500" : "border-gray-200"
             }`}
           >
-            
-            {/* Title */}
-            <h3 className="text-xl font-bold text-gray-900">
+
+            {/* Recommended tag */}
+            {plan.highlight && (
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs px-3 py-1 rounded-full">
+                Most Popular
+              </div>
+            )}
+
+            {/* Plan name */}
+            <h3 className="text-lg font-semibold text-gray-900">
               {plan.name}
             </h3>
 
             {/* Price */}
-            <p className="text-3xl font-bold text-blue-600 mt-3">
-              {plan.price}
+            <div className="mt-4 flex items-end gap-1">
+              <span className="text-4xl font-bold text-gray-900">
+                {plan.price}
+              </span>
+              <span className="text-sm text-gray-500 mb-1">/ month</span>
+            </div>
+
+            {/* Description */}
+            <p className="text-sm text-gray-500 mt-3">
+              {plan.desc}
             </p>
 
-            {/* Desc */}
-            <p className="text-gray-600 mt-2">{plan.desc}</p>
-
             {/* Features */}
-            <ul className="mt-5 space-y-2 text-gray-600">
+            <ul className="mt-6 space-y-3 text-sm text-gray-600">
               {plan.features.map((f, i) => (
-                <li key={i}>✔ {f}</li>
+                <li key={i} className="flex items-start gap-2">
+                  <span className="text-green-500 mt-[2px]">✓</span>
+                  {f}
+                </li>
               ))}
             </ul>
 
             {/* Button */}
             <button
-              className={`mt-6 w-full py-2 rounded-lg transition ${
+              className={`mt-8 w-full py-3 rounded-xl font-medium transition ${
                 plan.highlight
-                  ? "bg-blue-600 text-white hover:bg-blue-700"
-                  : "border border-gray-300 hover:bg-gray-100"
+                  ? "bg-blue-600 text-white hover:bg-blue-700 shadow-sm"
+                  : "border border-gray-300 text-gray-700 hover:bg-gray-50"
               }`}
             >
               Get Started
             </button>
+
           </div>
         ))}
+
       </div>
-      
+
     </section>
   );
 };

@@ -1,26 +1,68 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <nav className="w-full flex items-center justify-between px-8 py-4 bg-white shadow-sm sticky top-0 z-50">
-      
-      {/* Logo */}
-      <div className="text-2xl font-bold text-blue-600">
-        NeuroSaaS
+    <nav className="w-full sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
+
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+
+        {/* Logo */}
+        <div
+          onClick={() => scrollToSection("home")}
+          className="text-2xl font-bold text-blue-600 tracking-tight cursor-pointer"
+        >
+          NeuroSaaS
+        </div>
+
+        {/* Links */}
+        <ul className="hidden md:flex items-center gap-10 text-sm font-medium text-gray-600">
+
+          <li
+            onClick={() => scrollToSection("home")}
+            className="hover:text-blue-600 transition cursor-pointer"
+          >
+            Home
+          </li>
+
+          <li
+            onClick={() => scrollToSection("features")}
+            className="hover:text-blue-600 transition cursor-pointer"
+          >
+            Features
+          </li>
+
+          <li
+            onClick={() => scrollToSection("pricing")}
+            className="hover:text-blue-600 transition cursor-pointer"
+          >
+            Pricing
+          </li>
+
+          <li
+            onClick={() => scrollToSection("contact")}
+            className="hover:text-blue-600 transition cursor-pointer"
+          >
+            Contact
+          </li>
+
+        </ul>
+
+        {/* CTA */}
+        <Link to="/login">
+          <button className="bg-blue-600 text-white px-5 py-2 rounded-xl font-medium hover:bg-blue-700 hover:shadow-md transition-all duration-200">
+            Get Started
+          </button>
+        </Link>
+
       </div>
-
-      {/* Links */}
-      <ul className="hidden md:flex gap-8 text-gray-600 font-medium">
-        <li className="hover:text-blue-600 cursor-pointer">Home</li>
-        <li className="hover:text-blue-600 cursor-pointer">Features</li>
-        <li className="hover:text-blue-600 cursor-pointer">Pricing</li>
-        <li className="hover:text-blue-600 cursor-pointer">Contact</li>
-      </ul>
-
-      {/* Button */}
-      <button className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
-        Get Started
-      </button>
 
     </nav>
   );

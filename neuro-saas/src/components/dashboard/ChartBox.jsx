@@ -23,7 +23,7 @@ const ChartBox = () => {
   }, []);
 
   return (
-    <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl border shadow-sm">
+    <div className="bg-white dark:bg-gray-900 p-6 shadow-sm">
 
       <h2 className="text-lg font-semibold mb-4">
         User Growth Analytics

@@ -58,7 +58,7 @@ const Activity = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl border h-[312px] flex flex-col">
+    <div className="bg-white dark:bg-gray-900 p-6 rounded-2xl  h-[312px] flex flex-col">
 
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
