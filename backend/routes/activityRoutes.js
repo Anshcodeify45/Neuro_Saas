@@ -1,30 +1,20 @@
-const express = require("express");
+import express from "express";
+import Activity from "../models/Activity.js";
 const router = express.Router();
-const Activity = require("../models/Activity");
 
-// GET RECENT ACTIVITY
+
 router.get("/", async (req, res) => {
   try {
-    const data = await Activity.find()
+    const activities = await Activity.find()
       .sort({ createdAt: -1 })
       .limit(10);
 
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.json(activities);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
   }
 });
 
-router.post("/seed", async (req, res) => {
-  const Activity = require("../models/Activity");
-
-  await Activity.create([
-    { message: "New User Registered", type: "user" },
-    { message: "Revenue Updated", type: "finance" },
-    { message: "New Subscription", type: "billing" },
-  ]);
-
-  res.json({ success: true });
-});
-
-module.exports = router;
+export default router;

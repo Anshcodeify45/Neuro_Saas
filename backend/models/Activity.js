@@ -1,11 +1,28 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const activitySchema = new mongoose.Schema(
   {
-    message: String,
-    type: String,
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+
+    action: {
+      type: String,
+      required: true,
+    },
+
+    details: String,
+
+    type: {
+      type: String,
+      enum: ["auth", "user", "admin", "payment"],
+      default: "user",
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Activity", activitySchema);
+const Activity = mongoose.model("Activity", activitySchema);
+
+export default Activity;

@@ -1,30 +1,31 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+
+import connectDB from "./config/db.js";
+
+import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import analyticsRoutes from "./routes/analyticsRoutes.js";
+import activityRoutes from "./routes/activityRoutes.js";
 
 dotenv.config();
 
-const connectDB = require("./config/db");
-
 const app = express();
 
-// middleware
 app.use(cors());
 app.use(express.json());
 
-// connect DB
 connectDB();
 
-// test route
 app.get("/", (req, res) => {
   res.send("SaaS Backend Running 🚀");
 });
 
-// routes
-app.use("/api/auth", require("./routes/authRoutes"));
-app.use("/api/users", require("./routes/userRoutes"));
-app.use("/api/analytics", require("./routes/analyticsRoutes"));
-app.use("/api/activity", require("./routes/activityRoutes"));
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/analytics", analyticsRoutes);
+app.use("/api/activity", activityRoutes);
 
 const PORT = process.env.PORT || 5000;
 
