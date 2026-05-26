@@ -11,6 +11,7 @@ import DashboardLayout from "./pages/DashboardLayout";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Profile from "./components/dashboard/Profile";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <Route index element={<Dashboard />} />
 
           {/* INNER PAGES */}
+          <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="users" element={<Users />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="settings" element={<Settings />} />

@@ -179,9 +179,34 @@ const Hero = () => {
               </p>
             </div>
 
-            <div className="h-72 bg-gray-100 flex items-center justify-center text-gray-500">
-              Demo Preview Placeholder (Video / GIF / Screenshots)
+            <div className="relative bg-gray-100 dark:bg-gray-800 flex items-center justify-center p-6">
+
+  {/* BROWSER FRAME */}
+  <div className="w-full max-w-4xl rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700">
+
+    {/* TOP BAR (Fake Browser UI) */}
+    <div className="flex items-center gap-2 px-4 py-3 bg-gray-200 dark:bg-gray-900">
+
+              <span className="w-3 h-3 bg-red-500 rounded-full"></span>
+              <span className="w-3 h-3 bg-yellow-500 rounded-full"></span>
+              <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+
+              <div className="ml-4 text-xs text-gray-500 dark:text-gray-400">
+                neuro-saas-dashboard.vercel.app
+              </div>
+
             </div>
+
+            {/* DASHBOARD IMAGE */}
+            <img
+              src="/dashboard.png" 
+              alt="Dashboard Preview"
+              className="w-full object-cover"
+            />
+
+          </div>
+
+        </div>
 
             <div className="p-4 flex justify-end">
               <button

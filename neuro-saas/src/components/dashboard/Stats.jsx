@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Users, DollarSign, TrendingUp } from "lucide-react";
 import { getStats } from "../../api/analyticsApi";
+import GlassCard from "./GlassCard";
 
 const Stats = () => {
   const [stats, setStats] = useState(null);
@@ -49,39 +50,32 @@ const Stats = () => {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
       {data.map((item, i) => (
-        <div
-          key={i}
-          className="group bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5"
-        >
+        <GlassCard className="p-6 relative overflow-hidden">
 
-          {/* TOP ROW */}
-          <div className="flex items-center justify-between">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full"></div>
 
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              {item.title}
-            </p>
+      <div className="flex items-center justify-between relative z-10">
 
-            <div className={`p-2 rounded-lg ${item.bg} ${item.color}`}>
-              {item.icon}
-            </div>
+        <div>
+          <p className="text-sm text-gray-400">
+            {item.title}
+          </p>
 
-          </div>
+      <h2 className="text-3xl font-bold mt-3">
+        {item.value}
+      </h2>
 
-          {/* VALUE */}
-          <div className="mt-4 text-2xl font-semibold text-gray-900 dark:text-white">
-            {loading ? (
-              <div className="h-7 w-20 bg-gray-200 dark:bg-gray-800 animate-pulse rounded-md"></div>
-            ) : (
-              item.value
-            )}
-          </div>
+      <p className="text-xs text-green-400 mt-2">
+        +12.5% growth
+      </p>
+    </div>
 
-          {/* FOOTER INDICATOR */}
-          <div className="mt-3 text-xs text-gray-400">
-            Updated just now
-          </div>
+    <div className={`${item.bg} p-4 rounded-2xl`}>
+      {item.icon}
+    </div>
 
-        </div>
+  </div>
+</GlassCard>
       ))}
 
     </div>

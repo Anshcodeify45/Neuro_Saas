@@ -32,8 +32,12 @@ const Sidebar = ({ open, setOpen }) => {
       <div
         className={`
           fixed lg:static z-50 h-full
-          bg-white dark:bg-gray-900
-          border-r border-gray-200 dark:border-gray-800
+          bg-white/80
+          dark:bg-[#081028]/90
+          backdrop-blur-xl
+          border-r
+          border-white/10
+          shadow-2xl
           transition-all duration-300 ease-in-out
           flex flex-col
           ${open ? "w-64" : "w-20"}

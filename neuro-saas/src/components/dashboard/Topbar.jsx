@@ -1,13 +1,40 @@
-import React, { useState } from "react";
-import { Search, Bell, LogOut, ChevronDown } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+
+import {
+  Search,
+  Bell,
+  LogOut,
+  ChevronDown,
+  Settings,
+  User,
+  Sparkles,
+  Command,
+} from "lucide-react";
+
 import { useNavigate } from "react-router-dom";
+
+import { motion, AnimatePresence } from "framer-motion";
 
 const Topbar = () => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
 
-  const [openMenu, setOpenMenu] = useState(false);
+  const user = JSON.parse(
+    localStorage.getItem("user")
+  );
 
+  const [openMenu, setOpenMenu] =
+    useState(false);
+
+  const [
+    notificationOpen,
+    setNotificationOpen,
+  ] = useState(false);
+
+  const menuRef = useRef();
+
+
+  // LOGOUT
+  
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -15,46 +42,437 @@ const Topbar = () => {
     navigate("/login");
   };
 
+  // NAVIGATE PROFILE
+
+
+  const handleProfile = () => {
+    navigate("/dashboard/profile");
+    setOpenMenu(false);
+  };
+
+  // NAVIGATE SETTINGS
+
+
+  const handleSettings = () => {
+    navigate("/dashboard/settings");
+    setOpenMenu(false);
+  };
+
+  // CLOSE DROPDOWN OUTSIDE
+
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(
+          e.target
+        )
+      ) {
+        setOpenMenu(false);
+        setNotificationOpen(false);
+      }
+    };
+
+    document.addEventListener(
+      "mousedown",
+      handler
+    );
+
+    return () =>
+      document.removeEventListener(
+        "mousedown",
+        handler
+      );
+  }, []);
+
+  // NOTIFICATIONS
+
+
+  const notifications = [
+    {
+      title: "New user registered",
+      desc: "Amit Sharma joined today",
+      time: "2m ago",
+    },
+    {
+      title: "Server updated",
+      desc: "Analytics synced successfully",
+      time: "1h ago",
+    },
+    {
+      title: "Payment received",
+      desc: "₹12,000 subscription added",
+      time: "3h ago",
+    },
+  ];
+
   return (
-    <div className="w-full flex items-center justify-between gap-6">
+    <div
+      className="
+        w-full
+        flex
+        items-center
+        justify-between
+        gap-6
+      "
+      ref={menuRef}
+    >
 
-      {/* LEFT SECTION */}
+      {/* LEFT */}
       <div className="flex flex-col">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-          Dashboard Overview
-        </h2>
 
-        <p className="text-xs text-gray-500 mt-0.5">
-          Welcome back 👋 {user?.name}
+        <div className="flex items-center gap-2">
+
+          <h2
+            className="
+              text-xl
+              font-bold
+              text-gray-900
+              dark:text-white
+              tracking-tight
+            "
+          >
+            Dashboard Overview
+          </h2>
+
+          <div
+            className="
+              hidden md:flex
+              items-center
+              gap-1
+              px-2.5
+              py-1
+              rounded-full
+              bg-blue-500/10
+              text-blue-600
+              text-xs
+              font-medium
+            "
+          >
+
+            <Sparkles size={12} />
+
+            Pro
+
+          </div>
+
+        </div>
+
+        <p
+          className="
+            text-sm
+            text-gray-500
+            dark:text-gray-400
+            mt-1
+          "
+        >
+          Welcome back 👋{" "}
+          <span className="font-medium">
+            {user?.name}
+          </span>
         </p>
+
       </div>
 
-      {/* CENTER SEARCH */}
-      <div className="hidden md:flex items-center bg-gray-100/70 dark:bg-gray-800/60 px-4 py-2 rounded-xl w-[340px] border border-gray-200/40 dark:border-gray-700/40 focus-within:ring-2 focus-within:ring-blue-500 transition">
+      {/* SEARCH */}
+      <motion.div
+        whileFocus={{ scale: 1.01 }}
+        className="
+          hidden
+          lg:flex
+          items-center
+          gap-3
+          px-4
+          py-3
+          rounded-2xl
+          w-[420px]
+          border
+          border-gray-200
+          dark:border-white/10
+          bg-white
+          dark:bg-white/[0.03]
+          shadow-sm
+          backdrop-blur-xl
+          focus-within:ring-2
+          focus-within:ring-blue-500/40
+          transition-all
+        "
+      >
 
-        <Search size={16} className="text-gray-500" />
+        <Search
+          size={15}
+          className="text-gray-400"
+        />
 
         <input
           type="text"
-          placeholder="Search anything..."
-          className="bg-transparent outline-none px-2 w-full text-sm text-gray-700 dark:text-white"
+          placeholder="Search analytics, users, reports..."
+          className="
+            flex-1
+            bg-transparent
+            outline-none
+            text-sm
+            text-gray-700
+            dark:text-white
+            placeholder:text-gray-400
+          "
         />
 
-        <span className="text-[10px] text-gray-400 bg-white dark:bg-gray-700 px-2 py-1 rounded-md">
-          ⌘K
-        </span>
+        <div
+          className="
+            flex
+            items-center
+            gap-1
+            px-2
+            py-1
+            rounded-lg
+            bg-gray-100
+            dark:bg-gray-800
+            text-[11px]
+            text-gray-500
+          "
+        >
 
-      </div>
+          <Command size={12} />
 
-      {/* RIGHT SECTION */}
-      <div className="flex items-center gap-4">
+          K
 
-        {/* NOTIFICATIONS */}
-        <div className="relative cursor-pointer p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+        </div>
 
-          <Bell className="text-gray-600 dark:text-gray-300" size={18} />
+      </motion.div>
 
-          <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+      {/* RIGHT */}
+      <div className="flex items-center gap-3">
+
+        {/* MOBILE SEARCH */}
+        <button
+          className="
+            lg:hidden
+            w-11
+            h-11
+            rounded-2xl
+            border
+            border-gray-200
+            dark:border-white/10
+            bg-white
+            dark:bg-white/[0.03]
+            flex
+            items-center
+            justify-center
+            hover:scale-105
+            transition
+          "
+        >
+
+          <Search
+            size={18}
+            className="
+              text-gray-600
+              dark:text-gray-300
+            "
+          />
+
+        </button>
+
+        {/* NOTIFICATION */}
+        <div className="relative">
+
+          <button
+            onClick={() =>
+              setNotificationOpen(
+                !notificationOpen
+              )
+            }
+            className="
+              relative
+              w-11
+              h-11
+              rounded-2xl
+              border
+              border-gray-200
+              dark:border-white/10
+              bg-white
+              dark:bg-white/[0.03]
+              flex
+              items-center
+              justify-center
+              hover:scale-105
+              transition
+            "
+          >
+
+            <Bell
+              size={18}
+              className="
+                text-gray-600
+                dark:text-gray-300
+              "
+            />
+
+            <span
+              className="
+                absolute
+                top-2.5
+                right-2.5
+                w-2.5
+                h-2.5
+                rounded-full
+                bg-red-500
+                border-2
+                border-white
+                dark:border-gray-900
+              "
+            />
+
+          </button>
+
+          {/* NOTIFICATION DROPDOWN */}
+          <AnimatePresence>
+
+            {notificationOpen && (
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  y: 10,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                exit={{
+                  opacity: 0,
+                  y: 10,
+                }}
+                transition={{
+                  duration: 0.2,
+                }}
+                className="
+                  absolute
+                  right-0
+                  mt-3
+                  w-[340px]
+                  rounded-3xl
+                  border
+                  border-gray-200
+                  dark:border-white/10
+                  bg-white
+                  dark:bg-gray-900
+                  shadow-2xl
+                  overflow-hidden
+                  z-50
+                "
+              >
+
+                <div
+                  className="
+                    flex
+                    items-center
+                    justify-between
+                    px-5
+                    py-4
+                    border-b
+                    border-gray-200
+                    dark:border-white/10
+                  "
+                >
+
+                  <h3
+                    className="
+                      font-semibold
+                      text-gray-900
+                      dark:text-white
+                    "
+                  >
+                    Notifications
+                  </h3>
+
+                  <button
+                    className="
+                      text-xs
+                      text-blue-600
+                    "
+                  >
+                    Mark all read
+                  </button>
+
+                </div>
+
+                <div className="max-h-[320px] overflow-y-auto">
+
+                  {notifications.map(
+                    (item, i) => (
+                      <div
+                        key={i}
+                        className="
+                          px-5
+                          py-4
+                          border-b
+                          border-gray-100
+                          dark:border-white/5
+                          hover:bg-gray-50
+                          dark:hover:bg-white/[0.03]
+                          transition
+                          cursor-pointer
+                        "
+                      >
+
+                        <div
+                          className="
+                            flex
+                            items-start
+                            justify-between
+                            gap-3
+                          "
+                        >
+
+                          <div>
+
+                            <h4
+                              className="
+                                text-sm
+                                font-medium
+                                text-gray-900
+                                dark:text-white
+                              "
+                            >
+                              {item.title}
+                            </h4>
+
+                            <p
+                              className="
+                                text-xs
+                                text-gray-500
+                                dark:text-gray-400
+                                mt-1
+                              "
+                            >
+                              {item.desc}
+                            </p>
+
+                          </div>
+
+                          <span
+                            className="
+                              text-[11px]
+                              text-gray-400
+                            "
+                          >
+                            {item.time}
+                          </span>
+
+                        </div>
+
+                      </div>
+                    )
+                  )}
+
+                </div>
+
+              </motion.div>
+            )}
+
+          </AnimatePresence>
 
         </div>
 
@@ -62,42 +480,267 @@ const Topbar = () => {
         <div className="relative">
 
           <button
-            onClick={() => setOpenMenu(!openMenu)}
-            className="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+            onClick={() =>
+              setOpenMenu(!openMenu)
+            }
+            className="
+              flex
+              items-center
+              gap-3
+              px-2
+              py-1.5
+              rounded-2xl
+              border
+              border-gray-200
+              dark:border-white/10
+              bg-white
+              dark:bg-white/[0.03]
+              hover:scale-[1.01]
+              transition-all
+            "
           >
 
-            <div className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold uppercase text-sm">
+            {/* AVATAR */}
+            <div
+              className="
+                w-11
+                h-11
+                rounded-2xl
+                bg-gradient-to-br
+                from-blue-500
+                to-indigo-600
+                flex
+                items-center
+                justify-center
+                text-white
+                font-semibold
+                uppercase
+                shadow-lg
+                shadow-blue-500/20
+              "
+            >
               {user?.name?.charAt(0)}
             </div>
 
-            <div className="hidden md:flex flex-col items-start">
-              <p className="text-sm font-medium text-gray-900 dark:text-white">
+            {/* USER INFO */}
+            <div
+              className="
+                hidden
+                md:flex
+                flex-col
+                items-start
+              "
+            >
+
+              <p
+                className="
+                  text-sm
+                  font-semibold
+                  text-gray-900
+                  dark:text-white
+                "
+              >
                 {user?.name}
               </p>
 
-              <p className="text-[11px] text-gray-500">
+              <p
+                className="
+                  text-[11px]
+                  text-gray-500
+                "
+              >
                 {user?.email}
               </p>
+
             </div>
 
-            <ChevronDown size={16} className="text-gray-400" />
+            <ChevronDown
+              size={16}
+              className="
+                text-gray-400
+              "
+            />
 
           </button>
 
           {/* DROPDOWN */}
-          {openMenu && (
-            <div className="absolute right-0 mt-3 w-44 bg-white dark:bg-gray-900 border rounded-xl shadow-lg overflow-hidden z-50">
+          <AnimatePresence>
 
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 transition"
+            {openMenu && (
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  y: 10,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                exit={{
+                  opacity: 0,
+                  y: 10,
+                }}
+                transition={{
+                  duration: 0.2,
+                }}
+                className="
+                  absolute
+                  right-0
+                  mt-3
+                  w-64
+                  rounded-3xl
+                  border
+                  border-gray-200
+                  dark:border-white/10
+                  bg-white
+                  dark:bg-gray-900
+                  shadow-2xl
+                  overflow-hidden
+                  z-50
+                "
               >
-                <LogOut size={16} />
-                Logout
-              </button>
 
-            </div>
-          )}
+                {/* TOP */}
+                <div
+                  className="
+                    px-5
+                    py-5
+                    border-b
+                    border-gray-200
+                    dark:border-white/10
+                  "
+                >
+
+                  <div className="flex items-center gap-3">
+
+                    <div
+                      className="
+                        w-12
+                        h-12
+                        rounded-2xl
+                        bg-gradient-to-br
+                        from-blue-500
+                        to-indigo-600
+                        flex
+                        items-center
+                        justify-center
+                        text-white
+                        font-bold
+                      "
+                    >
+                      {user?.name?.charAt(0)}
+                    </div>
+
+                    <div>
+
+                      <h3
+                        className="
+                          font-semibold
+                          text-gray-900
+                          dark:text-white
+                        "
+                      >
+                        {user?.name}
+                      </h3>
+
+                      <p
+                        className="
+                          text-xs
+                          text-gray-500
+                        "
+                      >
+                        {user?.email}
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                {/* MENU ITEMS */}
+                <div className="p-2">
+
+                  {/* PROFILE */}
+                  <button
+                    onClick={handleProfile}
+                    className="
+                      w-full
+                      flex
+                      items-center
+                      gap-3
+                      px-4
+                      py-3
+                      rounded-2xl
+                      hover:bg-gray-100
+                      dark:hover:bg-white/[0.05]
+                      transition
+                      text-sm
+                    "
+                  >
+
+                    <User size={17} />
+
+                    Profile
+
+                  </button>
+
+                  {/* SETTINGS */}
+                  <button
+                    onClick={handleSettings}
+                    className="
+                      w-full
+                      flex
+                      items-center
+                      gap-3
+                      px-4
+                      py-3
+                      rounded-2xl
+                      hover:bg-gray-100
+                      dark:hover:bg-white/[0.05]
+                      transition
+                      text-sm
+                    "
+
+                  >
+
+                    <Settings size={17} />
+
+                    Account Settings
+
+                  </button>
+
+                  {/* LOGOUT */}
+                  <button
+                    onClick={handleLogout}
+                    className="
+                      w-full
+                      flex
+                      items-center
+                      gap-3
+                      px-4
+                      py-3
+                      rounded-2xl
+                      hover:bg-red-50
+                      dark:hover:bg-red-500/10
+                      text-red-500
+                      transition
+                      text-sm
+                    "
+                  >
+
+                    <LogOut size={17} />
+
+                    Logout
+
+                  </button>
+
+                </div>
+
+              </motion.div>
+            )}
+
+          </AnimatePresence>
 
         </div>
 

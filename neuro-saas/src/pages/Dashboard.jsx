@@ -42,19 +42,19 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
 
           {/* CHART */}
-          <div className="xl:col-span-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm p-5">
+          <div className="xl:col-span-2 ">
             <ChartBox />
           </div>
 
           {/* ACTIVITY */}
-          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm p-5">
+          <div >
             <Activity />
           </div>
 
         </div>
 
         {/* TABLE */}
-        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-sm p-5">
+        <div >
           <Table />
         </div>
 
