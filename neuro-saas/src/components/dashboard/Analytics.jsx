@@ -27,10 +27,10 @@ import {
   Activity,
   UserPlus,
   Download,
-  CalendarDays,
 } from "lucide-react";
 
 import { motion } from "framer-motion";
+
 
 // DATA
 
@@ -184,7 +184,6 @@ const COLORS = [
   "#14b8a6",
 ];
 
-
 // COMPONENT
 
 
@@ -192,7 +191,10 @@ const Analytics = () => {
   const [range, setRange] =
     useState("7days");
 
-  // CHANGE DATA BASED ON RANGE
+
+  // DYNAMIC DATA
+
+
   const analyticsData =
     useMemo(() => {
       switch (range) {
@@ -207,7 +209,9 @@ const Analytics = () => {
       }
     }, [range]);
 
-  // TOTAL USERS
+  // TOTALS
+
+
   const totalUsers =
     analyticsData.reduce(
       (acc, item) =>
@@ -215,7 +219,6 @@ const Analytics = () => {
       0
     );
 
-  // REVENUE
   const totalRevenue =
     analyticsData.reduce(
       (acc, item) =>
@@ -223,7 +226,6 @@ const Analytics = () => {
       0
     );
 
-  // SESSIONS
   const totalSessions =
     analyticsData.reduce(
       (acc, item) =>
@@ -231,7 +233,10 @@ const Analytics = () => {
       0
     );
 
+
   // EXPORT CSV
+
+
   const exportCSV = () => {
     const headers = [
       "Time",
@@ -280,7 +285,7 @@ const Analytics = () => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
 
       {/* HEADER */}
 
@@ -289,9 +294,9 @@ const Analytics = () => {
         className="
           flex
           flex-col
-          lg:flex-row
-          lg:items-center
-          lg:justify-between
+          xl:flex-row
+          xl:items-center
+          xl:justify-between
           gap-5
         "
       >
@@ -300,7 +305,8 @@ const Analytics = () => {
 
           <h1
             className="
-              text-3xl
+              text-2xl
+              sm:text-3xl
               font-bold
               text-gray-900
               dark:text-white
@@ -323,27 +329,35 @@ const Analytics = () => {
 
         </div>
 
-        {/* BUTTONS */}
+        {/* CONTROLS */}
         <div
           className="
             flex
-            items-center
+            flex-col
+            sm:flex-row
+            sm:items-center
             gap-3
-            flex-wrap
+            w-full
+            xl:w-auto
           "
         >
 
           {/* RANGE BUTTONS */}
           <div
             className="
-              flex
+              grid
+              grid-cols-3
+              sm:flex
               items-center
               rounded-2xl
-              border border-gray-200
+              border
+              border-gray-200
               dark:border-white/10
               bg-white
               dark:bg-white/[0.03]
               p-1
+              w-full
+              sm:w-auto
             "
           >
 
@@ -352,10 +366,13 @@ const Analytics = () => {
                 setRange("7days")
               }
               className={`
-                px-4
-                py-2
+                px-3
+                sm:px-4
+                py-2.5
                 rounded-xl
-                text-sm
+                text-xs
+                sm:text-sm
+                font-medium
                 transition-all
                 ${
                   range === "7days"
@@ -370,7 +387,7 @@ const Analytics = () => {
                 }
               `}
             >
-              Last 7 Days
+              7 Days
             </button>
 
             <button
@@ -378,10 +395,13 @@ const Analytics = () => {
                 setRange("30days")
               }
               className={`
-                px-4
-                py-2
+                px-3
+                sm:px-4
+                py-2.5
                 rounded-xl
-                text-sm
+                text-xs
+                sm:text-sm
+                font-medium
                 transition-all
                 ${
                   range === "30days"
@@ -396,7 +416,7 @@ const Analytics = () => {
                 }
               `}
             >
-              Last 30 Days
+              30 Days
             </button>
 
             <button
@@ -404,10 +424,13 @@ const Analytics = () => {
                 setRange("1year")
               }
               className={`
-                px-4
-                py-2
+                px-3
+                sm:px-4
+                py-2.5
                 rounded-xl
-                text-sm
+                text-xs
+                sm:text-sm
+                font-medium
                 transition-all
                 ${
                   range === "1year"
@@ -433,6 +456,7 @@ const Analytics = () => {
             className="
               flex
               items-center
+              justify-center
               gap-2
               px-5
               py-3
@@ -441,9 +465,12 @@ const Analytics = () => {
               hover:bg-blue-700
               text-white
               text-sm
+              font-medium
               shadow-lg
               shadow-blue-500/20
               transition-all
+              w-full
+              sm:w-auto
             "
           >
 
@@ -457,6 +484,7 @@ const Analytics = () => {
 
       </div>
 
+
       {/* STATS */}
 
 
@@ -464,9 +492,10 @@ const Analytics = () => {
         className="
           grid
           grid-cols-1
-          md:grid-cols-2
-          xl:grid-cols-4
-          gap-6
+          sm:grid-cols-2
+          2xl:grid-cols-4
+          gap-4
+          sm:gap-6
         "
       >
 
@@ -475,22 +504,18 @@ const Analytics = () => {
           whileHover={{ y: -5 }}
           className="
             rounded-3xl
-            p-6
+            p-5
+            sm:p-6
             bg-white
             dark:bg-white/[0.03]
-            border border-gray-200
+            border
+            border-gray-200
             dark:border-white/10
             shadow-sm
           "
         >
 
-          <div
-            className="
-              flex
-              items-center
-              justify-between
-            "
-          >
+          <div className="flex items-center justify-between">
 
             <div>
 
@@ -507,7 +532,8 @@ const Analytics = () => {
               <h2
                 className="
                   mt-3
-                  text-3xl
+                  text-2xl
+                  sm:text-3xl
                   font-bold
                   text-gray-900
                   dark:text-white
@@ -520,8 +546,10 @@ const Analytics = () => {
 
             <div
               className="
-                w-14
-                h-14
+                w-12
+                h-12
+                sm:w-14
+                sm:h-14
                 rounded-2xl
                 bg-blue-500/10
                 flex
@@ -531,7 +559,7 @@ const Analytics = () => {
               "
             >
 
-              <Users size={26} />
+              <Users size={24} />
 
             </div>
 
@@ -544,22 +572,18 @@ const Analytics = () => {
           whileHover={{ y: -5 }}
           className="
             rounded-3xl
-            p-6
+            p-5
+            sm:p-6
             bg-white
             dark:bg-white/[0.03]
-            border border-gray-200
+            border
+            border-gray-200
             dark:border-white/10
             shadow-sm
           "
         >
 
-          <div
-            className="
-              flex
-              items-center
-              justify-between
-            "
-          >
+          <div className="flex items-center justify-between">
 
             <div>
 
@@ -576,7 +600,8 @@ const Analytics = () => {
               <h2
                 className="
                   mt-3
-                  text-3xl
+                  text-2xl
+                  sm:text-3xl
                   font-bold
                   text-gray-900
                   dark:text-white
@@ -590,8 +615,10 @@ const Analytics = () => {
 
             <div
               className="
-                w-14
-                h-14
+                w-12
+                h-12
+                sm:w-14
+                sm:h-14
                 rounded-2xl
                 bg-green-500/10
                 flex
@@ -601,7 +628,7 @@ const Analytics = () => {
               "
             >
 
-              <TrendingUp size={26} />
+              <TrendingUp size={24} />
 
             </div>
 
@@ -614,22 +641,18 @@ const Analytics = () => {
           whileHover={{ y: -5 }}
           className="
             rounded-3xl
-            p-6
+            p-5
+            sm:p-6
             bg-white
             dark:bg-white/[0.03]
-            border border-gray-200
+            border
+            border-gray-200
             dark:border-white/10
             shadow-sm
           "
         >
 
-          <div
-            className="
-              flex
-              items-center
-              justify-between
-            "
-          >
+          <div className="flex items-center justify-between">
 
             <div>
 
@@ -646,7 +669,8 @@ const Analytics = () => {
               <h2
                 className="
                   mt-3
-                  text-3xl
+                  text-2xl
+                  sm:text-3xl
                   font-bold
                   text-gray-900
                   dark:text-white
@@ -659,8 +683,10 @@ const Analytics = () => {
 
             <div
               className="
-                w-14
-                h-14
+                w-12
+                h-12
+                sm:w-14
+                sm:h-14
                 rounded-2xl
                 bg-purple-500/10
                 flex
@@ -670,7 +696,7 @@ const Analytics = () => {
               "
             >
 
-              <Activity size={26} />
+              <Activity size={24} />
 
             </div>
 
@@ -683,22 +709,18 @@ const Analytics = () => {
           whileHover={{ y: -5 }}
           className="
             rounded-3xl
-            p-6
+            p-5
+            sm:p-6
             bg-white
             dark:bg-white/[0.03]
-            border border-gray-200
+            border
+            border-gray-200
             dark:border-white/10
             shadow-sm
           "
         >
 
-          <div
-            className="
-              flex
-              items-center
-              justify-between
-            "
-          >
+          <div className="flex items-center justify-between">
 
             <div>
 
@@ -715,7 +737,8 @@ const Analytics = () => {
               <h2
                 className="
                   mt-3
-                  text-3xl
+                  text-2xl
+                  sm:text-3xl
                   font-bold
                   text-gray-900
                   dark:text-white
@@ -728,8 +751,10 @@ const Analytics = () => {
 
             <div
               className="
-                w-14
-                h-14
+                w-12
+                h-12
+                sm:w-14
+                sm:h-14
                 rounded-2xl
                 bg-orange-500/10
                 flex
@@ -739,7 +764,7 @@ const Analytics = () => {
               "
             >
 
-              <UserPlus size={26} />
+              <UserPlus size={24} />
 
             </div>
 
@@ -749,37 +774,37 @@ const Analytics = () => {
 
       </div>
 
-
       {/* GRAPHS */}
-  
+
 
       <div
         className="
           grid
           grid-cols-1
-          xl:grid-cols-2
-          gap-6
+          2xl:grid-cols-2
+          gap-5
+          sm:gap-6
         "
       >
 
-
-        {/* 1. AREA CHART */}
-
-
+        {/* AREA CHART */}
         <div
           className="
             rounded-3xl
-            p-6
+            p-4
+            sm:p-6
             bg-white
             dark:bg-white/[0.03]
-            border border-gray-200
+            border
+            border-gray-200
             dark:border-white/10
           "
         >
 
           <h2
             className="
-              text-xl
+              text-lg
+              sm:text-xl
               font-semibold
               text-gray-900
               dark:text-white
@@ -799,7 +824,7 @@ const Analytics = () => {
             Area chart visualization
           </p>
 
-          <div className="h-[320px] mt-6">
+          <div className="h-[260px] sm:h-[320px] mt-5">
 
             <ResponsiveContainer
               width="100%"
@@ -846,14 +871,17 @@ const Analytics = () => {
                   dataKey="day"
                   tick={{
                     fill: "#94a3b8",
+                    fontSize: 12,
                   }}
                   axisLine={false}
                   tickLine={false}
                 />
 
                 <YAxis
+                  hide={window.innerWidth < 640}
                   tick={{
                     fill: "#94a3b8",
+                    fontSize: 12,
                   }}
                   axisLine={false}
                   tickLine={false}
@@ -877,22 +905,24 @@ const Analytics = () => {
 
         </div>
 
-        {/* 2. LINE CHART */}
-
+        {/* LINE CHART */}
         <div
           className="
             rounded-3xl
-            p-6
+            p-4
+            sm:p-6
             bg-white
             dark:bg-white/[0.03]
-            border border-gray-200
+            border
+            border-gray-200
             dark:border-white/10
           "
         >
 
           <h2
             className="
-              text-xl
+              text-lg
+              sm:text-xl
               font-semibold
               text-gray-900
               dark:text-white
@@ -912,7 +942,7 @@ const Analytics = () => {
             Revenue performance analysis
           </p>
 
-          <div className="h-[320px] mt-6">
+          <div className="h-[260px] sm:h-[320px] mt-5">
 
             <ResponsiveContainer
               width="100%"
@@ -933,14 +963,17 @@ const Analytics = () => {
                   dataKey="day"
                   tick={{
                     fill: "#94a3b8",
+                    fontSize: 12,
                   }}
                   axisLine={false}
                   tickLine={false}
                 />
 
                 <YAxis
+                  hide={window.innerWidth < 640}
                   tick={{
                     fill: "#94a3b8",
+                    fontSize: 12,
                   }}
                   axisLine={false}
                   tickLine={false}
@@ -956,7 +989,7 @@ const Analytics = () => {
                   stroke="#8b5cf6"
                   strokeWidth={3}
                   dot={{
-                    r: 5,
+                    r: 4,
                   }}
                 />
 
@@ -968,24 +1001,24 @@ const Analytics = () => {
 
         </div>
 
-        {/* ================= */}
-        {/* 3. BAR CHART */}
-        {/* ================= */}
-
+        {/* BAR CHART */}
         <div
           className="
             rounded-3xl
-            p-6
+            p-4
+            sm:p-6
             bg-white
             dark:bg-white/[0.03]
-            border border-gray-200
+            border
+            border-gray-200
             dark:border-white/10
           "
         >
 
           <h2
             className="
-              text-xl
+              text-lg
+              sm:text-xl
               font-semibold
               text-gray-900
               dark:text-white
@@ -1005,7 +1038,7 @@ const Analytics = () => {
             User sessions overview
           </p>
 
-          <div className="h-[320px] mt-6">
+          <div className="h-[260px] sm:h-[320px] mt-5">
 
             <ResponsiveContainer
               width="100%"
@@ -1026,14 +1059,17 @@ const Analytics = () => {
                   dataKey="day"
                   tick={{
                     fill: "#94a3b8",
+                    fontSize: 12,
                   }}
                   axisLine={false}
                   tickLine={false}
                 />
 
                 <YAxis
+                  hide={window.innerWidth < 640}
                   tick={{
                     fill: "#94a3b8",
+                    fontSize: 12,
                   }}
                   axisLine={false}
                   tickLine={false}
@@ -1060,24 +1096,24 @@ const Analytics = () => {
 
         </div>
 
-        {/* ================= */}
-        {/* 4. PIE CHART */}
-        {/* ================= */}
-
+        {/* PIE CHART */}
         <div
           className="
             rounded-3xl
-            p-6
+            p-4
+            sm:p-6
             bg-white
             dark:bg-white/[0.03]
-            border border-gray-200
+            border
+            border-gray-200
             dark:border-white/10
           "
         >
 
           <h2
             className="
-              text-xl
+              text-lg
+              sm:text-xl
               font-semibold
               text-gray-900
               dark:text-white
@@ -1097,7 +1133,7 @@ const Analytics = () => {
             Device usage statistics
           </p>
 
-          <div className="h-[320px] mt-6">
+          <div className="h-[260px] sm:h-[320px] mt-5">
 
             <ResponsiveContainer
               width="100%"
@@ -1111,8 +1147,16 @@ const Analytics = () => {
                   dataKey="value"
                   cx="50%"
                   cy="50%"
-                  innerRadius={70}
-                  outerRadius={100}
+                  innerRadius={
+                    window.innerWidth < 640
+                      ? 45
+                      : 70
+                  }
+                  outerRadius={
+                    window.innerWidth < 640
+                      ? 75
+                      : 100
+                  }
                   paddingAngle={5}
                 >
 
@@ -1125,9 +1169,7 @@ const Analytics = () => {
                       <Cell
                         key={index}
                         fill={
-                          COLORS[
-                            index
-                          ]
+                          COLORS[index]
                         }
                       />
 

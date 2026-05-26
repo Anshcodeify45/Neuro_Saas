@@ -80,6 +80,8 @@ const Login = () => {
         min-h-screen
         bg-[#f5f7fb]
         flex
+        flex-col
+        lg:flex-row
         overflow-hidden
       "
     >
@@ -90,7 +92,7 @@ const Login = () => {
         className="
           hidden
           lg:flex
-          w-1/2
+          lg:w-1/2
           relative
           overflow-hidden
           bg-gradient-to-br
@@ -98,7 +100,8 @@ const Login = () => {
           via-indigo-700
           to-slate-900
           text-white
-          p-12
+          p-8
+          xl:p-12
           flex-col
           justify-between
         "
@@ -157,7 +160,7 @@ const Login = () => {
 
             <div>
 
-              <h1 className="text-3xl font-bold">
+              <h1 className="text-2xl xl:text-3xl font-bold">
                 NeuroDash
               </h1>
 
@@ -169,7 +172,7 @@ const Login = () => {
 
           </div>
 
-          <div className="mt-16 max-w-lg">
+          <div className="mt-12 xl:mt-16 max-w-lg">
 
             <div
               className="
@@ -195,7 +198,8 @@ const Login = () => {
 
             <h2
               className="
-                text-5xl
+                text-3xl
+                xl:text-5xl
                 font-bold
                 leading-tight
                 mt-6
@@ -208,7 +212,8 @@ const Login = () => {
               className="
                 mt-6
                 text-blue-100
-                text-lg
+                text-base
+                xl:text-lg
                 leading-relaxed
               "
             >
@@ -231,8 +236,10 @@ const Login = () => {
             relative
             z-10
             grid
-            grid-cols-2
+            grid-cols-1
+            xl:grid-cols-2
             gap-5
+            mt-10
           "
         >
 
@@ -357,7 +364,8 @@ const Login = () => {
           flex
           items-center
           justify-center
-          px-6
+          px-4
+          sm:px-6
           py-10
           relative
         "
@@ -369,8 +377,10 @@ const Login = () => {
             absolute
             top-0
             right-0
-            w-[500px]
-            h-[500px]
+            w-[300px]
+            sm:w-[500px]
+            h-[300px]
+            sm:h-[500px]
             rounded-full
             bg-blue-100
             blur-3xl
@@ -398,6 +408,42 @@ const Login = () => {
             max-w-md
           "
         >
+
+          {/* MOBILE LOGO */}
+          <div className="lg:hidden text-center mb-8">
+
+            <div className="flex items-center justify-center gap-3">
+
+              <div
+                className="
+                  w-12
+                  h-12
+                  rounded-2xl
+                  bg-blue-600
+                  text-white
+                  flex
+                  items-center
+                  justify-center
+                "
+              >
+                <BarChart3 size={22} />
+              </div>
+
+              <div className="text-left">
+
+                <h1 className="text-2xl font-bold text-gray-900">
+                  NeuroDash
+                </h1>
+
+                <p className="text-sm text-gray-500">
+                  AI Powered Analytics
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
 
           {/* HEADER */}
           <div className="mb-8">
@@ -427,7 +473,8 @@ const Login = () => {
 
             <h2
               className="
-                text-4xl
+                text-3xl
+                sm:text-4xl
                 font-bold
                 text-gray-900
                 mt-5
@@ -440,7 +487,8 @@ const Login = () => {
               className="
                 text-gray-500
                 mt-3
-                text-base
+                text-sm
+                sm:text-base
               "
             >
               Sign in to continue
@@ -458,8 +506,10 @@ const Login = () => {
               border
               border-white
               shadow-2xl
-              rounded-[32px]
-              p-8
+              rounded-[24px]
+              sm:rounded-[32px]
+              p-5
+              sm:p-8
             "
           >
 
@@ -501,7 +551,7 @@ const Login = () => {
 
                   <Mail
                     size={18}
-                    className="text-gray-400"
+                    className="text-gray-400 shrink-0"
                   />
 
                   <input
@@ -513,10 +563,13 @@ const Login = () => {
                     }
                     className="
                       flex-1
+                      min-w-0
                       bg-transparent
                       outline-none
                       text-gray-800
                       placeholder:text-gray-400
+                      text-sm
+                      sm:text-base
                     "
                     required
                   />
@@ -558,7 +611,7 @@ const Login = () => {
 
                   <Lock
                     size={18}
-                    className="text-gray-400"
+                    className="text-gray-400 shrink-0"
                   />
 
                   <input
@@ -574,10 +627,13 @@ const Login = () => {
                     }
                     className="
                       flex-1
+                      min-w-0
                       bg-transparent
                       outline-none
                       text-gray-800
                       placeholder:text-gray-400
+                      text-sm
+                      sm:text-base
                     "
                     required
                   />
@@ -592,6 +648,7 @@ const Login = () => {
                     className="
                       text-gray-400
                       hover:text-gray-600
+                      shrink-0
                     "
                   >
 
@@ -611,8 +668,11 @@ const Login = () => {
               <div
                 className="
                   flex
-                  items-center
-                  justify-between
+                  flex-col
+                  sm:flex-row
+                  sm:items-center
+                  sm:justify-between
+                  gap-3
                   text-sm
                 "
               >
@@ -644,6 +704,8 @@ const Login = () => {
                     text-blue-600
                     font-medium
                     hover:underline
+                    text-left
+                    sm:text-right
                   "
                 >
                   Forgot password?
@@ -668,6 +730,8 @@ const Login = () => {
                   justify-center
                   gap-2
                   shadow-lg
+                  text-sm
+                  sm:text-base
                   ${
                     loading
                       ? "bg-blue-400 cursor-not-allowed"
@@ -758,6 +822,7 @@ const Login = () => {
               text-xs
               text-gray-400
               mt-6
+              px-4
             "
           >
             Protected with enterprise-grade security

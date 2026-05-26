@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import {
   AreaChart,
   Area,
@@ -10,6 +11,7 @@ import {
 } from "recharts";
 
 import { motion } from "framer-motion";
+
 import {
   TrendingUp,
   Users,
@@ -58,71 +60,102 @@ const ChartBox = () => {
       className="
         relative
         overflow-hidden
-        rounded-3xl
-        border border-gray-200 dark:border-white/10
-        bg-white dark:bg-white/[0.03]
+        rounded-2xl
+        md:rounded-3xl
+        border
+        border-gray-200
+        dark:border-white/10
+        bg-white
+        dark:bg-white/[0.03]
         backdrop-blur-xl
         shadow-[0_10px_40px_rgba(0,0,0,0.12)]
-        p-6
+        p-4
+        sm:p-5
+        md:p-6
       "
     >
+
       {/* BACKGROUND GLOW */}
-      <div className="
-        absolute
-        top-0
-        right-0
-        w-80
-        h-80
-        bg-blue-500/10
-        blur-[120px]
-        rounded-full
-      "></div>
+      <div
+        className="
+          absolute
+          top-0
+          right-0
+          w-40
+          h-40
+          sm:w-60
+          sm:h-60
+          md:w-80
+          md:h-80
+          bg-blue-500/10
+          blur-[100px]
+          rounded-full
+        "
+      />
 
       {/* HEADER */}
-      <div className="
-        relative
-        z-10
-        flex
-        flex-col
-        lg:flex-row
-        lg:items-center
-        lg:justify-between
-        gap-6
-        mb-8
-      ">
+      <div
+        className="
+          relative
+          z-10
+          flex
+          flex-col
+          xl:flex-row
+          xl:items-center
+          xl:justify-between
+          gap-5
+          mb-6
+          md:mb-8
+        "
+      >
 
         {/* TITLE */}
-        <div>
+        <div className="w-full">
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-start sm:items-center gap-3">
 
-            <div className="
-              p-3
-              rounded-2xl
-              bg-blue-500/10
-              text-blue-500
-            ">
+            <div
+              className="
+                p-2.5
+                sm:p-3
+                rounded-2xl
+                bg-blue-500/10
+                text-blue-500
+                shrink-0
+              "
+            >
               <TrendingUp size={20} />
             </div>
 
-            <div>
-              <h2 className="
-                text-2xl
-                font-semibold
-                text-gray-900
-                dark:text-white
-              ">
+            <div className="min-w-0">
+
+              <h2
+                className="
+                  text-lg
+                  sm:text-xl
+                  md:text-2xl
+                  font-semibold
+                  text-gray-900
+                  dark:text-white
+                  leading-tight
+                "
+              >
                 User Growth Analytics
               </h2>
 
-              <p className="
-                text-sm
-                text-gray-500
-                dark:text-gray-400
-                mt-1
-              ">
+              <p
+                className="
+                  text-xs
+                  sm:text-sm
+                  text-gray-500
+                  dark:text-gray-400
+                  mt-1
+                  leading-relaxed
+                "
+              >
                 Real-time growth overview and engagement
               </p>
+
             </div>
 
           </div>
@@ -130,22 +163,31 @@ const ChartBox = () => {
         </div>
 
         {/* STATS */}
-        <div className="
-          flex
-          flex-wrap
-          items-center
-          gap-4
-        ">
+        <div
+          className="
+            grid
+            grid-cols-1
+            sm:grid-cols-2
+            gap-3
+            w-full
+            xl:w-auto
+          "
+        >
 
           {/* TOTAL USERS */}
-          <div className="
-            rounded-2xl
-            border border-gray-200 dark:border-white/10
-            bg-gray-50 dark:bg-white/[0.03]
-            px-5
-            py-4
-            min-w-[140px]
-          ">
+          <div
+            className="
+              rounded-2xl
+              border
+              border-gray-200
+              dark:border-white/10
+              bg-gray-50
+              dark:bg-white/[0.03]
+              px-4
+              py-4
+              sm:min-w-[160px]
+            "
+          >
 
             <div className="flex items-center gap-2 mb-2">
 
@@ -154,36 +196,46 @@ const ChartBox = () => {
                 className="text-blue-500"
               />
 
-              <span className="
-                text-xs
-                text-gray-500
-                dark:text-gray-400
-              ">
+              <span
+                className="
+                  text-xs
+                  text-gray-500
+                  dark:text-gray-400
+                "
+              >
                 Total Users
               </span>
 
             </div>
 
-            <h3 className="
-              text-2xl
-              font-bold
-              text-gray-900
-              dark:text-white
-            ">
+            <h3
+              className="
+                text-2xl
+                sm:text-3xl
+                font-bold
+                text-gray-900
+                dark:text-white
+              "
+            >
               {totalUsers}
             </h3>
 
           </div>
 
           {/* GROWTH */}
-          <div className="
-            rounded-2xl
-            border border-gray-200 dark:border-white/10
-            bg-gray-50 dark:bg-white/[0.03]
-            px-5
-            py-4
-            min-w-[140px]
-          ">
+          <div
+            className="
+              rounded-2xl
+              border
+              border-gray-200
+              dark:border-white/10
+              bg-gray-50
+              dark:bg-white/[0.03]
+              px-4
+              py-4
+              sm:min-w-[160px]
+            "
+          >
 
             <div className="flex items-center gap-2 mb-2">
 
@@ -192,21 +244,26 @@ const ChartBox = () => {
                 className="text-green-500"
               />
 
-              <span className="
-                text-xs
-                text-gray-500
-                dark:text-gray-400
-              ">
+              <span
+                className="
+                  text-xs
+                  text-gray-500
+                  dark:text-gray-400
+                "
+              >
                 Growth
               </span>
 
             </div>
 
-            <h3 className="
-              text-2xl
-              font-bold
-              text-green-500
-            ">
+            <h3
+              className="
+                text-2xl
+                sm:text-3xl
+                font-bold
+                text-green-500
+              "
+            >
               +{growth}%
             </h3>
 
@@ -219,155 +276,183 @@ const ChartBox = () => {
       {/* CHART */}
       <div className="relative z-10">
 
-        <ResponsiveContainer width="100%" height={340}>
+        <div className="h-[260px] sm:h-[320px] md:h-[360px]">
 
-          <AreaChart
-            data={data}
-            margin={{
-              top: 10,
-              right: 10,
-              left: -20,
-              bottom: 0,
-            }}
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
           >
 
-            {/* GRADIENT */}
-            <defs>
-
-              <linearGradient
-                id="usersGradient"
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
-
-                <stop
-                  offset="5%"
-                  stopColor="#3b82f6"
-                  stopOpacity={0.4}
-                />
-
-                <stop
-                  offset="95%"
-                  stopColor="#3b82f6"
-                  stopOpacity={0}
-                />
-
-              </linearGradient>
-
-            </defs>
-
-            {/* GRID */}
-            <CartesianGrid
-              strokeDasharray="3 3"
-              vertical={false}
-              stroke="#1e293b"
-              opacity={0.5}
-            />
-
-            {/* X AXIS */}
-            <XAxis
-              dataKey="name"
-              tick={{ fill: "#94a3b8", fontSize: 12 }}
-              axisLine={false}
-              tickLine={false}
-            />
-
-            {/* Y AXIS */}
-            <YAxis
-              tick={{ fill: "#94a3b8", fontSize: 12 }}
-              axisLine={false}
-              tickLine={false}
-            />
-
-            {/* TOOLTIP */}
-            <Tooltip
-              cursor={{
-                stroke: "#3b82f6",
-                strokeWidth: 1,
-                strokeDasharray: "5 5",
+            <AreaChart
+              data={data}
+              margin={{
+                top: 10,
+                right: 10,
+                left: -25,
+                bottom: 0,
               }}
-              contentStyle={{
-                background: "#0f172a",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderRadius: "18px",
-                color: "#fff",
-                backdropFilter: "blur(12px)",
-                boxShadow:
-                  "0 10px 40px rgba(0,0,0,0.35)",
-              }}
-              labelStyle={{
-                color: "#fff",
-                marginBottom: "6px",
-                fontWeight: 600,
-              }}
-            />
+            >
 
-            {/* AREA */}
-            <Area
-              type="monotone"
-              dataKey="users"
-              stroke="#3b82f6"
-              strokeWidth={3}
-              fillOpacity={1}
-              fill="url(#usersGradient)"
-              activeDot={{
-                r: 7,
-                strokeWidth: 2,
-                fill: "#3b82f6",
-                stroke: "#fff",
-              }}
-            />
+              {/* GRADIENT */}
+              <defs>
 
-          </AreaChart>
+                <linearGradient
+                  id="usersGradient"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
 
-        </ResponsiveContainer>
+                  <stop
+                    offset="5%"
+                    stopColor="#3b82f6"
+                    stopOpacity={0.4}
+                  />
+
+                  <stop
+                    offset="95%"
+                    stopColor="#3b82f6"
+                    stopOpacity={0}
+                  />
+
+                </linearGradient>
+
+              </defs>
+
+              {/* GRID */}
+              <CartesianGrid
+                strokeDasharray="3 3"
+                vertical={false}
+                stroke="#1e293b"
+                opacity={0.3}
+              />
+
+              {/* X AXIS */}
+              <XAxis
+                dataKey="name"
+                tick={{
+                  fill: "#94a3b8",
+                  fontSize: 11,
+                }}
+                axisLine={false}
+                tickLine={false}
+              />
+
+              {/* Y AXIS */}
+              <YAxis
+                tick={{
+                  fill: "#94a3b8",
+                  fontSize: 11,
+                }}
+                axisLine={false}
+                tickLine={false}
+                width={35}
+              />
+
+              {/* TOOLTIP */}
+              <Tooltip
+                cursor={{
+                  stroke: "#3b82f6",
+                  strokeWidth: 1,
+                  strokeDasharray: "5 5",
+                }}
+                contentStyle={{
+                  background: "#0f172a",
+                  border:
+                    "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: "18px",
+                  color: "#fff",
+                  backdropFilter: "blur(12px)",
+                  boxShadow:
+                    "0 10px 40px rgba(0,0,0,0.35)",
+                }}
+                labelStyle={{
+                  color: "#fff",
+                  marginBottom: "6px",
+                  fontWeight: 600,
+                }}
+              />
+
+              {/* AREA */}
+              <Area
+                type="monotone"
+                dataKey="users"
+                stroke="#3b82f6"
+                strokeWidth={3}
+                fillOpacity={1}
+                fill="url(#usersGradient)"
+                activeDot={{
+                  r: 6,
+                  strokeWidth: 2,
+                  fill: "#3b82f6",
+                  stroke: "#fff",
+                }}
+              />
+
+            </AreaChart>
+
+          </ResponsiveContainer>
+
+        </div>
 
       </div>
 
       {/* FOOTER */}
-      <div className="
-        relative
-        z-10
-        mt-6
-        flex
-        items-center
-        justify-between
-        flex-wrap
-        gap-4
-      ">
-
-        <div className="
+      <div
+        className="
+          relative
+          z-10
+          mt-6
           flex
-          items-center
-          gap-2
-          text-sm
-          text-gray-500
-          dark:text-gray-400
-        ">
+          flex-col
+          sm:flex-row
+          sm:items-center
+          sm:justify-between
+          gap-4
+        "
+      >
 
-          <div className="
-            w-2.5
-            h-2.5
-            rounded-full
-            bg-green-500
-            animate-pulse
-          "></div>
+        <div
+          className="
+            flex
+            items-center
+            gap-2
+            text-xs
+            sm:text-sm
+            text-gray-500
+            dark:text-gray-400
+          "
+        >
+
+          <div
+            className="
+              w-2.5
+              h-2.5
+              rounded-full
+              bg-green-500
+              animate-pulse
+            "
+          />
 
           Analytics updated in real-time
 
         </div>
 
-        <div className="
-          px-4
-          py-2
-          rounded-xl
-          bg-blue-500/10
-          text-blue-500
-          text-sm
-          font-medium
-        ">
+        <div
+          className="
+            w-full
+            sm:w-auto
+            text-center
+            px-4
+            py-2.5
+            rounded-xl
+            bg-blue-500/10
+            text-blue-500
+            text-sm
+            font-medium
+          "
+        >
           Last 7 Days
         </div>
 

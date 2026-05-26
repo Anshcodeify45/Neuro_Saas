@@ -10,6 +10,8 @@ import {
   Save,
 } from "lucide-react";
 
+import { motion } from "framer-motion";
+
 const Profile = () => {
   const [editing, setEditing] = useState(false);
 
@@ -32,35 +34,74 @@ const Profile = () => {
   const handleSave = () => {
     setEditing(false);
 
-    // API CALL HERE
     console.log(profile);
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-6">
-
+    <div
+      className="
+        min-h-screen
+        bg-gray-50
+        dark:bg-gray-950
+        px-4
+        sm:px-6
+        lg:px-8
+        py-5
+        sm:py-6
+      "
+    >
       {/* CONTAINER */}
-      <div className="max-w-6xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto space-y-6">
 
         {/* HEADER */}
-        <div className="flex items-center justify-between">
+        <div
+          className="
+            flex
+            flex-col
+            md:flex-row
+            md:items-center
+            md:justify-between
+            gap-4
+          "
+        >
 
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+
+            <h1
+              className="
+                text-2xl
+                sm:text-3xl
+                font-bold
+                text-gray-900
+                dark:text-white
+              "
+            >
               My Profile
             </h1>
 
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            <p
+              className="
+                text-sm
+                text-gray-500
+                dark:text-gray-400
+                mt-1
+              "
+            >
               Manage your personal information and account settings
             </p>
+
           </div>
 
           {!editing ? (
+
             <button
               onClick={() => setEditing(true)}
               className="
+                w-full
+                sm:w-auto
                 flex
                 items-center
+                justify-center
                 gap-2
                 px-5
                 py-3
@@ -73,15 +114,23 @@ const Profile = () => {
                 transition
               "
             >
+
               <Pencil size={16} />
+
               Edit Profile
+
             </button>
+
           ) : (
+
             <button
               onClick={handleSave}
               className="
+                w-full
+                sm:w-auto
                 flex
                 items-center
+                justify-center
                 gap-2
                 px-5
                 py-3
@@ -94,14 +143,18 @@ const Profile = () => {
                 transition
               "
             >
+
               <Save size={16} />
+
               Save Changes
+
             </button>
+
           )}
 
         </div>
 
-        {/* PROFILE CARD */}
+        {/* PROFILE GRID */}
         <div
           className="
             grid
@@ -111,8 +164,10 @@ const Profile = () => {
           "
         >
 
-          {/* LEFT */}
-          <div
+          {/* LEFT SIDE */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
             className="
               xl:col-span-1
               bg-white
@@ -122,7 +177,8 @@ const Profile = () => {
               border-gray-200
               dark:border-white/10
               shadow-sm
-              p-6
+              p-5
+              sm:p-6
             "
           >
 
@@ -133,8 +189,10 @@ const Profile = () => {
 
                 <div
                   className="
-                    w-32
-                    h-32
+                    w-24
+                    h-24
+                    sm:w-32
+                    sm:h-32
                     rounded-3xl
                     bg-gradient-to-br
                     from-blue-500
@@ -143,7 +201,8 @@ const Profile = () => {
                     items-center
                     justify-center
                     text-white
-                    text-4xl
+                    text-3xl
+                    sm:text-4xl
                     font-bold
                     shadow-xl
                   "
@@ -156,8 +215,10 @@ const Profile = () => {
                     absolute
                     bottom-0
                     right-0
-                    w-10
-                    h-10
+                    w-9
+                    h-9
+                    sm:w-10
+                    sm:h-10
                     rounded-xl
                     bg-white
                     dark:bg-gray-800
@@ -170,7 +231,9 @@ const Profile = () => {
                     shadow-md
                   "
                 >
+
                   <Camera size={16} />
+
                 </button>
 
               </div>
@@ -178,7 +241,8 @@ const Profile = () => {
               <h2
                 className="
                   mt-5
-                  text-2xl
+                  text-xl
+                  sm:text-2xl
                   font-bold
                   text-gray-900
                   dark:text-white
@@ -198,6 +262,7 @@ const Profile = () => {
                   dark:text-gray-400
                   mt-4
                   leading-relaxed
+                  max-w-sm
                 "
               >
                 {profile.bio}
@@ -217,13 +282,15 @@ const Profile = () => {
                 border-green-100
                 dark:border-green-500/20
                 flex
-                items-center
+                items-start
+                sm:items-center
                 gap-3
               "
             >
 
               <div
                 className="
+                  min-w-[44px]
                   w-11
                   h-11
                   rounded-xl
@@ -234,13 +301,16 @@ const Profile = () => {
                   justify-center
                 "
               >
+
                 <ShieldCheck
                   size={20}
                   className="text-green-600"
                 />
+
               </div>
 
               <div>
+
                 <p
                   className="
                     text-sm
@@ -262,14 +332,18 @@ const Profile = () => {
                 >
                   Your profile is secure
                 </p>
+
               </div>
 
             </div>
 
-          </div>
+          </motion.div>
 
-          {/* RIGHT */}
-          <div
+          {/* RIGHT SIDE */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
             className="
               xl:col-span-2
               bg-white
@@ -279,15 +353,18 @@ const Profile = () => {
               border-gray-200
               dark:border-white/10
               shadow-sm
-              p-6
+              p-5
+              sm:p-6
             "
           >
 
+            {/* HEADER */}
             <div className="mb-8">
 
               <h3
                 className="
-                  text-xl
+                  text-lg
+                  sm:text-xl
                   font-semibold
                   text-gray-900
                   dark:text-white
@@ -309,8 +386,16 @@ const Profile = () => {
 
             </div>
 
-            {/* FORM */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* FORM GRID */}
+            <div
+              className="
+                grid
+                grid-cols-1
+                md:grid-cols-2
+                gap-5
+                sm:gap-6
+              "
+            >
 
               {/* NAME */}
               <div>
@@ -348,6 +433,8 @@ const Profile = () => {
                     focus:ring-blue-500
                     text-gray-900
                     dark:text-white
+                    text-sm
+                    sm:text-base
                   "
                 />
 
@@ -402,6 +489,8 @@ const Profile = () => {
                       focus:ring-blue-500
                       text-gray-900
                       dark:text-white
+                      text-sm
+                      sm:text-base
                     "
                   />
 
@@ -458,6 +547,8 @@ const Profile = () => {
                       focus:ring-blue-500
                       text-gray-900
                       dark:text-white
+                      text-sm
+                      sm:text-base
                     "
                   />
 
@@ -514,6 +605,8 @@ const Profile = () => {
                       focus:ring-blue-500
                       text-gray-900
                       dark:text-white
+                      text-sm
+                      sm:text-base
                     "
                   />
 
@@ -560,12 +653,14 @@ const Profile = () => {
                   text-gray-900
                   dark:text-white
                   resize-none
+                  text-sm
+                  sm:text-base
                 "
               />
 
             </div>
 
-          </div>
+          </motion.div>
 
         </div>
 

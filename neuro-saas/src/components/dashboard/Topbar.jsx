@@ -30,11 +30,14 @@ const Topbar = () => {
     setNotificationOpen,
   ] = useState(false);
 
+  const [
+    mobileSearch,
+    setMobileSearch,
+  ] = useState(false);
+
   const menuRef = useRef();
 
-
   // LOGOUT
-  
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -43,24 +46,18 @@ const Topbar = () => {
   };
 
   // NAVIGATE PROFILE
-
-
   const handleProfile = () => {
     navigate("/dashboard/profile");
     setOpenMenu(false);
   };
 
   // NAVIGATE SETTINGS
-
-
   const handleSettings = () => {
     navigate("/dashboard/settings");
     setOpenMenu(false);
   };
 
   // CLOSE DROPDOWN OUTSIDE
-
-
   useEffect(() => {
     const handler = (e) => {
       if (
@@ -71,6 +68,7 @@ const Topbar = () => {
       ) {
         setOpenMenu(false);
         setNotificationOpen(false);
+        setMobileSearch(false);
       }
     };
 
@@ -87,8 +85,6 @@ const Topbar = () => {
   }, []);
 
   // NOTIFICATIONS
-
-
   const notifications = [
     {
       title: "New user registered",
@@ -109,73 +105,595 @@ const Topbar = () => {
 
   return (
     <div
+      ref={menuRef}
       className="
         w-full
         flex
-        items-center
-        justify-between
-        gap-6
+        flex-col
+        lg:flex-row
+        lg:items-center
+        lg:justify-between
+        gap-5
       "
-      ref={menuRef}
     >
+      {/* TOP SECTION */}
+      <div
+        className="
+          flex
+          items-start
+          sm:items-center
+          justify-between
+          gap-4
+          w-full
+        "
+      >
+        {/* LEFT */}
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
 
-      {/* LEFT */}
-      <div className="flex flex-col">
+            <h2
+              className="
+                text-lg
+                sm:text-xl
+                lg:text-2xl
+                font-bold
+                text-gray-900
+                dark:text-white
+                tracking-tight
+                truncate
+              "
+            >
+              Dashboard Overview
+            </h2>
 
-        <div className="flex items-center gap-2">
+            <div
+              className="
+                hidden sm:flex
+                items-center
+                gap-1
+                px-2.5
+                py-1
+                rounded-full
+                bg-blue-500/10
+                text-blue-600
+                text-xs
+                font-medium
+              "
+            >
+              <Sparkles size={12} />
+              Pro
+            </div>
 
-          <h2
+          </div>
+
+          <p
             className="
-              text-xl
-              font-bold
-              text-gray-900
-              dark:text-white
-              tracking-tight
-            "
-          >
-            Dashboard Overview
-          </h2>
-
-          <div
-            className="
-              hidden md:flex
-              items-center
-              gap-1
-              px-2.5
-              py-1
-              rounded-full
-              bg-blue-500/10
-              text-blue-600
               text-xs
-              font-medium
+              sm:text-sm
+              text-gray-500
+              dark:text-gray-400
+              mt-1
+              truncate
             "
           >
+            Welcome back 👋{" "}
+            <span className="font-medium">
+              {user?.name}
+            </span>
+          </p>
+        </div>
 
-            <Sparkles size={12} />
+        {/* RIGHT ACTIONS */}
+        <div className="flex items-center gap-2 sm:gap-3">
 
-            Pro
+          {/* MOBILE SEARCH */}
+          <button
+            onClick={() =>
+              setMobileSearch(
+                !mobileSearch
+              )
+            }
+            className="
+              lg:hidden
+              w-10
+              h-10
+              sm:w-11
+              sm:h-11
+              rounded-2xl
+              border
+              border-gray-200
+              dark:border-white/10
+              bg-white
+              dark:bg-white/[0.03]
+              flex
+              items-center
+              justify-center
+              hover:scale-105
+              transition
+              flex-shrink-0
+            "
+          >
+            <Search
+              size={18}
+              className="
+                text-gray-600
+                dark:text-gray-300
+              "
+            />
+          </button>
+
+          {/* NOTIFICATION */}
+          <div className="relative">
+
+            <button
+              onClick={() =>
+                setNotificationOpen(
+                  !notificationOpen
+                )
+              }
+              className="
+                relative
+                w-10
+                h-10
+                sm:w-11
+                sm:h-11
+                rounded-2xl
+                border
+                border-gray-200
+                dark:border-white/10
+                bg-white
+                dark:bg-white/[0.03]
+                flex
+                items-center
+                justify-center
+                hover:scale-105
+                transition
+                flex-shrink-0
+              "
+            >
+              <Bell
+                size={18}
+                className="
+                  text-gray-600
+                  dark:text-gray-300
+                "
+              />
+
+              <span
+                className="
+                  absolute
+                  top-2.5
+                  right-2.5
+                  w-2.5
+                  h-2.5
+                  rounded-full
+                  bg-red-500
+                  border-2
+                  border-white
+                  dark:border-gray-900
+                "
+              />
+            </button>
+
+            {/* NOTIFICATION DROPDOWN */}
+            <AnimatePresence>
+
+              {notificationOpen && (
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    y: 10,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    y: 10,
+                  }}
+                  transition={{
+                    duration: 0.2,
+                  }}
+                  className="
+                    absolute
+                    right-0
+                    mt-3
+                    w-[92vw]
+                    sm:w-[340px]
+                    max-w-[340px]
+                    rounded-3xl
+                    border
+                    border-gray-200
+                    dark:border-white/10
+                    bg-white
+                    dark:bg-gray-900
+                    shadow-2xl
+                    overflow-hidden
+                    z-50
+                  "
+                >
+                  <div
+                    className="
+                      flex
+                      items-center
+                      justify-between
+                      px-5
+                      py-4
+                      border-b
+                      border-gray-200
+                      dark:border-white/10
+                    "
+                  >
+                    <h3
+                      className="
+                        font-semibold
+                        text-gray-900
+                        dark:text-white
+                      "
+                    >
+                      Notifications
+                    </h3>
+
+                    <button
+                      className="
+                        text-xs
+                        text-blue-600
+                      "
+                    >
+                      Mark all read
+                    </button>
+                  </div>
+
+                  <div className="max-h-[320px] overflow-y-auto">
+
+                    {notifications.map(
+                      (item, i) => (
+                        <div
+                          key={i}
+                          className="
+                            px-5
+                            py-4
+                            border-b
+                            border-gray-100
+                            dark:border-white/5
+                            hover:bg-gray-50
+                            dark:hover:bg-white/[0.03]
+                            transition
+                            cursor-pointer
+                          "
+                        >
+                          <div
+                            className="
+                              flex
+                              items-start
+                              justify-between
+                              gap-3
+                            "
+                          >
+                            <div className="min-w-0">
+
+                              <h4
+                                className="
+                                  text-sm
+                                  font-medium
+                                  text-gray-900
+                                  dark:text-white
+                                  truncate
+                                "
+                              >
+                                {item.title}
+                              </h4>
+
+                              <p
+                                className="
+                                  text-xs
+                                  text-gray-500
+                                  dark:text-gray-400
+                                  mt-1
+                                "
+                              >
+                                {item.desc}
+                              </p>
+
+                            </div>
+
+                            <span
+                              className="
+                                text-[11px]
+                                text-gray-400
+                                whitespace-nowrap
+                              "
+                            >
+                              {item.time}
+                            </span>
+
+                          </div>
+
+                        </div>
+                      )
+                    )}
+
+                  </div>
+
+                </motion.div>
+              )}
+
+            </AnimatePresence>
+
+          </div>
+
+          {/* USER MENU */}
+          <div className="relative">
+
+            <button
+              onClick={() =>
+                setOpenMenu(!openMenu)
+              }
+              className="
+                flex
+                items-center
+                gap-2
+                sm:gap-3
+                px-2
+                py-1.5
+                rounded-2xl
+                border
+                border-gray-200
+                dark:border-white/10
+                bg-white
+                dark:bg-white/[0.03]
+                hover:scale-[1.01]
+                transition-all
+                max-w-[180px]
+                sm:max-w-none
+              "
+            >
+              {/* AVATAR */}
+              <div
+                className="
+                  w-10
+                  h-10
+                  sm:w-11
+                  sm:h-11
+                  rounded-2xl
+                  bg-gradient-to-br
+                  from-blue-500
+                  to-indigo-600
+                  flex
+                  items-center
+                  justify-center
+                  text-white
+                  font-semibold
+                  uppercase
+                  shadow-lg
+                  shadow-blue-500/20
+                  flex-shrink-0
+                "
+              >
+                {user?.name?.charAt(0)}
+              </div>
+
+              {/* USER INFO */}
+              <div
+                className="
+                  hidden
+                  md:flex
+                  flex-col
+                  items-start
+                  min-w-0
+                "
+              >
+                <p
+                  className="
+                    text-sm
+                    font-semibold
+                    text-gray-900
+                    dark:text-white
+                    truncate
+                  "
+                >
+                  {user?.name}
+                </p>
+
+                <p
+                  className="
+                    text-[11px]
+                    text-gray-500
+                    truncate
+                    max-w-[140px]
+                  "
+                >
+                  {user?.email}
+                </p>
+              </div>
+
+              <ChevronDown
+                size={16}
+                className="
+                  text-gray-400
+                  flex-shrink-0
+                "
+              />
+
+            </button>
+
+            {/* DROPDOWN */}
+            <AnimatePresence>
+
+              {openMenu && (
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    y: 10,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    y: 10,
+                  }}
+                  transition={{
+                    duration: 0.2,
+                  }}
+                  className="
+                    absolute
+                    right-0
+                    mt-3
+                    w-[92vw]
+                    sm:w-64
+                    max-w-[260px]
+                    rounded-3xl
+                    border
+                    border-gray-200
+                    dark:border-white/10
+                    bg-white
+                    dark:bg-gray-900
+                    shadow-2xl
+                    overflow-hidden
+                    z-50
+                  "
+                >
+                  {/* TOP */}
+                  <div
+                    className="
+                      px-5
+                      py-5
+                      border-b
+                      border-gray-200
+                      dark:border-white/10
+                    "
+                  >
+                    <div className="flex items-center gap-3">
+
+                      <div
+                        className="
+                          w-12
+                          h-12
+                          rounded-2xl
+                          bg-gradient-to-br
+                          from-blue-500
+                          to-indigo-600
+                          flex
+                          items-center
+                          justify-center
+                          text-white
+                          font-bold
+                          flex-shrink-0
+                        "
+                      >
+                        {user?.name?.charAt(0)}
+                      </div>
+
+                      <div className="min-w-0">
+
+                        <h3
+                          className="
+                            font-semibold
+                            text-gray-900
+                            dark:text-white
+                            truncate
+                          "
+                        >
+                          {user?.name}
+                        </h3>
+
+                        <p
+                          className="
+                            text-xs
+                            text-gray-500
+                            truncate
+                          "
+                        >
+                          {user?.email}
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  {/* MENU ITEMS */}
+                  <div className="p-2">
+
+                    <button
+                      onClick={handleProfile}
+                      className="
+                        w-full
+                        flex
+                        items-center
+                        gap-3
+                        px-4
+                        py-3
+                        rounded-2xl
+                        hover:bg-gray-100
+                        dark:hover:bg-white/[0.05]
+                        transition
+                        text-sm
+                      "
+                    >
+                      <User size={17} />
+                      Profile
+                    </button>
+
+                    <button
+                      onClick={handleSettings}
+                      className="
+                        w-full
+                        flex
+                        items-center
+                        gap-3
+                        px-4
+                        py-3
+                        rounded-2xl
+                        hover:bg-gray-100
+                        dark:hover:bg-white/[0.05]
+                        transition
+                        text-sm
+                      "
+                    >
+                      <Settings size={17} />
+                      Account Settings
+                    </button>
+
+                    <button
+                      onClick={handleLogout}
+                      className="
+                        w-full
+                        flex
+                        items-center
+                        gap-3
+                        px-4
+                        py-3
+                        rounded-2xl
+                        hover:bg-red-50
+                        dark:hover:bg-red-500/10
+                        text-red-500
+                        transition
+                        text-sm
+                      "
+                    >
+                      <LogOut size={17} />
+                      Logout
+                    </button>
+
+                  </div>
+
+                </motion.div>
+              )}
+
+            </AnimatePresence>
 
           </div>
 
         </div>
 
-        <p
-          className="
-            text-sm
-            text-gray-500
-            dark:text-gray-400
-            mt-1
-          "
-        >
-          Welcome back 👋{" "}
-          <span className="font-medium">
-            {user?.name}
-          </span>
-        </p>
-
       </div>
 
-      {/* SEARCH */}
+      {/* DESKTOP SEARCH */}
       <motion.div
         whileFocus={{ scale: 1.01 }}
         className="
@@ -186,7 +704,8 @@ const Topbar = () => {
           px-4
           py-3
           rounded-2xl
-          w-[420px]
+          w-full
+          max-w-[420px]
           border
           border-gray-200
           dark:border-white/10
@@ -199,7 +718,6 @@ const Topbar = () => {
           transition-all
         "
       >
-
         <Search
           size={15}
           className="text-gray-400"
@@ -233,518 +751,69 @@ const Topbar = () => {
             text-gray-500
           "
         >
-
           <Command size={12} />
-
           K
-
         </div>
 
       </motion.div>
 
-      {/* RIGHT */}
-      <div className="flex items-center gap-3">
+      {/* MOBILE SEARCH BAR */}
+      <AnimatePresence>
 
-        {/* MOBILE SEARCH */}
-        <button
-          className="
-            lg:hidden
-            w-11
-            h-11
-            rounded-2xl
-            border
-            border-gray-200
-            dark:border-white/10
-            bg-white
-            dark:bg-white/[0.03]
-            flex
-            items-center
-            justify-center
-            hover:scale-105
-            transition
-          "
-        >
-
-          <Search
-            size={18}
+        {mobileSearch && (
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: -10,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            exit={{
+              opacity: 0,
+              y: -10,
+            }}
             className="
-              text-gray-600
-              dark:text-gray-300
-            "
-          />
-
-        </button>
-
-        {/* NOTIFICATION */}
-        <div className="relative">
-
-          <button
-            onClick={() =>
-              setNotificationOpen(
-                !notificationOpen
-              )
-            }
-            className="
-              relative
-              w-11
-              h-11
-              rounded-2xl
-              border
-              border-gray-200
-              dark:border-white/10
-              bg-white
-              dark:bg-white/[0.03]
-              flex
-              items-center
-              justify-center
-              hover:scale-105
-              transition
-            "
-          >
-
-            <Bell
-              size={18}
-              className="
-                text-gray-600
-                dark:text-gray-300
-              "
-            />
-
-            <span
-              className="
-                absolute
-                top-2.5
-                right-2.5
-                w-2.5
-                h-2.5
-                rounded-full
-                bg-red-500
-                border-2
-                border-white
-                dark:border-gray-900
-              "
-            />
-
-          </button>
-
-          {/* NOTIFICATION DROPDOWN */}
-          <AnimatePresence>
-
-            {notificationOpen && (
-              <motion.div
-                initial={{
-                  opacity: 0,
-                  y: 10,
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                exit={{
-                  opacity: 0,
-                  y: 10,
-                }}
-                transition={{
-                  duration: 0.2,
-                }}
-                className="
-                  absolute
-                  right-0
-                  mt-3
-                  w-[340px]
-                  rounded-3xl
-                  border
-                  border-gray-200
-                  dark:border-white/10
-                  bg-white
-                  dark:bg-gray-900
-                  shadow-2xl
-                  overflow-hidden
-                  z-50
-                "
-              >
-
-                <div
-                  className="
-                    flex
-                    items-center
-                    justify-between
-                    px-5
-                    py-4
-                    border-b
-                    border-gray-200
-                    dark:border-white/10
-                  "
-                >
-
-                  <h3
-                    className="
-                      font-semibold
-                      text-gray-900
-                      dark:text-white
-                    "
-                  >
-                    Notifications
-                  </h3>
-
-                  <button
-                    className="
-                      text-xs
-                      text-blue-600
-                    "
-                  >
-                    Mark all read
-                  </button>
-
-                </div>
-
-                <div className="max-h-[320px] overflow-y-auto">
-
-                  {notifications.map(
-                    (item, i) => (
-                      <div
-                        key={i}
-                        className="
-                          px-5
-                          py-4
-                          border-b
-                          border-gray-100
-                          dark:border-white/5
-                          hover:bg-gray-50
-                          dark:hover:bg-white/[0.03]
-                          transition
-                          cursor-pointer
-                        "
-                      >
-
-                        <div
-                          className="
-                            flex
-                            items-start
-                            justify-between
-                            gap-3
-                          "
-                        >
-
-                          <div>
-
-                            <h4
-                              className="
-                                text-sm
-                                font-medium
-                                text-gray-900
-                                dark:text-white
-                              "
-                            >
-                              {item.title}
-                            </h4>
-
-                            <p
-                              className="
-                                text-xs
-                                text-gray-500
-                                dark:text-gray-400
-                                mt-1
-                              "
-                            >
-                              {item.desc}
-                            </p>
-
-                          </div>
-
-                          <span
-                            className="
-                              text-[11px]
-                              text-gray-400
-                            "
-                          >
-                            {item.time}
-                          </span>
-
-                        </div>
-
-                      </div>
-                    )
-                  )}
-
-                </div>
-
-              </motion.div>
-            )}
-
-          </AnimatePresence>
-
-        </div>
-
-        {/* USER MENU */}
-        <div className="relative">
-
-          <button
-            onClick={() =>
-              setOpenMenu(!openMenu)
-            }
-            className="
+              lg:hidden
               flex
               items-center
               gap-3
-              px-2
-              py-1.5
+              px-4
+              py-3
               rounded-2xl
               border
               border-gray-200
               dark:border-white/10
               bg-white
               dark:bg-white/[0.03]
-              hover:scale-[1.01]
-              transition-all
+              shadow-sm
+              backdrop-blur-xl
+              w-full
             "
           >
-
-            {/* AVATAR */}
-            <div
-              className="
-                w-11
-                h-11
-                rounded-2xl
-                bg-gradient-to-br
-                from-blue-500
-                to-indigo-600
-                flex
-                items-center
-                justify-center
-                text-white
-                font-semibold
-                uppercase
-                shadow-lg
-                shadow-blue-500/20
-              "
-            >
-              {user?.name?.charAt(0)}
-            </div>
-
-            {/* USER INFO */}
-            <div
-              className="
-                hidden
-                md:flex
-                flex-col
-                items-start
-              "
-            >
-
-              <p
-                className="
-                  text-sm
-                  font-semibold
-                  text-gray-900
-                  dark:text-white
-                "
-              >
-                {user?.name}
-              </p>
-
-              <p
-                className="
-                  text-[11px]
-                  text-gray-500
-                "
-              >
-                {user?.email}
-              </p>
-
-            </div>
-
-            <ChevronDown
+            <Search
               size={16}
-              className="
-                text-gray-400
-              "
+              className="text-gray-400"
             />
 
-          </button>
+            <input
+              type="text"
+              placeholder="Search..."
+              className="
+                flex-1
+                bg-transparent
+                outline-none
+                text-sm
+                text-gray-700
+                dark:text-white
+                placeholder:text-gray-400
+              "
+            />
+          </motion.div>
+        )}
 
-          {/* DROPDOWN */}
-          <AnimatePresence>
-
-            {openMenu && (
-              <motion.div
-                initial={{
-                  opacity: 0,
-                  y: 10,
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                exit={{
-                  opacity: 0,
-                  y: 10,
-                }}
-                transition={{
-                  duration: 0.2,
-                }}
-                className="
-                  absolute
-                  right-0
-                  mt-3
-                  w-64
-                  rounded-3xl
-                  border
-                  border-gray-200
-                  dark:border-white/10
-                  bg-white
-                  dark:bg-gray-900
-                  shadow-2xl
-                  overflow-hidden
-                  z-50
-                "
-              >
-
-                {/* TOP */}
-                <div
-                  className="
-                    px-5
-                    py-5
-                    border-b
-                    border-gray-200
-                    dark:border-white/10
-                  "
-                >
-
-                  <div className="flex items-center gap-3">
-
-                    <div
-                      className="
-                        w-12
-                        h-12
-                        rounded-2xl
-                        bg-gradient-to-br
-                        from-blue-500
-                        to-indigo-600
-                        flex
-                        items-center
-                        justify-center
-                        text-white
-                        font-bold
-                      "
-                    >
-                      {user?.name?.charAt(0)}
-                    </div>
-
-                    <div>
-
-                      <h3
-                        className="
-                          font-semibold
-                          text-gray-900
-                          dark:text-white
-                        "
-                      >
-                        {user?.name}
-                      </h3>
-
-                      <p
-                        className="
-                          text-xs
-                          text-gray-500
-                        "
-                      >
-                        {user?.email}
-                      </p>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-                {/* MENU ITEMS */}
-                <div className="p-2">
-
-                  {/* PROFILE */}
-                  <button
-                    onClick={handleProfile}
-                    className="
-                      w-full
-                      flex
-                      items-center
-                      gap-3
-                      px-4
-                      py-3
-                      rounded-2xl
-                      hover:bg-gray-100
-                      dark:hover:bg-white/[0.05]
-                      transition
-                      text-sm
-                    "
-                  >
-
-                    <User size={17} />
-
-                    Profile
-
-                  </button>
-
-                  {/* SETTINGS */}
-                  <button
-                    onClick={handleSettings}
-                    className="
-                      w-full
-                      flex
-                      items-center
-                      gap-3
-                      px-4
-                      py-3
-                      rounded-2xl
-                      hover:bg-gray-100
-                      dark:hover:bg-white/[0.05]
-                      transition
-                      text-sm
-                    "
-
-                  >
-
-                    <Settings size={17} />
-
-                    Account Settings
-
-                  </button>
-
-                  {/* LOGOUT */}
-                  <button
-                    onClick={handleLogout}
-                    className="
-                      w-full
-                      flex
-                      items-center
-                      gap-3
-                      px-4
-                      py-3
-                      rounded-2xl
-                      hover:bg-red-50
-                      dark:hover:bg-red-500/10
-                      text-red-500
-                      transition
-                      text-sm
-                    "
-                  >
-
-                    <LogOut size={17} />
-
-                    Logout
-
-                  </button>
-
-                </div>
-
-              </motion.div>
-            )}
-
-          </AnimatePresence>
-
-        </div>
-
-      </div>
+      </AnimatePresence>
 
     </div>
   );

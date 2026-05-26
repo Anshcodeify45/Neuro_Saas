@@ -11,7 +11,8 @@ import { motion } from "framer-motion";
 
 const Table = () => {
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
+  const [statusFilter, setStatusFilter] =
+    useState("All");
 
   const users = [
     {
@@ -58,15 +59,21 @@ const Table = () => {
   // FILTER USERS
   const filteredUsers = users.filter((u) => {
     const matchesSearch =
-      u.name.toLowerCase().includes(search.toLowerCase()) ||
-      u.email.toLowerCase().includes(search.toLowerCase());
+      u.name
+        .toLowerCase()
+        .includes(search.toLowerCase()) ||
+      u.email
+        .toLowerCase()
+        .includes(search.toLowerCase());
 
     const matchesStatus =
       statusFilter === "All"
         ? true
         : u.status === statusFilter;
 
-    return matchesSearch && matchesStatus;
+    return (
+      matchesSearch && matchesStatus
+    );
   });
 
   // EXPORT CSV
@@ -99,9 +106,11 @@ const Table = () => {
       }
     );
 
-    const link = document.createElement("a");
+    const link =
+      document.createElement("a");
 
-    const url = URL.createObjectURL(blob);
+    const url =
+      URL.createObjectURL(blob);
 
     link.setAttribute("href", url);
 
@@ -109,8 +118,6 @@ const Table = () => {
       "download",
       "users.csv"
     );
-
-    link.style.visibility = "hidden";
 
     document.body.appendChild(link);
 
@@ -135,12 +142,12 @@ const Table = () => {
       className="
         relative
         overflow-hidden
-        rounded-3xl
+        rounded-2xl sm:rounded-3xl
         border border-gray-200 dark:border-white/10
         bg-white dark:bg-white/[0.03]
         backdrop-blur-xl
         shadow-[0_10px_40px_rgba(0,0,0,0.12)]
-        p-6
+        p-4 sm:p-6
       "
     >
       {/* GLOW */}
@@ -149,8 +156,8 @@ const Table = () => {
           absolute
           top-0
           left-0
-          w-72
-          h-72
+          w-48 sm:w-72
+          h-48 sm:h-72
           bg-blue-500/10
           blur-[100px]
           rounded-full
@@ -164,18 +171,15 @@ const Table = () => {
           z-10
           flex
           flex-col
-          xl:flex-row
-          xl:items-center
-          xl:justify-between
           gap-5
-          mb-8
+          mb-6 sm:mb-8
         "
       >
         {/* TITLE */}
         <div>
           <h2
             className="
-              text-2xl
+              text-xl sm:text-2xl
               font-semibold
               text-gray-900
               dark:text-white
@@ -186,14 +190,15 @@ const Table = () => {
 
           <p
             className="
-              text-sm
+              text-xs sm:text-sm
               text-gray-500
               dark:text-gray-400
               mt-1
             "
           >
-            Manage users, monitor activity,
-            and track performance
+            Manage users, monitor
+            activity, and track
+            performance
           </p>
         </div>
 
@@ -201,9 +206,11 @@ const Table = () => {
         <div
           className="
             flex
-            flex-wrap
-            items-center
+            flex-col
+            lg:flex-row
+            lg:items-center
             gap-3
+            w-full
           "
         >
           {/* SEARCH */}
@@ -217,7 +224,8 @@ const Table = () => {
               rounded-2xl
               border border-gray-200 dark:border-white/10
               bg-gray-50 dark:bg-white/[0.03]
-              min-w-[280px]
+              w-full
+              lg:flex-1
               focus-within:border-blue-500/50
               transition-all
             "
@@ -230,7 +238,9 @@ const Table = () => {
             <input
               value={search}
               onChange={(e) =>
-                setSearch(e.target.value)
+                setSearch(
+                  e.target.value
+                )
               }
               type="text"
               placeholder="Search users..."
@@ -246,82 +256,100 @@ const Table = () => {
             />
           </div>
 
-          {/* FILTER */}
-          <div className="relative">
-
-            <Filter
-              size={14}
-              className="
-                absolute
-                left-4
-                top-1/2
-                -translate-y-1/2
-                text-gray-400
-              "
-            />
-
-            <select
-              value={statusFilter}
-              onChange={(e) =>
-                setStatusFilter(
-                  e.target.value
-                )
-              }
-              className="
-                appearance-none
-                pl-10
-                pr-6
-                py-3
-                rounded-2xl
-                border border-gray-200 dark:border-white/10
-                bg-gray-50 dark:bg-white/[0.03]
-                text-sm
-                outline-none
-                text-gray-700
-                dark:text-gray-300
-                backdrop-blur-xl
-                cursor-pointer
-              "
-            >
-              <option value="All">
-                All Users
-              </option>
-
-              <option value="Active">
-                Active
-              </option>
-
-              <option value="Inactive">
-                Inactive
-              </option>
-
-            </select>
-
-          </div>
-
-          {/* EXPORT */}
-          <button
-            onClick={exportCSV}
+          {/* FILTER + EXPORT */}
+          <div
             className="
               flex
-              items-center
-              gap-2
-              px-4
-              py-3
-              rounded-2xl
-              bg-blue-600
-              hover:bg-blue-700
-              text-white
-              text-sm
-              transition-all
-              shadow-lg
-              shadow-blue-500/20
+              flex-col
+              sm:flex-row
+              gap-3
+              w-full
+              lg:w-auto
             "
           >
-            <Download size={16} />
+            {/* FILTER */}
+            <div className="relative w-full sm:w-auto">
 
-            Export CSV
-          </button>
+              <Filter
+                size={14}
+                className="
+                  absolute
+                  left-4
+                  top-1/2
+                  -translate-y-1/2
+                  text-gray-400
+                "
+              />
+
+              <select
+                value={statusFilter}
+                onChange={(e) =>
+                  setStatusFilter(
+                    e.target.value
+                  )
+                }
+                className="
+                  appearance-none
+                  w-full
+                  sm:w-auto
+                  pl-10
+                  pr-8
+                  py-3
+                  rounded-2xl
+                  border border-gray-200 dark:border-white/10
+                  bg-gray-50 dark:bg-white/[0.03]
+                  text-sm
+                  outline-none
+                  text-gray-700
+                  dark:text-gray-300
+                  backdrop-blur-xl
+                  cursor-pointer
+                "
+              >
+                <option value="All">
+                  All Users
+                </option>
+
+                <option value="Active">
+                  Active
+                </option>
+
+                <option value="Inactive">
+                  Inactive
+                </option>
+
+              </select>
+
+            </div>
+
+            {/* EXPORT */}
+            <button
+              onClick={exportCSV}
+              className="
+                flex
+                items-center
+                justify-center
+                gap-2
+                px-4
+                py-3
+                rounded-2xl
+                bg-blue-600
+                hover:bg-blue-700
+                text-white
+                text-sm
+                transition-all
+                shadow-lg
+                shadow-blue-500/20
+                w-full
+                sm:w-auto
+              "
+            >
+              <Download size={16} />
+
+              Export CSV
+            </button>
+
+          </div>
 
         </div>
 
@@ -338,7 +366,7 @@ const Table = () => {
         "
       >
 
-        <table className="w-full">
+        <table className="w-full min-w-[700px]">
 
           {/* HEADER */}
           <thead
@@ -355,7 +383,7 @@ const Table = () => {
             <tr
               className="
                 text-left
-                text-xs
+                text-[10px] sm:text-xs
                 uppercase
                 tracking-wider
                 text-gray-500
@@ -363,23 +391,23 @@ const Table = () => {
               "
             >
 
-              <th className="px-6 py-5 font-medium">
+              <th className="px-4 sm:px-6 py-4 sm:py-5 font-medium">
                 User
               </th>
 
-              <th className="px-6 py-5 font-medium">
+              <th className="px-4 sm:px-6 py-4 sm:py-5 font-medium">
                 Role
               </th>
 
-              <th className="px-6 py-5 font-medium">
+              <th className="px-4 sm:px-6 py-4 sm:py-5 font-medium">
                 Revenue
               </th>
 
-              <th className="px-6 py-5 font-medium">
+              <th className="px-4 sm:px-6 py-4 sm:py-5 font-medium">
                 Status
               </th>
 
-              <th className="px-6 py-5 text-right font-medium">
+              <th className="px-4 sm:px-6 py-4 sm:py-5 text-right font-medium">
                 Action
               </th>
 
@@ -435,13 +463,13 @@ const Table = () => {
                   >
 
                     {/* USER */}
-                    <td className="px-6 py-5">
+                    <td className="px-4 sm:px-6 py-4 sm:py-5">
 
                       <div
                         className="
                           flex
                           items-center
-                          gap-4
+                          gap-3 sm:gap-4
                         "
                       >
 
@@ -449,8 +477,8 @@ const Table = () => {
                         <div
                           className="
                             relative
-                            w-11
-                            h-11
+                            w-10 sm:w-11
+                            h-10 sm:h-11
                             rounded-2xl
                             bg-gradient-to-br
                             from-blue-500
@@ -462,6 +490,7 @@ const Table = () => {
                             text-white
                             font-semibold
                             shadow-lg
+                            shrink-0
                           "
                         >
 
@@ -486,13 +515,15 @@ const Table = () => {
                         </div>
 
                         {/* USER INFO */}
-                        <div>
+                        <div className="min-w-0">
 
                           <h3
                             className="
                               font-semibold
+                              text-sm sm:text-base
                               text-gray-900
                               dark:text-white
+                              truncate
                             "
                           >
                             {user.name}
@@ -500,10 +531,11 @@ const Table = () => {
 
                           <p
                             className="
-                              text-sm
+                              text-xs sm:text-sm
                               text-gray-500
                               dark:text-gray-400
                               mt-1
+                              truncate
                             "
                           >
                             {user.email}
@@ -516,7 +548,7 @@ const Table = () => {
                     </td>
 
                     {/* ROLE */}
-                    <td className="px-6 py-5">
+                    <td className="px-4 sm:px-6 py-4 sm:py-5">
 
                       <div
                         className="
@@ -529,6 +561,7 @@ const Table = () => {
                           text-purple-500
                           text-xs
                           font-medium
+                          whitespace-nowrap
                         "
                       >
                         {user.role}
@@ -539,18 +572,20 @@ const Table = () => {
                     {/* REVENUE */}
                     <td
                       className="
-                        px-6
-                        py-5
+                        px-4 sm:px-6
+                        py-4 sm:py-5
                         font-semibold
+                        text-sm sm:text-base
                         text-gray-900
                         dark:text-white
+                        whitespace-nowrap
                       "
                     >
                       {user.revenue}
                     </td>
 
                     {/* STATUS */}
-                    <td className="px-6 py-5">
+                    <td className="px-4 sm:px-6 py-4 sm:py-5">
 
                       <span
                         className={`
@@ -562,6 +597,7 @@ const Table = () => {
                           rounded-xl
                           text-xs
                           font-medium
+                          whitespace-nowrap
                           ${
                             user.status ===
                             "Active"
@@ -600,8 +636,8 @@ const Table = () => {
                     {/* ACTION */}
                     <td
                       className="
-                        px-6
-                        py-5
+                        px-4 sm:px-6
+                        py-4 sm:py-5
                         text-right
                       "
                     >
@@ -650,9 +686,9 @@ const Table = () => {
           mt-6
           flex
           flex-col
-          md:flex-row
-          md:items-center
-          md:justify-between
+          sm:flex-row
+          sm:items-center
+          sm:justify-between
           gap-4
         "
       >
@@ -662,6 +698,7 @@ const Table = () => {
             text-sm
             text-gray-500
             dark:text-gray-400
+            text-center sm:text-left
           "
         >
           Showing {filteredUsers.length} users
@@ -671,7 +708,10 @@ const Table = () => {
         <div
           className="
             flex
+            flex-wrap
             items-center
+            justify-center
+            sm:justify-end
             gap-2
           "
         >

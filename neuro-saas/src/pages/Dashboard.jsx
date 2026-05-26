@@ -7,24 +7,80 @@ import Activity from "../components/dashboard/Activity";
 
 const Dashboard = () => {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 px-6 py-8 space-y-8 transition-colors duration-300">
+    <div
+      className="
+        min-h-screen
+        bg-gray-50
+        dark:bg-gray-950
+        px-4
+        sm:px-6
+        lg:px-8
+        py-6
+        sm:py-8
+        space-y-6
+        sm:space-y-8
+        transition-colors
+        duration-300
+        overflow-hidden
+      "
+    >
 
       {/* HEADER */}
       <div className="max-w-7xl mx-auto">
 
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+        <div
+          className="
+            flex
+            flex-col
+            md:flex-row
+            md:items-end
+            md:justify-between
+            gap-4
+          "
+        >
 
+          {/* LEFT */}
           <div>
-            <h1 className="text-3xl font-semibold text-gray-900 dark:text-white tracking-tight">
+
+            <h1
+              className="
+                text-2xl
+                sm:text-3xl
+                lg:text-4xl
+                font-semibold
+                text-gray-900
+                dark:text-white
+                tracking-tight
+              "
+            >
               Dashboard
             </h1>
 
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-              Overview of your system performance, activity, and analytics
+            <p
+              className="
+                text-sm
+                sm:text-base
+                text-gray-500
+                dark:text-gray-400
+                mt-2
+                leading-relaxed
+              "
+            >
+              Overview of your system performance,
+              activity, and analytics
             </p>
+
           </div>
 
-          <div className="text-xs text-gray-400 dark:text-gray-500">
+          {/* RIGHT */}
+          <div
+            className="
+              text-xs
+              sm:text-sm
+              text-gray-400
+              dark:text-gray-500
+            "
+          >
             Last updated: just now
           </div>
 
@@ -33,28 +89,61 @@ const Dashboard = () => {
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="max-w-7xl mx-auto space-y-8">
+      <div
+        className="
+          max-w-7xl
+          mx-auto
+          space-y-6
+          sm:space-y-8
+        "
+      >
 
         {/* STATS */}
-        <Stats />
+        <div className="w-full overflow-hidden">
+          <Stats />
+        </div>
 
         {/* CHART + ACTIVITY */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+        <div
+          className="
+            grid
+            grid-cols-1
+            xl:grid-cols-3
+            gap-6
+            items-start
+          "
+        >
 
           {/* CHART */}
-          <div className="xl:col-span-2 ">
+          <div
+            className="
+              xl:col-span-2
+              w-full
+              overflow-hidden
+            "
+          >
             <ChartBox />
           </div>
 
           {/* ACTIVITY */}
-          <div >
+          <div
+            className="
+              w-full
+              overflow-hidden
+            "
+          >
             <Activity />
           </div>
 
         </div>
 
         {/* TABLE */}
-        <div >
+        <div
+          className="
+            w-full
+            overflow-x-auto
+          "
+        >
           <Table />
         </div>
 

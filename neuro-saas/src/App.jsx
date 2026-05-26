@@ -15,42 +15,79 @@ import Profile from "./components/dashboard/Profile";
 
 function App() {
   return (
-    <BrowserRouter>
+    <div className="min-h-screen overflow-x-hidden bg-white dark:bg-gray-950">
+      <BrowserRouter>
+        <Routes>
 
-      <Routes>
+          {/* LANDING PAGE */}
+          <Route
+            path="/"
+            element={
+              <div className="w-full overflow-x-hidden">
+                <Home />
+              </div>
+            }
+          />
 
-        {/* LANDING PAGE */}
-        <Route path="/" element={<Home />} />
-        {/* REGISTER PAGE */}
-        <Route path="/register" element={<Register />} />
-        {/* LOGIN PAGE */}
-        <Route path="/login" element={<Login />} />
-        {/* DASHBOARD LAYOUT WRAPPER */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
+          {/* REGISTER PAGE */}
+          <Route
+            path="/register"
+            element={
+              <div className="w-full min-h-screen overflow-x-hidden">
+                <Register />
+              </div>
+            }
+          />
 
-        
+          {/* LOGIN PAGE */}
+          <Route
+            path="/login"
+            element={
+              <div className="w-full min-h-screen overflow-x-hidden">
+                <Login />
+              </div>
+            }
+          />
 
-          {/* DEFAULT DASHBOARD PAGE */}
-          <Route index element={<Dashboard />} />
+          {/* DASHBOARD */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <div className="w-full min-h-screen overflow-hidden">
+                  <DashboardLayout />
+                </div>
+              </ProtectedRoute>
+            }
+          >
+            {/* DEFAULT DASHBOARD PAGE */}
+            <Route index element={<Dashboard />} />
 
-          {/* INNER PAGES */}
-          <Route path="/dashboard/profile" element={<Profile />} />
-          <Route path="users" element={<Users />} />
-          <Route path="analytics" element={<Analytics />} />
-          <Route path="settings" element={<Settings />} />
-         
-        </Route>
+            {/* INNER PAGES */}
+            <Route
+              path="profile"
+              element={<Profile />}
+            />
 
-      </Routes>
+            <Route
+              path="users"
+              element={<Users />}
+            />
 
-    </BrowserRouter>
+            <Route
+              path="analytics"
+              element={<Analytics />}
+            />
+
+            <Route
+              path="settings"
+              element={<Settings />}
+            />
+          </Route>
+
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

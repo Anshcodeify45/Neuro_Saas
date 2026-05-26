@@ -23,11 +23,9 @@ const Users = () => {
   const [statusFilter, setStatusFilter] =
     useState("All");
 
-  // MODAL
   const [showModal, setShowModal] =
     useState(false);
 
-  // FORM
   const [formData, setFormData] =
     useState({
       name: "",
@@ -188,15 +186,15 @@ const Users = () => {
   // LOADING
   if (loading) {
     return (
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
 
         <div
           className="
             grid
             grid-cols-1
-            md:grid-cols-2
-            lg:grid-cols-3
-            gap-6
+            sm:grid-cols-2
+            xl:grid-cols-3
+            gap-4 sm:gap-6
           "
         >
 
@@ -204,7 +202,7 @@ const Users = () => {
             <div
               key={i}
               className="
-                h-36
+                h-32 sm:h-36
                 rounded-3xl
                 bg-gray-200
                 dark:bg-gray-800
@@ -220,16 +218,16 @@ const Users = () => {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
 
       {/* HEADER */}
       <div
         className="
           flex
           flex-col
-          lg:flex-row
-          lg:items-center
-          lg:justify-between
+          xl:flex-row
+          xl:items-center
+          xl:justify-between
           gap-5
         "
       >
@@ -238,7 +236,7 @@ const Users = () => {
 
           <h1
             className="
-              text-3xl
+              text-2xl sm:text-3xl
               font-bold
               text-gray-900
               dark:text-white
@@ -265,9 +263,13 @@ const Users = () => {
         <div
           className="
             flex
-            items-center
+            flex-col
+            sm:flex-row
+            items-stretch
+            sm:items-center
             gap-3
-            flex-wrap
+            w-full
+            xl:w-auto
           "
         >
 
@@ -277,6 +279,7 @@ const Users = () => {
             className="
               flex
               items-center
+              justify-center
               gap-2
               px-5
               py-3
@@ -288,6 +291,8 @@ const Users = () => {
               transition-all
               shadow-lg
               shadow-blue-500/20
+              w-full
+              sm:w-auto
             "
           >
 
@@ -305,6 +310,7 @@ const Users = () => {
             className="
               flex
               items-center
+              justify-center
               gap-2
               px-5
               py-3
@@ -317,6 +323,8 @@ const Users = () => {
               dark:hover:bg-white/[0.05]
               text-sm
               transition-all
+              w-full
+              sm:w-auto
             "
           >
 
@@ -335,8 +343,9 @@ const Users = () => {
         className="
           grid
           grid-cols-1
-          md:grid-cols-3
-          gap-6
+          sm:grid-cols-2
+          xl:grid-cols-3
+          gap-4 sm:gap-6
         "
       >
 
@@ -344,7 +353,7 @@ const Users = () => {
         <div
           className="
             rounded-3xl
-            p-6
+            p-5 sm:p-6
             border border-gray-200
             dark:border-white/10
             bg-white
@@ -376,7 +385,7 @@ const Users = () => {
               <h2
                 className="
                   mt-2
-                  text-3xl
+                  text-2xl sm:text-3xl
                   font-bold
                   text-gray-900
                   dark:text-white
@@ -389,8 +398,8 @@ const Users = () => {
 
             <div
               className="
-                w-14
-                h-14
+                w-12 h-12
+                sm:w-14 sm:h-14
                 rounded-2xl
                 bg-blue-500/10
                 flex
@@ -400,7 +409,7 @@ const Users = () => {
               "
             >
 
-              <UsersIcon size={26} />
+              <UsersIcon size={24} />
 
             </div>
 
@@ -412,7 +421,7 @@ const Users = () => {
         <div
           className="
             rounded-3xl
-            p-6
+            p-5 sm:p-6
             border border-gray-200
             dark:border-white/10
             bg-white
@@ -434,7 +443,7 @@ const Users = () => {
           <h2
             className="
               mt-2
-              text-3xl
+              text-2xl sm:text-3xl
               font-bold
               text-green-500
             "
@@ -453,7 +462,7 @@ const Users = () => {
         <div
           className="
             rounded-3xl
-            p-6
+            p-5 sm:p-6
             border border-gray-200
             dark:border-white/10
             bg-white
@@ -475,7 +484,7 @@ const Users = () => {
           <h2
             className="
               mt-2
-              text-3xl
+              text-2xl sm:text-3xl
               font-bold
               text-red-500
             "
@@ -509,15 +518,15 @@ const Users = () => {
         {/* TOP BAR */}
         <div
           className="
-            p-6
+            p-4 sm:p-6
             border-b
             border-gray-200
             dark:border-white/10
             flex
             flex-col
-            lg:flex-row
-            lg:items-center
-            lg:justify-between
+            xl:flex-row
+            xl:items-center
+            xl:justify-between
             gap-4
           "
         >
@@ -527,7 +536,7 @@ const Users = () => {
 
             <h2
               className="
-                text-xl
+                text-lg sm:text-xl
                 font-semibold
                 text-gray-900
                 dark:text-white
@@ -554,9 +563,13 @@ const Users = () => {
           <div
             className="
               flex
-              flex-wrap
-              items-center
+              flex-col
+              sm:flex-row
+              items-stretch
+              sm:items-center
               gap-3
+              w-full
+              xl:w-auto
             "
           >
 
@@ -573,7 +586,8 @@ const Users = () => {
                 dark:border-white/10
                 bg-gray-50
                 dark:bg-white/[0.03]
-                min-w-[260px]
+                w-full
+                sm:min-w-[280px]
               "
             >
 
@@ -606,7 +620,7 @@ const Users = () => {
             </div>
 
             {/* FILTER */}
-            <div className="relative">
+            <div className="relative w-full sm:w-auto">
 
               <Filter
                 size={15}
@@ -639,6 +653,8 @@ const Users = () => {
                   text-sm
                   outline-none
                   cursor-pointer
+                  w-full
+                  sm:w-auto
                 "
               >
 
@@ -662,10 +678,199 @@ const Users = () => {
 
         </div>
 
-        {/* TABLE */}
-        <div className="overflow-x-auto">
+        {/* MOBILE CARDS */}
+        <div className="block lg:hidden p-4 space-y-4">
 
-          <table className="w-full">
+          {filteredUsers.map(
+            (user, i) => (
+
+              <motion.div
+                key={user._id}
+                initial={{
+                  opacity: 0,
+                  y: 10,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{
+                  delay: i * 0.03,
+                }}
+                className="
+                  rounded-3xl
+                  border
+                  border-gray-200
+                  dark:border-white/10
+                  p-4
+                  bg-gray-50/50
+                  dark:bg-white/[0.02]
+                "
+              >
+
+                <div className="flex items-start justify-between gap-4">
+
+                  <div className="flex items-center gap-3">
+
+                    <div
+                      className="
+                        w-12
+                        h-12
+                        rounded-2xl
+                        bg-gradient-to-br
+                        from-blue-500
+                        to-purple-500
+                        flex
+                        items-center
+                        justify-center
+                        text-white
+                        font-semibold
+                      "
+                    >
+
+                      {user.name
+                        ?.charAt(0)
+                        ?.toUpperCase()}
+
+                    </div>
+
+                    <div>
+
+                      <h3
+                        className="
+                          font-semibold
+                          text-gray-900
+                          dark:text-white
+                        "
+                      >
+                        {user.name}
+                      </h3>
+
+                      <p
+                        className="
+                          text-sm
+                          text-gray-500
+                          dark:text-gray-400
+                        "
+                      >
+                        {user.email}
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                  <button
+                    className="
+                      p-2
+                      rounded-xl
+                      hover:bg-gray-200
+                      dark:hover:bg-white/10
+                    "
+                  >
+
+                    <MoreHorizontal
+                      size={18}
+                    />
+
+                  </button>
+
+                </div>
+
+                <div
+                  className="
+                    mt-4
+                    flex
+                    flex-wrap
+                    items-center
+                    gap-2
+                  "
+                >
+
+                  <span
+                    className="
+                      px-3
+                      py-1.5
+                      rounded-xl
+                      bg-purple-500/10
+                      text-purple-500
+                      text-xs
+                      font-medium
+                    "
+                  >
+                    {user.role}
+                  </span>
+
+                  <span
+                    className={`
+                      inline-flex
+                      items-center
+                      gap-2
+                      px-3
+                      py-1.5
+                      rounded-xl
+                      text-xs
+                      font-medium
+                      ${
+                        user.status ===
+                        "Active"
+                          ? `
+                            bg-green-500/10
+                            text-green-500
+                          `
+                          : `
+                            bg-red-500/10
+                            text-red-500
+                          `
+                      }
+                    `}
+                  >
+
+                    <div
+                      className={`
+                        w-2
+                        h-2
+                        rounded-full
+                        ${
+                          user.status ===
+                          "Active"
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                        }
+                      `}
+                    ></div>
+
+                    {user.status}
+
+                  </span>
+
+                </div>
+
+                <p
+                  className="
+                    mt-4
+                    text-sm
+                    text-gray-500
+                    dark:text-gray-400
+                  "
+                >
+                  Joined:{" "}
+                  {new Date(
+                    user.createdAt
+                  ).toLocaleDateString()}
+                </p>
+
+              </motion.div>
+
+            )
+          )}
+
+        </div>
+
+        {/* DESKTOP TABLE */}
+        <div className="hidden lg:block overflow-x-auto">
+
+          <table className="w-full min-w-[900px]">
 
             {/* HEAD */}
             <thead
@@ -915,7 +1120,7 @@ const Users = () => {
 
       </div>
 
-      {/* ADD USER MODAL */}
+      {/* MODAL */}
       <AnimatePresence>
 
         {showModal && (
@@ -959,12 +1164,14 @@ const Users = () => {
               className="
                 w-full
                 max-w-lg
+                max-h-[90vh]
+                overflow-y-auto
                 rounded-3xl
                 border border-gray-200
                 dark:border-white/10
                 bg-white
                 dark:bg-[#0f172a]
-                p-8
+                p-5 sm:p-8
                 shadow-2xl
               "
             >
@@ -973,8 +1180,9 @@ const Users = () => {
               <div
                 className="
                   flex
-                  items-center
+                  items-start
                   justify-between
+                  gap-4
                   mb-6
                 "
               >
@@ -983,7 +1191,7 @@ const Users = () => {
 
                   <h2
                     className="
-                      text-2xl
+                      text-xl sm:text-2xl
                       font-bold
                       text-gray-900
                       dark:text-white
@@ -1014,6 +1222,7 @@ const Users = () => {
                     rounded-xl
                     hover:bg-gray-100
                     dark:hover:bg-white/10
+                    shrink-0
                   "
                 >
 
@@ -1219,7 +1428,10 @@ const Users = () => {
                 <div
                   className="
                     flex
-                    items-center
+                    flex-col-reverse
+                    sm:flex-row
+                    items-stretch
+                    sm:items-center
                     justify-end
                     gap-3
                     pt-4
@@ -1237,6 +1449,8 @@ const Users = () => {
                       rounded-2xl
                       border border-gray-200
                       dark:border-white/10
+                      w-full
+                      sm:w-auto
                     "
                   >
                     Cancel
@@ -1252,6 +1466,8 @@ const Users = () => {
                       hover:bg-blue-700
                       text-white
                       transition-all
+                      w-full
+                      sm:w-auto
                     "
                   >
                     Add User

@@ -18,15 +18,11 @@ import {
 import { motion } from "framer-motion";
 
 const Settings = () => {
+  const [name, setName] = useState("Admin");
 
-
-  const [name, setName] =
-    useState("Admin");
-
-  const [email, setEmail] =
-    useState(
-      "admin@neurodash.ai"
-    );
+  const [email, setEmail] = useState(
+    "admin@neurodash.ai"
+  );
 
   const [password, setPassword] =
     useState("");
@@ -59,10 +55,7 @@ const Settings = () => {
     setLoading,
   ] = useState(false);
 
-
   // SAVE FUNCTION
-
-
   const handleSave = () => {
     setLoading(true);
 
@@ -76,8 +69,6 @@ const Settings = () => {
   };
 
   // TOGGLE SWITCH
- 
-
   const Toggle = ({
     enabled,
     setEnabled,
@@ -89,11 +80,12 @@ const Settings = () => {
         }
         className={`
           relative
-          w-14
-          h-7
+          w-12 sm:w-14
+          h-6 sm:h-7
           rounded-full
           transition-all
           duration-300
+          shrink-0
           ${
             enabled
               ? "bg-blue-600"
@@ -101,36 +93,32 @@ const Settings = () => {
           }
         `}
       >
-
         <span
           className={`
             absolute
             top-1
             left-1
-            w-5
-            h-5
+            w-4 sm:w-5
+            h-4 sm:h-5
             rounded-full
             bg-white
             transition-all
             duration-300
             ${
               enabled
-                ? "translate-x-7"
+                ? "translate-x-6 sm:translate-x-7"
                 : ""
             }
           `}
         />
-
       </button>
     );
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
 
       {/* HEADER */}
-
-
       <div
         className="
           flex
@@ -138,15 +126,14 @@ const Settings = () => {
           lg:flex-row
           lg:items-center
           lg:justify-between
-          gap-5
+          gap-4
         "
       >
-
         <div>
-
           <h1
             className="
-              text-3xl
+              text-2xl
+              sm:text-3xl
               font-bold
               text-gray-900
               dark:text-white
@@ -166,7 +153,6 @@ const Settings = () => {
             Manage your profile,
             preferences, and security
           </p>
-
         </div>
 
         {/* SAVE BUTTON */}
@@ -175,7 +161,10 @@ const Settings = () => {
           className="
             flex
             items-center
+            justify-center
             gap-2
+            w-full
+            sm:w-fit
             px-5
             py-3
             rounded-2xl
@@ -186,23 +175,17 @@ const Settings = () => {
             shadow-lg
             shadow-blue-500/20
             transition-all
-            w-fit
           "
         >
-
           <Save size={18} />
 
           {loading
             ? "Saving..."
             : "Save Changes"}
-
         </button>
-
       </div>
 
       {/* PROFILE SECTION */}
-
-
       <div
         className="
           grid
@@ -214,7 +197,9 @@ const Settings = () => {
 
         {/* PROFILE CARD */}
         <motion.div
-          whileHover={{ y: -4 }}
+          whileHover={{
+            y: window.innerWidth > 768 ? -4 : 0,
+          }}
           className="
             xl:col-span-1
             rounded-3xl
@@ -222,7 +207,8 @@ const Settings = () => {
             dark:border-white/10
             bg-white
             dark:bg-white/[0.03]
-            p-6
+            p-4
+            sm:p-6
             shadow-sm
           "
         >
@@ -236,15 +222,16 @@ const Settings = () => {
               text-center
             "
           >
-
             <div className="relative">
 
               <img
                 src="https://i.pravatar.cc/150?img=12"
                 alt="profile"
                 className="
-                  w-28
-                  h-28
+                  w-24
+                  h-24
+                  sm:w-28
+                  sm:h-28
                   rounded-3xl
                   object-cover
                   border-4
@@ -257,8 +244,10 @@ const Settings = () => {
                   absolute
                   bottom-0
                   right-0
-                  w-10
-                  h-10
+                  w-9
+                  h-9
+                  sm:w-10
+                  sm:h-10
                   rounded-xl
                   bg-blue-600
                   text-white
@@ -268,9 +257,7 @@ const Settings = () => {
                   shadow-lg
                 "
               >
-
-                <Camera size={18} />
-
+                <Camera size={16} />
               </button>
 
             </div>
@@ -278,10 +265,12 @@ const Settings = () => {
             <h2
               className="
                 mt-5
-                text-xl
+                text-lg
+                sm:text-xl
                 font-semibold
                 text-gray-900
                 dark:text-white
+                break-all
               "
             >
               {name}
@@ -289,10 +278,12 @@ const Settings = () => {
 
             <p
               className="
-                text-sm
+                text-xs
+                sm:text-sm
                 text-gray-500
                 dark:text-gray-400
                 mt-1
+                break-all
               "
             >
               {email}
@@ -319,7 +310,9 @@ const Settings = () => {
 
         {/* SETTINGS FORM */}
         <motion.div
-          whileHover={{ y: -4 }}
+          whileHover={{
+            y: window.innerWidth > 768 ? -4 : 0,
+          }}
           className="
             xl:col-span-2
             rounded-3xl
@@ -327,14 +320,16 @@ const Settings = () => {
             dark:border-white/10
             bg-white
             dark:bg-white/[0.03]
-            p-6
+            p-4
+            sm:p-6
             shadow-sm
           "
         >
 
           <h2
             className="
-              text-xl
+              text-lg
+              sm:text-xl
               font-semibold
               text-gray-900
               dark:text-white
@@ -385,23 +380,21 @@ const Settings = () => {
 
                 <User
                   size={18}
-                  className="
-                    text-gray-400
-                  "
+                  className="text-gray-400 shrink-0"
                 />
 
                 <input
                   type="text"
                   value={name}
                   onChange={(e) =>
-                    setName(
-                      e.target.value
-                    )
+                    setName(e.target.value)
                   }
                   className="
                     bg-transparent
                     outline-none
                     w-full
+                    text-sm
+                    sm:text-base
                     text-gray-900
                     dark:text-white
                   "
@@ -443,23 +436,21 @@ const Settings = () => {
 
                 <Mail
                   size={18}
-                  className="
-                    text-gray-400
-                  "
+                  className="text-gray-400 shrink-0"
                 />
 
                 <input
                   type="email"
                   value={email}
                   onChange={(e) =>
-                    setEmail(
-                      e.target.value
-                    )
+                    setEmail(e.target.value)
                   }
                   className="
                     bg-transparent
                     outline-none
                     w-full
+                    text-sm
+                    sm:text-base
                     text-gray-900
                     dark:text-white
                   "
@@ -501,9 +492,7 @@ const Settings = () => {
 
                 <Lock
                   size={18}
-                  className="
-                    text-gray-400
-                  "
+                  className="text-gray-400 shrink-0"
                 />
 
                 <input
@@ -523,6 +512,8 @@ const Settings = () => {
                     bg-transparent
                     outline-none
                     w-full
+                    text-sm
+                    sm:text-base
                     text-gray-900
                     dark:text-white
                   "
@@ -534,24 +525,19 @@ const Settings = () => {
                       !showPassword
                     )
                   }
+                  className="shrink-0"
                 >
-
                   {showPassword ? (
                     <EyeOff
                       size={18}
-                      className="
-                        text-gray-400
-                      "
+                      className="text-gray-400"
                     />
                   ) : (
                     <Eye
                       size={18}
-                      className="
-                        text-gray-400
-                      "
+                      className="text-gray-400"
                     />
                   )}
-
                 </button>
 
               </div>
@@ -565,8 +551,6 @@ const Settings = () => {
       </div>
 
       {/* PREFERENCES */}
-
-
       <div
         className="
           grid
@@ -578,21 +562,25 @@ const Settings = () => {
 
         {/* APP SETTINGS */}
         <motion.div
-          whileHover={{ y: -4 }}
+          whileHover={{
+            y: window.innerWidth > 768 ? -4 : 0,
+          }}
           className="
             rounded-3xl
             border border-gray-200
             dark:border-white/10
             bg-white
             dark:bg-white/[0.03]
-            p-6
+            p-4
+            sm:p-6
             shadow-sm
           "
         >
 
           <h2
             className="
-              text-xl
+              text-lg
+              sm:text-xl
               font-semibold
               text-gray-900
               dark:text-white
@@ -602,218 +590,117 @@ const Settings = () => {
             App Preferences
           </h2>
 
-          <div className="space-y-6">
+          <div className="space-y-5">
 
-            {/* NOTIFICATIONS */}
-            <div
-              className="
-                flex
-                items-center
-                justify-between
-              "
-            >
+            {/* ITEM */}
+            {[
+              {
+                icon: Bell,
+                color:
+                  "bg-blue-500/10 text-blue-500",
+                title: "Notifications",
+                desc: "Receive email alerts",
+                enabled: notifications,
+                setEnabled:
+                  setNotifications,
+              },
+              {
+                icon: Moon,
+                color:
+                  "bg-purple-500/10 text-purple-500",
+                title: "Dark Analytics",
+                desc: "Dark chart appearance",
+                enabled: darkAnalytics,
+                setEnabled:
+                  setDarkAnalytics,
+              },
+              {
+                icon: Globe,
+                color:
+                  "bg-green-500/10 text-green-500",
+                title: "Auto Save",
+                desc: "Save changes instantly",
+                enabled: autoSave,
+                setEnabled:
+                  setAutoSave,
+              },
+            ].map((item, index) => {
+              const Icon = item.icon;
 
-              <div
-                className="
-                  flex
-                  items-center
-                  gap-4
-                "
-              >
-
+              return (
                 <div
+                  key={index}
                   className="
-                    w-12
-                    h-12
-                    rounded-2xl
-                    bg-blue-500/10
-                    text-blue-500
                     flex
                     items-center
-                    justify-center
+                    justify-between
+                    gap-4
                   "
                 >
 
-                  <Bell size={20} />
-
-                </div>
-
-                <div>
-
-                  <h3
+                  <div
                     className="
-                      font-medium
-                      text-gray-900
-                      dark:text-white
+                      flex
+                      items-center
+                      gap-3
+                      min-w-0
                     "
                   >
-                    Notifications
-                  </h3>
 
-                  <p
-                    className="
-                      text-sm
-                      text-gray-500
-                      dark:text-gray-400
-                    "
-                  >
-                    Receive email alerts
-                  </p>
+                    <div
+                      className={`
+                        w-11
+                        h-11
+                        rounded-2xl
+                        flex
+                        items-center
+                        justify-center
+                        shrink-0
+                        ${item.color}
+                      `}
+                    >
+                      <Icon size={20} />
+                    </div>
 
-                </div>
+                    <div className="min-w-0">
 
-              </div>
+                      <h3
+                        className="
+                          font-medium
+                          text-sm
+                          sm:text-base
+                          text-gray-900
+                          dark:text-white
+                        "
+                      >
+                        {item.title}
+                      </h3>
 
-              <Toggle
-                enabled={
-                  notifications
-                }
-                setEnabled={
-                  setNotifications
-                }
-              />
+                      <p
+                        className="
+                          text-xs
+                          sm:text-sm
+                          text-gray-500
+                          dark:text-gray-400
+                        "
+                      >
+                        {item.desc}
+                      </p>
 
-            </div>
+                    </div>
 
-            {/* DARK ANALYTICS */}
-            <div
-              className="
-                flex
-                items-center
-                justify-between
-              "
-            >
+                  </div>
 
-              <div
-                className="
-                  flex
-                  items-center
-                  gap-4
-                "
-              >
-
-                <div
-                  className="
-                    w-12
-                    h-12
-                    rounded-2xl
-                    bg-purple-500/10
-                    text-purple-500
-                    flex
-                    items-center
-                    justify-center
-                  "
-                >
-
-                  <Moon size={20} />
+                  <Toggle
+                    enabled={item.enabled}
+                    setEnabled={
+                      item.setEnabled
+                    }
+                  />
 
                 </div>
-
-                <div>
-
-                  <h3
-                    className="
-                      font-medium
-                      text-gray-900
-                      dark:text-white
-                    "
-                  >
-                    Dark Analytics
-                  </h3>
-
-                  <p
-                    className="
-                      text-sm
-                      text-gray-500
-                      dark:text-gray-400
-                    "
-                  >
-                    Dark chart appearance
-                  </p>
-
-                </div>
-
-              </div>
-
-              <Toggle
-                enabled={
-                  darkAnalytics
-                }
-                setEnabled={
-                  setDarkAnalytics
-                }
-              />
-
-            </div>
-
-            {/* AUTOSAVE */}
-            <div
-              className="
-                flex
-                items-center
-                justify-between
-              "
-            >
-
-              <div
-                className="
-                  flex
-                  items-center
-                  gap-4
-                "
-              >
-
-                <div
-                  className="
-                    w-12
-                    h-12
-                    rounded-2xl
-                    bg-green-500/10
-                    text-green-500
-                    flex
-                    items-center
-                    justify-center
-                  "
-                >
-
-                  <Globe size={20} />
-
-                </div>
-
-                <div>
-
-                  <h3
-                    className="
-                      font-medium
-                      text-gray-900
-                      dark:text-white
-                    "
-                  >
-                    Auto Save
-                  </h3>
-
-                  <p
-                    className="
-                      text-sm
-                      text-gray-500
-                      dark:text-gray-400
-                    "
-                  >
-                    Save changes instantly
-                  </p>
-
-                </div>
-
-              </div>
-
-              <Toggle
-                enabled={autoSave}
-                setEnabled={
-                  setAutoSave
-                }
-              />
-
-            </div>
+              );
+            })}
 
           </div>
 
@@ -821,21 +708,25 @@ const Settings = () => {
 
         {/* SECURITY */}
         <motion.div
-          whileHover={{ y: -4 }}
+          whileHover={{
+            y: window.innerWidth > 768 ? -4 : 0,
+          }}
           className="
             rounded-3xl
             border border-gray-200
             dark:border-white/10
             bg-white
             dark:bg-white/[0.03]
-            p-6
+            p-4
+            sm:p-6
             shadow-sm
           "
         >
 
           <h2
             className="
-              text-xl
+              text-lg
+              sm:text-xl
               font-semibold
               text-gray-900
               dark:text-white
@@ -853,6 +744,7 @@ const Settings = () => {
                 flex
                 items-center
                 justify-between
+                gap-4
               "
             >
 
@@ -860,20 +752,22 @@ const Settings = () => {
                 className="
                   flex
                   items-center
-                  gap-4
+                  gap-3
+                  min-w-0
                 "
               >
 
                 <div
                   className="
-                    w-12
-                    h-12
+                    w-11
+                    h-11
                     rounded-2xl
                     bg-orange-500/10
                     text-orange-500
                     flex
                     items-center
                     justify-center
+                    shrink-0
                   "
                 >
 
@@ -886,6 +780,8 @@ const Settings = () => {
                   <h3
                     className="
                       font-medium
+                      text-sm
+                      sm:text-base
                       text-gray-900
                       dark:text-white
                     "
@@ -895,7 +791,8 @@ const Settings = () => {
 
                   <p
                     className="
-                      text-sm
+                      text-xs
+                      sm:text-sm
                       text-gray-500
                       dark:text-gray-400
                     "
@@ -920,7 +817,8 @@ const Settings = () => {
                 rounded-2xl
                 border border-gray-200
                 dark:border-white/10
-                p-5
+                p-4
+                sm:p-5
                 bg-gray-50
                 dark:bg-white/[0.02]
               "
@@ -936,14 +834,15 @@ const Settings = () => {
 
                 <div
                   className="
-                    w-12
-                    h-12
+                    w-11
+                    h-11
                     rounded-2xl
                     bg-blue-500/10
                     text-blue-500
                     flex
                     items-center
                     justify-center
+                    shrink-0
                   "
                 >
 
@@ -951,11 +850,13 @@ const Settings = () => {
 
                 </div>
 
-                <div>
+                <div className="min-w-0">
 
                   <h3
                     className="
                       font-medium
+                      text-sm
+                      sm:text-base
                       text-gray-900
                       dark:text-white
                     "
@@ -965,7 +866,8 @@ const Settings = () => {
 
                   <p
                     className="
-                      text-sm
+                      text-xs
+                      sm:text-sm
                       text-gray-500
                       dark:text-gray-400
                     "

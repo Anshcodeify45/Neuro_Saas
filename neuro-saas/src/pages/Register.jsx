@@ -36,9 +36,6 @@ const Register = () => {
   const [loading, setLoading] =
     useState(false);
 
-  // HANDLE CHANGE
-
-
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -46,9 +43,6 @@ const Register = () => {
         e.target.value,
     });
   };
-
-  // HANDLE SUBMIT
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,41 +76,40 @@ const Register = () => {
       className="
         min-h-screen
         flex
+        flex-col
+        lg:flex-row
         bg-gray-50
         dark:bg-[#060816]
         overflow-hidden
       "
     >
-
       {/* LEFT SIDE */}
-
-
       <div
         className="
           hidden
           lg:flex
           relative
-          w-1/2
+          lg:w-1/2
           overflow-hidden
           bg-gradient-to-br
           from-indigo-600
           via-blue-600
           to-cyan-500
-          p-12
+          p-8
+          xl:p-12
           text-white
           flex-col
           justify-between
         "
       >
-
         {/* GLOW */}
         <div
           className="
             absolute
             top-0
             left-0
-            w-[500px]
-            h-[500px]
+            w-[400px]
+            h-[400px]
             bg-white/10
             blur-3xl
             rounded-full
@@ -130,13 +123,13 @@ const Register = () => {
             absolute
             bottom-0
             right-0
-            w-[400px]
-            h-[400px]
+            w-[300px]
+            h-[300px]
             bg-cyan-300/20
             blur-3xl
             rounded-full
-            translate-x-32
-            translate-y-32
+            translate-x-24
+            translate-y-24
           "
         />
 
@@ -152,13 +145,13 @@ const Register = () => {
           }}
           className="relative z-10"
         >
-
           <div className="flex items-center gap-3">
-
             <div
               className="
-                w-14
-                h-14
+                w-12
+                h-12
+                xl:w-14
+                xl:h-14
                 rounded-2xl
                 bg-white/20
                 backdrop-blur-xl
@@ -169,25 +162,19 @@ const Register = () => {
                 border-white/20
               "
             >
-
-              <Sparkles size={28} />
-
+              <Sparkles size={24} />
             </div>
 
             <div>
-
-              <h1 className="text-3xl font-bold">
+              <h1 className="text-2xl xl:text-3xl font-bold">
                 NeuroSaaS
               </h1>
 
               <p className="text-sm text-blue-100 mt-1">
                 Modern Admin Platform
               </p>
-
             </div>
-
           </div>
-
         </motion.div>
 
         {/* CENTER CONTENT */}
@@ -207,9 +194,10 @@ const Register = () => {
             relative
             z-10
             max-w-lg
+            mt-12
+            lg:mt-0
           "
         >
-
           <div
             className="
               inline-flex
@@ -226,16 +214,15 @@ const Register = () => {
               backdrop-blur-xl
             "
           >
-
             <Rocket size={16} />
-
             Start Your Journey
-
           </div>
 
           <h2
             className="
-              text-5xl
+              text-3xl
+              sm:text-4xl
+              xl:text-5xl
               leading-tight
               font-bold
             "
@@ -247,7 +234,8 @@ const Register = () => {
             className="
               text-blue-100
               mt-6
-              text-lg
+              text-base
+              xl:text-lg
               leading-relaxed
             "
           >
@@ -258,8 +246,7 @@ const Register = () => {
           </p>
 
           {/* FEATURES */}
-          <div className="mt-10 space-y-4">
-
+          <div className="mt-8 xl:mt-10 space-y-4">
             {[
               "Advanced analytics dashboard",
               "Enterprise-grade security",
@@ -274,7 +261,6 @@ const Register = () => {
                   gap-3
                 "
               >
-
                 <div
                   className="
                     w-9
@@ -286,24 +272,20 @@ const Register = () => {
                     justify-center
                     border
                     border-white/10
+                    shrink-0
                   "
                 >
-
                   <CheckCircle2
                     size={18}
                   />
-
                 </div>
 
-                <span className="text-white/90">
+                <span className="text-white/90 text-sm sm:text-base">
                   {item}
                 </span>
-
               </div>
             ))}
-
           </div>
-
         </motion.div>
 
         {/* BOTTOM */}
@@ -312,14 +294,15 @@ const Register = () => {
             relative
             z-10
             flex
-            items-center
-            justify-between
+            flex-col
+            xl:flex-row
+            gap-5
+            xl:items-center
+            xl:justify-between
             pt-10
           "
         >
-
           <div>
-
             <p className="text-sm text-white/70">
               Trusted by developers worldwide
             </p>
@@ -327,7 +310,6 @@ const Register = () => {
             <h4 className="text-2xl font-bold mt-1">
               50K+ Users
             </h4>
-
           </div>
 
           <div
@@ -342,33 +324,45 @@ const Register = () => {
               flex
               items-center
               gap-3
+              w-fit
             "
           >
-
             <ShieldCheck size={20} />
-
             Secure Platform
-
           </div>
-
         </div>
-
       </div>
 
       {/* RIGHT SIDE */}
-     
-
       <div
         className="
           flex-1
           flex
           items-center
           justify-center
-          p-6
+          px-4
+          sm:px-6
+          py-10
           lg:p-12
           relative
         "
       >
+        {/* BG */}
+        <div
+          className="
+            absolute
+            top-0
+            right-0
+            w-[300px]
+            sm:w-[500px]
+            h-[300px]
+            sm:h-[500px]
+            rounded-full
+            bg-blue-100
+            blur-3xl
+            opacity-40
+          "
+        />
 
         {/* CARD */}
         <motion.div
@@ -383,12 +377,23 @@ const Register = () => {
           className="
             w-full
             max-w-md
+            relative
+            z-10
           "
         >
+          {/* MOBILE LOGO */}
+          <div className="lg:hidden text-center mb-8">
+            <h1 className="text-3xl font-bold text-blue-600">
+              NeuroSaaS
+            </h1>
+
+            <p className="text-gray-500 mt-2 text-sm">
+              Modern Admin Platform
+            </p>
+          </div>
 
           {/* TOP */}
-          <div className="mb-8">
-
+          <div className="mb-8 text-center lg:text-left">
             <div
               className="
                 inline-flex
@@ -404,16 +409,14 @@ const Register = () => {
                 mb-5
               "
             >
-
               <Sparkles size={14} />
-
               Create Account
-
             </div>
 
             <h2
               className="
-                text-4xl
+                text-3xl
+                sm:text-4xl
                 font-bold
                 text-gray-900
                 dark:text-white
@@ -428,13 +431,13 @@ const Register = () => {
                 dark:text-gray-400
                 mt-3
                 text-sm
+                sm:text-base
               "
             >
               Create your account and
               access your premium admin
               dashboard.
             </p>
-
           </div>
 
           {/* FORM CARD */}
@@ -448,18 +451,16 @@ const Register = () => {
               dark:bg-white/[0.03]
               shadow-xl
               backdrop-blur-2xl
-              p-8
+              p-5
+              sm:p-8
             "
           >
-
             <form
               onSubmit={handleSubmit}
               className="space-y-5"
             >
-
               {/* NAME */}
               <div>
-
                 <label
                   className="
                     text-sm
@@ -499,12 +500,10 @@ const Register = () => {
                     transition-all
                   "
                 />
-
               </div>
 
               {/* EMAIL */}
               <div>
-
                 <label
                   className="
                     text-sm
@@ -544,12 +543,10 @@ const Register = () => {
                     transition-all
                   "
                 />
-
               </div>
 
               {/* PASSWORD */}
               <div>
-
                 <label
                   className="
                     text-sm
@@ -562,7 +559,6 @@ const Register = () => {
                 </label>
 
                 <div className="relative mt-2">
-
                   <input
                     type={
                       showPassword
@@ -614,17 +610,13 @@ const Register = () => {
                       transition
                     "
                   >
-
                     {showPassword ? (
                       <EyeOff size={18} />
                     ) : (
                       <Eye size={18} />
                     )}
-
                   </button>
-
                 </div>
-
               </div>
 
               {/* TERMS */}
@@ -636,7 +628,6 @@ const Register = () => {
                   pt-1
                 "
               >
-
                 <input
                   type="checkbox"
                   required
@@ -646,6 +637,7 @@ const Register = () => {
                     border-gray-300
                     text-blue-600
                     focus:ring-blue-500
+                    shrink-0
                   "
                 />
 
@@ -666,7 +658,6 @@ const Register = () => {
                     Privacy Policy
                   </span>
                 </p>
-
               </div>
 
               {/* BUTTON */}
@@ -699,7 +690,6 @@ const Register = () => {
                   }
                 `}
               >
-
                 {loading ? (
                   <>
                     <svg
@@ -711,7 +701,6 @@ const Register = () => {
                       viewBox="0 0 24 24"
                       fill="none"
                     >
-
                       <circle
                         className="opacity-20"
                         cx="12"
@@ -726,11 +715,9 @@ const Register = () => {
                         fill="currentColor"
                         d="M4 12a8 8 0 018-8v8H4z"
                       />
-
                     </svg>
 
                     Creating account...
-
                   </>
                 ) : (
                   <>
@@ -741,9 +728,7 @@ const Register = () => {
                     />
                   </>
                 )}
-
               </button>
-
             </form>
 
             {/* LOGIN */}
@@ -756,7 +741,6 @@ const Register = () => {
                 dark:text-gray-400
               "
             >
-
               Already have an account?{" "}
 
               <Link
@@ -769,9 +753,7 @@ const Register = () => {
               >
                 Sign in
               </Link>
-
             </div>
-
           </div>
 
           {/* FOOTER */}
@@ -786,11 +768,8 @@ const Register = () => {
             © 2026 NeuroSaaS.
             Enterprise-grade platform.
           </p>
-
         </motion.div>
-
       </div>
-
     </div>
   );
 };
