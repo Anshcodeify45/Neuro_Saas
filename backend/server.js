@@ -14,10 +14,10 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: "https://neuro-saas.onrender.com",
-  credentials: true,
+  origin: "https://neuro-saas.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
 }));
-app.use(express.json());
 
 connectDB();
 
