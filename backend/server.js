@@ -24,7 +24,8 @@ connectDB();
 app.get("/", (req, res) => {
   res.send("SaaS Backend Running 🚀");
 });
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/analytics", analyticsRoutes);
