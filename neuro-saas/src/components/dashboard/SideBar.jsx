@@ -54,34 +54,29 @@ const Sidebar = ({ open, setOpen }) => {
       />
 
       {/* SIDEBAR */}
-      <aside
-        className={`
-          fixed top-0 left-0 z-50
-          h-screen
-          bg-white/90
-          dark:bg-[#081028]/95
-          backdrop-blur-xl
-          border-r border-gray-200 dark:border-white/10
-          shadow-2xl
-          flex flex-col
-          transition-all duration-300 ease-in-out
+     <aside
+  className={`
+    fixed
+    top-0
+    left-0
+    z-50
+    h-screen
+    bg-white
+    dark:bg-[#081028]
+    border-r
+    border-gray-200
+    dark:border-white/10
+    shadow-xl
+    transition-all
+    duration-300
 
-          /* MOBILE */
-          ${
-            open
-              ? "translate-x-0 w-72"
-              : "-translate-x-full"
-          }
-
-          /* TABLET + DESKTOP */
-          lg:translate-x-0
-          ${
-            open
-              ? "lg:w-64"
-              : "lg:w-20"
-          }
-        `}
-      >
+    ${
+      open
+        ? "translate-x-0 w-64"
+        : "translate-x-0 w-20"
+    }
+  `}
+>
 
         {/* HEADER */}
         <div
