@@ -30,9 +30,9 @@ const ChartBox = () => {
   const [loading, setLoading] =
     useState(true);
 
-  // =========================
+  // ============================================
   // FETCH DATA
-  // =========================
+  // ============================================
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,9 +57,9 @@ const ChartBox = () => {
     fetchData();
   }, []);
 
-  // =========================
+  // ============================================
   // TOTAL USERS
-  // =========================
+  // ============================================
 
   const totalUsers =
     useMemo(() => {
@@ -70,9 +70,9 @@ const ChartBox = () => {
       );
     }, [data]);
 
-  // =========================
+  // ============================================
   // GROWTH %
-  // =========================
+  // ============================================
 
   const growth =
     useMemo(() => {
@@ -96,38 +96,54 @@ const ChartBox = () => {
       ).toFixed(1);
     }, [data]);
 
-  // =========================
-  // LOADING STATE
-  // =========================
+  // ============================================
+  // LOADING
+  // ============================================
 
   if (loading) {
     return (
       <div
         className="
-          rounded-3xl
+          relative
+          overflow-hidden
+
+          h-full
+          min-h-[650px]
+
+          rounded-[30px]
+
           border
-          border-gray-200
+          border-gray-200/70
           dark:border-white/10
-          bg-white
-          dark:bg-[#081028]
-          p-6
-          h-[500px]
+
+          bg-white/75
+          dark:bg-[#0B1120]/70
+
+          backdrop-blur-2xl
+
+          shadow-[0_10px_40px_rgba(0,0,0,0.08)]
+          dark:shadow-[0_10px_40px_rgba(0,0,0,0.35)]
+
           flex
           items-center
           justify-center
         "
       >
+
         <div
           className="
             w-10
             h-10
+
             border-4
             border-blue-500/20
             border-t-blue-500
+
             rounded-full
             animate-spin
           "
         />
+
       </div>
     );
   }
@@ -148,21 +164,34 @@ const ChartBox = () => {
       className="
         relative
         overflow-hidden
-        rounded-3xl
+
+        h-full
+        min-h-[650px]
+
+        rounded-[30px]
+
         border
-        border-gray-200
+        border-gray-200/70
         dark:border-white/10
-        bg-white
-        dark:bg-[#081028]
-        shadow-sm
-        dark:shadow-[0_10px_40px_rgba(0,0,0,0.45)]
+
+        bg-white/75
+        dark:bg-[#0B1120]/70
+
+        backdrop-blur-2xl
+
+        shadow-[0_10px_40px_rgba(0,0,0,0.08)]
+        dark:shadow-[0_10px_40px_rgba(0,0,0,0.35)]
+
         p-4
         sm:p-5
         lg:p-7
+
+        flex
+        flex-col
       "
     >
 
-      {/* BACKGROUND GLOW */}
+      {/* GLOW */}
       <div
         className="
           absolute
@@ -172,8 +201,10 @@ const ChartBox = () => {
           w-72
           h-72
 
-          bg-blue-500/10
+          bg-blue-500/5
+
           blur-[100px]
+
           rounded-full
         "
       />
@@ -187,6 +218,7 @@ const ChartBox = () => {
           flex
           flex-col
           xl:flex-row
+
           xl:items-start
           xl:justify-between
 
@@ -227,9 +259,9 @@ const ChartBox = () => {
               className="
                 text-2xl
                 font-bold
+
                 text-gray-900
                 dark:text-white
-                leading-tight
               "
             >
               User Growth Analytics
@@ -240,6 +272,7 @@ const ChartBox = () => {
                 mt-1
 
                 text-sm
+
                 text-gray-500
                 dark:text-gray-400
               "
@@ -258,7 +291,9 @@ const ChartBox = () => {
             grid
             grid-cols-1
             sm:grid-cols-2
+
             gap-4
+
             w-full
             xl:w-auto
           "
@@ -272,11 +307,13 @@ const ChartBox = () => {
               rounded-2xl
 
               border
-              border-gray-200
+              border-gray-200/70
               dark:border-white/10
 
-              bg-gray-50
+              bg-white/60
               dark:bg-white/[0.04]
+
+              backdrop-blur-xl
 
               p-4
             "
@@ -314,6 +351,7 @@ const ChartBox = () => {
               className="
                 text-3xl
                 font-bold
+
                 text-gray-900
                 dark:text-white
               "
@@ -331,11 +369,13 @@ const ChartBox = () => {
               rounded-2xl
 
               border
-              border-gray-200
+              border-gray-200/70
               dark:border-white/10
 
-              bg-gray-50
+              bg-white/60
               dark:bg-white/[0.04]
+
+              backdrop-blur-xl
 
               p-4
             "
@@ -419,136 +459,130 @@ const ChartBox = () => {
         className="
           relative
           z-10
+
+          flex-1
+          min-h-[350px]
+          sm:min-h-[420px]
         "
       >
 
-        <div
-          className="
-            h-[260px]
-            sm:h-[320px]
-            lg:h-[400px]
-          "
+        <ResponsiveContainer
+          width="100%"
+          height="100%"
         >
 
-          <ResponsiveContainer
-            width="100%"
-            height="100%"
+          <AreaChart
+            data={data}
+            margin={{
+              top: 10,
+              right: 10,
+              left: -20,
+              bottom: 0,
+            }}
           >
 
-            <AreaChart
-              data={data}
-              margin={{
-                top: 10,
-                right: 10,
-                left: -20,
-                bottom: 0,
+            {/* GRADIENT */}
+            <defs>
+
+              <linearGradient
+                id="growthFill"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+
+                <stop
+                  offset="5%"
+                  stopColor="#3b82f6"
+                  stopOpacity={0.45}
+                />
+
+                <stop
+                  offset="95%"
+                  stopColor="#3b82f6"
+                  stopOpacity={0}
+                />
+
+              </linearGradient>
+
+            </defs>
+
+            {/* GRID */}
+            <CartesianGrid
+              strokeDasharray="4 4"
+              vertical={false}
+              stroke="#334155"
+              opacity={0.25}
+            />
+
+            {/* X AXIS */}
+            <XAxis
+              dataKey="name"
+              tick={{
+                fill: "#94a3b8",
+                fontSize: 12,
               }}
-            >
+              axisLine={false}
+              tickLine={false}
+            />
 
-              {/* GRADIENT */}
-              <defs>
+            {/* Y AXIS */}
+            <YAxis
+              width={35}
+              tick={{
+                fill: "#94a3b8",
+                fontSize: 12,
+              }}
+              axisLine={false}
+              tickLine={false}
+            />
 
-                <linearGradient
-                  id="growthFill"
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
+            {/* TOOLTIP */}
+            <Tooltip
+              cursor={{
+                stroke: "#3b82f6",
+                strokeWidth: 1,
+                strokeDasharray:
+                  "5 5",
+              }}
+              contentStyle={{
+                background:
+                  "#0f172a",
+                border:
+                  "1px solid rgba(255,255,255,0.08)",
+                borderRadius:
+                  "18px",
+                color: "#fff",
+                backdropFilter:
+                  "blur(10px)",
+                boxShadow:
+                  "0 10px 30px rgba(0,0,0,0.35)",
+              }}
+              labelStyle={{
+                color: "#fff",
+                fontWeight: 600,
+              }}
+            />
 
-                  <stop
-                    offset="5%"
-                    stopColor="#3b82f6"
-                    stopOpacity={0.45}
-                  />
+            {/* AREA */}
+            <Area
+              type="monotone"
+              dataKey="users"
+              stroke="#3b82f6"
+              strokeWidth={3}
+              fill="url(#growthFill)"
+              activeDot={{
+                r: 7,
+                fill: "#3b82f6",
+                stroke: "#fff",
+                strokeWidth: 2,
+              }}
+            />
 
-                  <stop
-                    offset="95%"
-                    stopColor="#3b82f6"
-                    stopOpacity={0}
-                  />
+          </AreaChart>
 
-                </linearGradient>
-
-              </defs>
-
-              {/* GRID */}
-              <CartesianGrid
-                strokeDasharray="4 4"
-                vertical={false}
-                stroke="#334155"
-                opacity={0.25}
-              />
-
-              {/* X AXIS */}
-              <XAxis
-                dataKey="name"
-                tick={{
-                  fill: "#94a3b8",
-                  fontSize: 12,
-                }}
-                axisLine={false}
-                tickLine={false}
-              />
-
-              {/* Y AXIS */}
-              <YAxis
-                width={35}
-                tick={{
-                  fill: "#94a3b8",
-                  fontSize: 12,
-                }}
-                axisLine={false}
-                tickLine={false}
-              />
-
-              {/* TOOLTIP */}
-              <Tooltip
-                cursor={{
-                  stroke: "#3b82f6",
-                  strokeWidth: 1,
-                  strokeDasharray:
-                    "5 5",
-                }}
-                contentStyle={{
-                  background:
-                    "#0f172a",
-                  border:
-                    "1px solid rgba(255,255,255,0.08)",
-                  borderRadius:
-                    "18px",
-                  color: "#fff",
-                  backdropFilter:
-                    "blur(10px)",
-                  boxShadow:
-                    "0 10px 30px rgba(0,0,0,0.35)",
-                }}
-                labelStyle={{
-                  color: "#fff",
-                  fontWeight: 600,
-                }}
-              />
-
-              {/* AREA */}
-              <Area
-                type="monotone"
-                dataKey="users"
-                stroke="#3b82f6"
-                strokeWidth={3}
-                fill="url(#growthFill)"
-                activeDot={{
-                  r: 7,
-                  fill: "#3b82f6",
-                  stroke: "#fff",
-                  strokeWidth: 2,
-                }}
-              />
-
-            </AreaChart>
-
-          </ResponsiveContainer>
-
-        </div>
+        </ResponsiveContainer>
 
       </div>
 
@@ -558,11 +592,13 @@ const ChartBox = () => {
           relative
           z-10
 
-          mt-6
+          mt-auto
+          pt-6
 
           flex
           flex-col
           sm:flex-row
+
           sm:items-center
           sm:justify-between
 
@@ -577,6 +613,7 @@ const ChartBox = () => {
             gap-2
 
             text-sm
+
             text-gray-500
             dark:text-gray-400
           "
@@ -586,8 +623,10 @@ const ChartBox = () => {
             className="
               w-2.5
               h-2.5
+
               rounded-full
               bg-green-500
+
               animate-pulse
             "
           />
@@ -609,11 +648,6 @@ const ChartBox = () => {
 
             text-sm
             font-medium
-
-            w-full
-            sm:w-auto
-
-            text-center
           "
         >
           Last 7 Days

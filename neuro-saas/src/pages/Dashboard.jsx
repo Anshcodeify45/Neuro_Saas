@@ -442,17 +442,15 @@ const Dashboard = () => {
           <Stats />
 
           {/* CHART + ACTIVITY */}
-          <div
+            <div
   className="
-    relative
-
     grid
     grid-cols-1
     2xl:grid-cols-12
 
     gap-6
 
-    items-start
+    items-stretch
   "
 >
 
@@ -461,55 +459,12 @@ const Dashboard = () => {
     className="
       2xl:col-span-8
       min-w-0
+      h-full
     "
   >
 
-    <div
-      className="
-        relative
-        overflow-hidden
-
-        rounded-[30px]
-
-        border
-        border-gray-200/60
-        dark:border-white/10
-
-        bg-white/70
-        dark:bg-white/[0.03]
-
-        backdrop-blur-2xl
-
-        shadow-[0_10px_40px_rgba(0,0,0,0.08)]
-        dark:shadow-[0_10px_40px_rgba(0,0,0,0.30)]
-
-        p-2
-        sm:p-3
-      "
-    >
-
-      {/* GLOW */}
-      <div
-        className="
-          absolute
-          top-0
-          right-0
-
-          w-72
-          h-72
-
-          bg-blue-500/10
-
-          blur-[100px]
-
-          rounded-full
-        "
-      />
-
-      <div className="relative z-10">
-        <ChartBox />
-      </div>
-
+    <div className="h-full">
+      <ChartBox />
     </div>
 
   </div>
@@ -519,55 +474,12 @@ const Dashboard = () => {
     className="
       2xl:col-span-4
       min-w-0
+      h-full
     "
   >
 
-    <div
-      className="
-        relative
-        overflow-hidden
-
-        rounded-[30px]
-
-        border
-        border-gray-200/60
-        dark:border-white/10
-
-        bg-white/70
-        dark:bg-white/[0.03]
-
-        backdrop-blur-2xl
-
-        shadow-[0_10px_40px_rgba(0,0,0,0.08)]
-        dark:shadow-[0_10px_40px_rgba(0,0,0,0.30)]
-
-        p-2
-        sm:p-3
-      "
-    >
-
-      {/* GLOW */}
-      <div
-        className="
-          absolute
-          bottom-0
-          left-0
-
-          w-60
-          h-60
-
-          bg-purple-500/10
-
-          blur-[100px]
-
-          rounded-full
-        "
-      />
-
-      <div className="relative z-10">
-        <Activity />
-      </div>
-
+    <div className="h-full">
+      <Activity />
     </div>
 
   </div>
