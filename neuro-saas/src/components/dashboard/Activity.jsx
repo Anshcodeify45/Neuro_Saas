@@ -19,6 +19,13 @@ const Activity = () => {
   const [activity, setActivity] =
     useState([]);
 
+  const [loading, setLoading] =
+    useState(true);
+
+  // =========================
+  // FETCH DATA
+  // =========================
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,9 +33,38 @@ const Activity = () => {
           "http://localhost:5000/api/activity"
         );
 
-        setActivity(res.data);
+        console.log(
+          "ACTIVITY API =>",
+          res.data
+        );
+
+        // HANDLE DIFFERENT API FORMATS
+
+        if (Array.isArray(res.data)) {
+          setActivity(res.data);
+        } else if (
+          Array.isArray(
+            res.data.activities
+          )
+        ) {
+          setActivity(
+            res.data.activities
+          );
+        } else if (
+          Array.isArray(res.data.data)
+        ) {
+          setActivity(res.data.data);
+        } else {
+          setActivity([]);
+        }
       } catch (err) {
-        console.log(err);
+        console.log(
+          "ACTIVITY ERROR =>",
+          err.response ||
+            err.message
+        );
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -41,9 +77,11 @@ const Activity = () => {
 
   const groupByDate = (data) => {
     return data.reduce((acc, item) => {
-      const date = new Date(
-        item.createdAt
-      ).toDateString();
+      const date = item.createdAt
+        ? new Date(
+            item.createdAt
+          ).toDateString()
+        : "Unknown";
 
       if (!acc[date]) {
         acc[date] = [];
@@ -169,10 +207,7 @@ const Activity = () => {
         "
       />
 
-      {/* ========================= */}
       {/* HEADER */}
-      {/* ========================= */}
-
       <div
         className="
           relative
@@ -229,7 +264,6 @@ const Activity = () => {
 
         </div>
 
-        {/* LIVE FEED */}
         <div
           className="
             self-start
@@ -250,17 +284,12 @@ const Activity = () => {
             border-blue-500/10
           "
         >
-
           ● Live Feed
-
         </div>
 
       </div>
 
-      {/* ========================= */}
       {/* CONTENT */}
-      {/* ========================= */}
-
       <div
         className="
           relative
@@ -279,8 +308,22 @@ const Activity = () => {
         "
       >
 
-        {Object.keys(grouped)
-          .length === 0 ? (
+        {/* LOADING */}
+        {loading ? (
+          <div
+            className="
+              h-[300px]
+              flex
+              items-center
+              justify-center
+              text-gray-400
+              text-sm
+            "
+          >
+            Loading activity...
+          </div>
+        ) : Object.keys(grouped)
+            .length === 0 ? (
 
           <div
             className="
@@ -363,7 +406,9 @@ const Activity = () => {
                     (a, index) => (
 
                       <motion.div
-                        key={a._id}
+                        key={
+                          a._id || index
+                        }
                         initial={{
                           opacity: 0,
                           x: -10,
@@ -447,24 +492,6 @@ const Activity = () => {
                           "
                         >
 
-                          {/* HOVER GLOW */}
-                          <div
-                            className="
-                              absolute
-                              inset-0
-
-                              opacity-0
-                              group-hover:opacity-100
-
-                              transition-opacity
-                              duration-300
-
-                              bg-gradient-to-r
-                              from-blue-500/5
-                              to-purple-500/5
-                            "
-                          />
-
                           <div className="relative z-10">
 
                             <div
@@ -535,17 +562,19 @@ const Activity = () => {
                                 "
                               >
 
-                                {new Date(
-                                  a.createdAt
-                                ).toLocaleTimeString(
-                                  "en-IN",
-                                  {
-                                    hour:
-                                      "2-digit",
-                                    minute:
-                                      "2-digit",
-                                  }
-                                )}
+                                {a.createdAt
+                                  ? new Date(
+                                      a.createdAt
+                                    ).toLocaleTimeString(
+                                      "en-IN",
+                                      {
+                                        hour:
+                                          "2-digit",
+                                        minute:
+                                          "2-digit",
+                                      }
+                                    )
+                                  : "--:--"}
 
                               </div>
 
