@@ -462,7 +462,7 @@ const Activity = () => {
           p-6
           space-y-8
           custom-scrollbar
-          max-h-[720px]
+          max-h-[600px]
         "
       >
         {/* LOADING */}
