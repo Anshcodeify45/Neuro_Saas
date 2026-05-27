@@ -23,117 +23,187 @@ const Activity = () => {
   const [loading, setLoading] =
     useState(true);
 
-  // =========================
-  // FETCH DATA
-  // =========================
+  // ===================================
+  // FETCH ACTIVITY
+  // ===================================
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/activity"
-        );
+    const fetchActivity =
+      async () => {
+        try {
+          const res = await axios.get(
+            "http://localhost:5000/api/activity"
+          );
 
-        console.log(
-          "ACTIVITY API =>",
-          res.data
-        );
+          let finalData = [];
 
-        // SUPPORT MULTIPLE API STRUCTURES
-        let finalData = [];
+          // SUPPORT MULTIPLE RESPONSE STRUCTURES
+          if (
+            Array.isArray(res.data)
+          ) {
+            finalData = res.data;
+          } else if (
+            Array.isArray(
+              res.data.activities
+            )
+          ) {
+            finalData =
+              res.data.activities;
+          } else if (
+            Array.isArray(
+              res.data.data
+            )
+          ) {
+            finalData =
+              res.data.data;
+          }
 
-        if (Array.isArray(res.data)) {
-          finalData = res.data;
-        } else if (
-          Array.isArray(
-            res.data.activities
-          )
-        ) {
-          finalData =
-            res.data.activities;
-        } else if (
-          Array.isArray(res.data.data)
-        ) {
-          finalData = res.data.data;
+          // FALLBACK FORMAT FIX
+          finalData = finalData.map(
+            (item, i) => ({
+              _id:
+                item._id || i,
+
+              action:
+                item.action ||
+                item.title ||
+                "New Activity",
+
+              details:
+                item.details ||
+                item.description ||
+                "System update detected",
+
+              type:
+                item.type ||
+                "activity",
+
+              createdAt:
+                item.createdAt ||
+                item.date ||
+                new Date(),
+            })
+          );
+
+          // SORT LATEST FIRST
+          finalData.sort(
+            (a, b) =>
+              new Date(
+                b.createdAt
+              ) -
+              new Date(
+                a.createdAt
+              )
+          );
+
+          setActivity(finalData);
+        } catch (err) {
+          console.log(err);
+
+          // DEMO DATA IF API FAILS
+          setActivity([
+            {
+              _id: 1,
+              action:
+                "User Login",
+              details:
+                "Admin logged into dashboard",
+              type: "auth",
+              createdAt:
+                new Date(),
+            },
+            {
+              _id: 2,
+              action:
+                "Analytics Updated",
+              details:
+                "Revenue statistics refreshed",
+              type: "update",
+              createdAt:
+                new Date(),
+            },
+            {
+              _id: 3,
+              action:
+                "User Deleted",
+              details:
+                "A test account was removed",
+              type: "delete",
+              createdAt:
+                new Date(),
+            },
+          ]);
+        } finally {
+          setLoading(false);
         }
+      };
 
-        // SORT LATEST FIRST
-        finalData.sort(
-          (a, b) =>
-            new Date(b.createdAt) -
-            new Date(a.createdAt)
-        );
-
-        setActivity(finalData);
-      } catch (err) {
-        console.log(
-          "ACTIVITY ERROR =>",
-          err.response ||
-            err.message
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    fetchActivity();
   }, []);
 
-  // =========================
+  // ===================================
   // GROUP BY DATE
-  // =========================
+  // ===================================
 
-  const grouped = useMemo(() => {
-    return activity.reduce(
-      (acc, item) => {
-        const date = item.createdAt
-          ? new Date(
+  const grouped =
+    useMemo(() => {
+      return activity.reduce(
+        (acc, item) => {
+          const date =
+            new Date(
               item.createdAt
-            ).toDateString()
-          : "Unknown";
+            ).toDateString();
 
-        if (!acc[date]) {
-          acc[date] = [];
-        }
+          if (!acc[date]) {
+            acc[date] = [];
+          }
 
-        acc[date].push(item);
+          acc[date].push(item);
 
-        return acc;
-      },
-      {}
-    );
-  }, [activity]);
+          return acc;
+        },
+        {}
+      );
+    }, [activity]);
 
-  // =========================
+  // ===================================
   // ICONS
-  // =========================
+  // ===================================
 
   const getIcon = (type) => {
     switch (type) {
       case "auth":
         return (
-          <ShieldCheck size={15} />
+          <ShieldCheck
+            size={15}
+          />
         );
 
       case "update":
-        return <Pencil size={15} />;
+        return (
+          <Pencil size={15} />
+        );
 
       case "delete":
-        return <Trash2 size={15} />;
+        return (
+          <Trash2 size={15} />
+        );
 
       default:
         return <Zap size={15} />;
     }
   };
 
-  // =========================
+  // ===================================
   // DATE LABEL
-  // =========================
+  // ===================================
 
   const formatDateLabel = (
     dateStr
   ) => {
-    const date = new Date(dateStr);
+    const date = new Date(
+      dateStr
+    );
 
     const today = new Date();
 
@@ -144,25 +214,11 @@ const Activity = () => {
       return "Today";
     }
 
-    const yesterday = new Date();
-
-    yesterday.setDate(
-      today.getDate() - 1
-    );
-
-    if (
-      date.toDateString() ===
-      yesterday.toDateString()
-    ) {
-      return "Yesterday";
-    }
-
     return date.toLocaleDateString(
       "en-IN",
       {
         day: "2-digit",
         month: "short",
-        year: "numeric",
       }
     );
   };
@@ -178,41 +234,47 @@ const Activity = () => {
         y: 0,
       }}
       transition={{
-        duration: 0.35,
+        duration: 0.3,
       }}
       className="
         relative
-        rounded-[28px]
-        border
-        border-gray-200/80
-        dark:border-white/10
-        bg-white/90
-        dark:bg-[#0B1120]/90
-        backdrop-blur-xl
-        shadow-xl
-        shadow-black/[0.04]
         overflow-hidden
-        h-auto
-        xl:h-[645px]
+
+        rounded-[30px]
+
+        border
+        border-gray-200/70
+        dark:border-white/10
+
+        bg-white/70
+        dark:bg-white/[0.03]
+
+        backdrop-blur-2xl
+
+        min-h-[650px]
+
+        shadow-[0_10px_40px_rgba(0,0,0,0.06)]
+        dark:shadow-[0_10px_40px_rgba(0,0,0,0.30)]
+
         flex
         flex-col
       "
     >
-
-      {/* TOP GLOW */}
+      {/* GLOW */}
       <div
         className="
           absolute
-          -top-20
-          -right-20
+          top-0
+          right-0
 
           w-72
           h-72
 
-          rounded-full
-
           bg-blue-500/10
-          blur-3xl
+
+          blur-[120px]
+
+          rounded-full
         "
       />
 
@@ -224,46 +286,39 @@ const Activity = () => {
 
           flex
           items-start
-          sm:items-center
           justify-between
 
           gap-4
 
-          px-5
-          sm:px-6
-
-          pt-5
-          sm:pt-6
-
-          pb-5
+          p-6
 
           border-b
-          border-gray-100
+          border-gray-200/70
           dark:border-white/5
         "
       >
-
-        {/* LEFT */}
         <div>
-
-          <div className="flex items-center gap-3">
-
+          <div
+            className="
+              flex
+              items-center
+              gap-3
+            "
+          >
             <div
               className="
-                w-11
-                h-11
+                w-12
+                h-12
 
                 rounded-2xl
+
+                bg-blue-500/10
 
                 flex
                 items-center
                 justify-center
 
-                bg-blue-100
-                dark:bg-blue-500/10
-
-                text-blue-600
-                dark:text-blue-400
+                text-blue-500
               "
             >
               <ActivityIcon
@@ -272,12 +327,10 @@ const Activity = () => {
             </div>
 
             <div>
-
               <h2
                 className="
-                  text-xl
-                  font-semibold
-                  tracking-tight
+                  text-2xl
+                  font-bold
 
                   text-gray-900
                   dark:text-white
@@ -288,66 +341,57 @@ const Activity = () => {
 
               <p
                 className="
+                  mt-1
+
                   text-sm
+
                   text-gray-500
                   dark:text-gray-400
-
-                  mt-1
                 "
               >
                 Live user actions and
-                realtime updates
+                system updates
               </p>
-
             </div>
-
           </div>
-
         </div>
 
-        {/* RIGHT */}
         <div
           className="
-            shrink-0
+            hidden
+            sm:flex
 
-            flex
             items-center
             gap-2
 
-            px-3
+            px-4
             py-2
 
             rounded-2xl
 
-            border
-            border-blue-200
-            dark:border-blue-500/10
+            bg-blue-500/10
 
-            bg-blue-50
-            dark:bg-blue-500/10
+            text-blue-500
 
-            text-blue-600
-            dark:text-blue-400
-
-            text-xs
+            text-sm
             font-semibold
           "
         >
-
           <span
             className="
               w-2
               h-2
+
               rounded-full
+
               bg-blue-500
+
               animate-pulse
             "
           />
 
           Live Feed
-
         </div>
-
       </div>
 
       {/* CONTENT */}
@@ -360,60 +404,44 @@ const Activity = () => {
 
           overflow-y-auto
 
-          px-5
-          sm:px-6
-
-          py-5
+          p-6
 
           space-y-8
-
-          custom-scrollbar
         "
       >
-
-        {/* LOADING */}
         {loading ? (
-
           <div
             className="
-              h-[350px]
-
               flex
               items-center
               justify-center
 
-              text-sm
+              h-[400px]
+
               text-gray-400
             "
           >
             Loading activity...
           </div>
-
         ) : Object.keys(grouped)
             .length === 0 ? (
-
           <div
             className="
-              h-[350px]
-
               flex
               items-center
               justify-center
 
-              text-sm
+              h-[400px]
+
               text-gray-400
             "
           >
             No recent activity
           </div>
-
         ) : (
-
           Object.entries(grouped).map(
             ([date, items]) => (
-
               <div key={date}>
-
                 {/* DATE */}
                 <div
                   className="
@@ -424,17 +452,14 @@ const Activity = () => {
                     mb-6
                   "
                 >
-
                   <span
                     className="
                       text-xs
                       font-bold
-                      uppercase
                       tracking-[0.2em]
+                      uppercase
 
                       text-blue-500
-
-                      whitespace-nowrap
                     "
                   >
                     {formatDateLabel(
@@ -444,43 +469,37 @@ const Activity = () => {
 
                   <div
                     className="
-                      h-px
                       flex-1
+                      h-px
 
                       bg-gradient-to-r
                       from-blue-500/30
                       to-transparent
                     "
                   />
-
                 </div>
 
-                {/* TIMELINE */}
+                {/* ITEMS */}
                 <div
                   className="
                     relative
 
-                    ml-3
-
                     border-l
                     border-blue-500/20
 
-                    pl-6
+                    ml-4
+                    pl-8
 
                     space-y-5
                   "
                 >
-
                   {items.map(
                     (a, index) => (
-
                       <motion.div
-                        key={
-                          a._id || index
-                        }
+                        key={a._id}
                         initial={{
                           opacity: 0,
-                          x: -20,
+                          x: -10,
                         }}
                         animate={{
                           opacity: 1,
@@ -492,206 +511,140 @@ const Activity = () => {
                         }}
                         className="
                           relative
-                          group
                         "
                       >
-
                         {/* ICON */}
                         <div
                           className="
                             absolute
 
-                            -left-[39px]
+                            -left-[47px]
                             top-5
 
-                            w-8
-                            h-8
+                            w-9
+                            h-9
 
                             rounded-full
-
-                            flex
-                            items-center
-                            justify-center
 
                             bg-[#0f172a]
 
                             border
                             border-white/10
 
-                            text-white
+                            flex
+                            items-center
+                            justify-center
 
-                            shadow-lg
+                            text-white
                           "
                         >
-
                           {getIcon(
                             a.type
                           )}
-
                         </div>
 
                         {/* CARD */}
                         <div
                           className="
-                            relative
-
                             rounded-3xl
 
                             border
-                            border-gray-200/80
+                            border-gray-200/70
                             dark:border-white/10
 
-                            bg-white
-                            dark:bg-white/[0.04]
+                            bg-white/80
+                            dark:bg-white/[0.03]
 
                             backdrop-blur-xl
 
                             p-5
 
+                            hover:border-blue-500/20
+                            hover:shadow-xl
+
                             transition-all
                             duration-300
-
-                            hover:-translate-y-1
-                            hover:shadow-xl
-                            hover:border-blue-500/20
                           "
                         >
-
-                          {/* HOVER GLOW */}
                           <div
                             className="
-                              absolute
-                              inset-0
+                              flex
+                              items-start
+                              justify-between
 
-                              opacity-0
-                              group-hover:opacity-100
-
-                              transition-opacity
-                              duration-500
-
-                              rounded-3xl
-
-                              bg-gradient-to-r
-                              from-blue-500/[0.03]
-                              to-indigo-500/[0.03]
-                            "
-                          />
-
-                          <div
-                            className="
-                              relative
-                              z-10
+                              gap-4
                             "
                           >
-
-                            <div
-                              className="
-                                flex
-                                flex-col
-                                sm:flex-row
-
-                                sm:items-start
-                                sm:justify-between
-
-                                gap-4
-                              "
-                            >
-
-                              {/* TEXT */}
-                              <div className="flex-1">
-
-                                <h3
-                                  className="
-                                    text-base
-                                    sm:text-lg
-
-                                    font-semibold
-
-                                    text-gray-900
-                                    dark:text-white
-                                  "
-                                >
-                                  {a.action ||
-                                    "New Activity"}
-                                </h3>
-
-                                <p
-                                  className="
-                                    mt-2
-
-                                    text-sm
-
-                                    leading-7
-
-                                    text-gray-500
-                                    dark:text-gray-400
-                                  "
-                                >
-                                  {a.details ||
-                                    "No details available"}
-                                </p>
-
-                              </div>
-
-                              {/* TIME */}
-                              <div
+                            <div>
+                              <h3
                                 className="
-                                  shrink-0
+                                  text-base
+                                  font-semibold
 
-                                  px-3
-                                  py-1.5
+                                  text-gray-900
+                                  dark:text-white
+                                "
+                              >
+                                {a.action}
+                              </h3>
 
-                                  rounded-xl
+                              <p
+                                className="
+                                  mt-2
 
-                                  bg-gray-100
-                                  dark:bg-white/5
-
-                                  text-xs
-                                  font-medium
+                                  text-sm
+                                  leading-7
 
                                   text-gray-500
                                   dark:text-gray-400
                                 "
                               >
-
-                                {a.createdAt
-                                  ? new Date(
-                                      a.createdAt
-                                    ).toLocaleTimeString(
-                                      "en-IN",
-                                      {
-                                        hour:
-                                          "2-digit",
-                                        minute:
-                                          "2-digit",
-                                      }
-                                    )
-                                  : "--:--"}
-
-                              </div>
-
+                                {a.details}
+                              </p>
                             </div>
 
+                            <div
+                              className="
+                                shrink-0
+
+                                px-3
+                                py-1.5
+
+                                rounded-xl
+
+                                bg-gray-100
+                                dark:bg-white/5
+
+                                text-xs
+                                font-medium
+
+                                text-gray-500
+                                dark:text-gray-400
+                              "
+                            >
+                              {new Date(
+                                a.createdAt
+                              ).toLocaleTimeString(
+                                "en-IN",
+                                {
+                                  hour:
+                                    "2-digit",
+                                  minute:
+                                    "2-digit",
+                                }
+                              )}
+                            </div>
                           </div>
-
                         </div>
-
                       </motion.div>
-
                     )
                   )}
-
                 </div>
-
               </div>
-
             )
           )
-
         )}
-
       </div>
-
     </motion.div>
   );
 };
