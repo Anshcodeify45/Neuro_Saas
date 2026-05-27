@@ -239,7 +239,7 @@ const Activity = () => {
       className="
         relative
         overflow-hidden
-        min-h-[620px]
+        min-h-[600px]
         flex
         flex-col
       "
