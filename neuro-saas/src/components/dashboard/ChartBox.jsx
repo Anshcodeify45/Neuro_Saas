@@ -1,4 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import {
   AreaChart,
@@ -16,62 +20,150 @@ import {
   TrendingUp,
   Users,
   Activity,
+  ArrowUpRight,
 } from "lucide-react";
 
 import { getUserTrend } from "../../api/chartApi";
 
 const ChartBox = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] =
+    useState(true);
+
+  // =========================
+  // FETCH DATA
+  // =========================
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await getUserTrend();
-        setData(res.data);
+        const res =
+          await getUserTrend();
+
+        if (
+          Array.isArray(res.data)
+        ) {
+          setData(res.data);
+        } else {
+          setData([]);
+        }
       } catch (err) {
         console.log(err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
+  // =========================
   // TOTAL USERS
-  const totalUsers = data.reduce((acc, item) => {
-    return acc + item.users;
-  }, 0);
+  // =========================
 
+  const totalUsers =
+    useMemo(() => {
+      return data.reduce(
+        (acc, item) =>
+          acc + item.users,
+        0
+      );
+    }, [data]);
+
+  // =========================
   // GROWTH %
+  // =========================
+
   const growth =
-    data.length > 1
-      ? (
-          ((data[data.length - 1]?.users -
-            data[0]?.users) /
-            data[0]?.users) *
-          100
-        ).toFixed(1)
-      : 0;
+    useMemo(() => {
+      if (data.length < 2)
+        return 0;
+
+      const first =
+        data[0]?.users || 0;
+
+      const last =
+        data[data.length - 1]
+          ?.users || 0;
+
+      if (first === 0)
+        return 0;
+
+      return (
+        ((last - first) /
+          first) *
+        100
+      ).toFixed(1);
+    }, [data]);
+
+  // =========================
+  // LOADING STATE
+  // =========================
+
+  if (loading) {
+    return (
+      <div
+        className="
+          rounded-3xl
+          border
+          border-gray-200
+          dark:border-white/10
+          bg-white
+          dark:bg-[#081028]
+          p-6
+          h-[500px]
+          flex
+          items-center
+          justify-center
+        "
+      >
+        <div
+          className="
+            w-10
+            h-10
+            border-4
+            border-blue-500/20
+            border-t-blue-500
+            rounded-full
+            animate-spin
+          "
+        />
+      </div>
+    );
+  }
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      initial={{
+        opacity: 0,
+        y: 20,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      transition={{
+        duration: 0.35,
+      }}
       className="
         relative
         overflow-hidden
-        rounded-2xl
-        md:rounded-3xl
+
+        rounded-3xl
+
         border
         border-gray-200
         dark:border-white/10
+
         bg-white
-        dark:bg-white/[0.03]
-        backdrop-blur-xl
-        shadow-[0_10px_40px_rgba(0,0,0,0.12)]
+        dark:bg-[#081028]
+
+        shadow-sm
+        dark:shadow-[0_10px_40px_rgba(0,0,0,0.45)]
+
         p-4
         sm:p-5
-        md:p-6
+        lg:p-7
       "
     >
 
@@ -79,14 +171,12 @@ const ChartBox = () => {
       <div
         className="
           absolute
-          top-0
-          right-0
-          w-40
-          h-40
-          sm:w-60
-          sm:h-60
-          md:w-80
-          md:h-80
+          -top-10
+          -right-10
+
+          w-72
+          h-72
+
           bg-blue-500/10
           blur-[100px]
           rounded-full
@@ -98,107 +188,124 @@ const ChartBox = () => {
         className="
           relative
           z-10
+
           flex
           flex-col
           xl:flex-row
-          xl:items-center
+          xl:items-start
           xl:justify-between
+
           gap-5
-          mb-6
-          md:mb-8
+          mb-7
         "
       >
 
-        {/* TITLE */}
-        <div className="w-full">
+        {/* LEFT */}
+        <div className="flex gap-4">
 
-          <div className="flex items-start sm:items-center gap-3">
+          <div
+            className="
+              w-14
+              h-14
 
-            <div
+              rounded-2xl
+
+              bg-blue-500/10
+
+              flex
+              items-center
+              justify-center
+
+              text-blue-500
+
+              shrink-0
+            "
+          >
+
+            <TrendingUp size={24} />
+
+          </div>
+
+          <div>
+
+            <h2
               className="
-                p-2.5
-                sm:p-3
-                rounded-2xl
-                bg-blue-500/10
-                text-blue-500
-                shrink-0
+                text-2xl
+                font-bold
+                text-gray-900
+                dark:text-white
+                leading-tight
               "
             >
-              <TrendingUp size={20} />
-            </div>
+              User Growth Analytics
+            </h2>
 
-            <div className="min-w-0">
+            <p
+              className="
+                mt-1
 
-              <h2
-                className="
-                  text-lg
-                  sm:text-xl
-                  md:text-2xl
-                  font-semibold
-                  text-gray-900
-                  dark:text-white
-                  leading-tight
-                "
-              >
-                User Growth Analytics
-              </h2>
-
-              <p
-                className="
-                  text-xs
-                  sm:text-sm
-                  text-gray-500
-                  dark:text-gray-400
-                  mt-1
-                  leading-relaxed
-                "
-              >
-                Real-time growth overview and engagement
-              </p>
-
-            </div>
+                text-sm
+                text-gray-500
+                dark:text-gray-400
+              "
+            >
+              Real-time growth overview
+              and engagement
+            </p>
 
           </div>
 
         </div>
 
-        {/* STATS */}
+        {/* RIGHT STATS */}
         <div
           className="
             grid
             grid-cols-1
             sm:grid-cols-2
-            gap-3
+            gap-4
             w-full
             xl:w-auto
           "
         >
 
-          {/* TOTAL USERS */}
+          {/* USERS */}
           <div
             className="
+              min-w-[180px]
+
               rounded-2xl
+
               border
               border-gray-200
               dark:border-white/10
+
               bg-gray-50
-              dark:bg-white/[0.03]
-              px-4
-              py-4
-              sm:min-w-[160px]
+              dark:bg-white/[0.04]
+
+              p-4
             "
           >
 
-            <div className="flex items-center gap-2 mb-2">
+            <div
+              className="
+                flex
+                items-center
+                gap-2
+                mb-3
+              "
+            >
 
               <Users
-                size={16}
-                className="text-blue-500"
+                size={17}
+                className="
+                  text-blue-500
+                "
               />
 
               <span
                 className="
-                  text-xs
+                  text-sm
                   text-gray-500
                   dark:text-gray-400
                 "
@@ -210,8 +317,7 @@ const ChartBox = () => {
 
             <h3
               className="
-                text-2xl
-                sm:text-3xl
+                text-3xl
                 font-bold
                 text-gray-900
                 dark:text-white
@@ -225,28 +331,40 @@ const ChartBox = () => {
           {/* GROWTH */}
           <div
             className="
+              min-w-[180px]
+
               rounded-2xl
+
               border
               border-gray-200
               dark:border-white/10
+
               bg-gray-50
-              dark:bg-white/[0.03]
-              px-4
-              py-4
-              sm:min-w-[160px]
+              dark:bg-white/[0.04]
+
+              p-4
             "
           >
 
-            <div className="flex items-center gap-2 mb-2">
+            <div
+              className="
+                flex
+                items-center
+                gap-2
+                mb-3
+              "
+            >
 
               <Activity
-                size={16}
-                className="text-green-500"
+                size={17}
+                className="
+                  text-green-500
+                "
               />
 
               <span
                 className="
-                  text-xs
+                  text-sm
                   text-gray-500
                   dark:text-gray-400
                 "
@@ -256,16 +374,44 @@ const ChartBox = () => {
 
             </div>
 
-            <h3
+            <div
               className="
-                text-2xl
-                sm:text-3xl
-                font-bold
-                text-green-500
+                flex
+                items-center
+                gap-2
               "
             >
-              +{growth}%
-            </h3>
+
+              <h3
+                className={`
+                  text-3xl
+                  font-bold
+
+                  ${
+                    growth >= 0
+                      ? "text-green-500"
+                      : "text-red-500"
+                  }
+                `}
+              >
+                {growth >= 0
+                  ? "+"
+                  : ""}
+                {growth}%
+              </h3>
+
+              <ArrowUpRight
+                size={18}
+                className={`
+                  ${
+                    growth >= 0
+                      ? "text-green-500"
+                      : "text-red-500 rotate-90"
+                  }
+                `}
+              />
+
+            </div>
 
           </div>
 
@@ -274,9 +420,20 @@ const ChartBox = () => {
       </div>
 
       {/* CHART */}
-      <div className="relative z-10">
+      <div
+        className="
+          relative
+          z-10
+        "
+      >
 
-        <div className="h-[260px] sm:h-[320px] md:h-[360px]">
+        <div
+          className="
+            h-[260px]
+            sm:h-[320px]
+            lg:h-[400px]
+          "
+        >
 
           <ResponsiveContainer
             width="100%"
@@ -288,7 +445,7 @@ const ChartBox = () => {
               margin={{
                 top: 10,
                 right: 10,
-                left: -25,
+                left: -20,
                 bottom: 0,
               }}
             >
@@ -297,7 +454,7 @@ const ChartBox = () => {
               <defs>
 
                 <linearGradient
-                  id="usersGradient"
+                  id="growthFill"
                   x1="0"
                   y1="0"
                   x2="0"
@@ -307,7 +464,7 @@ const ChartBox = () => {
                   <stop
                     offset="5%"
                     stopColor="#3b82f6"
-                    stopOpacity={0.4}
+                    stopOpacity={0.45}
                   />
 
                   <stop
@@ -322,10 +479,10 @@ const ChartBox = () => {
 
               {/* GRID */}
               <CartesianGrid
-                strokeDasharray="3 3"
+                strokeDasharray="4 4"
                 vertical={false}
-                stroke="#1e293b"
-                opacity={0.3}
+                stroke="#334155"
+                opacity={0.25}
               />
 
               {/* X AXIS */}
@@ -333,7 +490,7 @@ const ChartBox = () => {
                 dataKey="name"
                 tick={{
                   fill: "#94a3b8",
-                  fontSize: 11,
+                  fontSize: 12,
                 }}
                 axisLine={false}
                 tickLine={false}
@@ -341,13 +498,13 @@ const ChartBox = () => {
 
               {/* Y AXIS */}
               <YAxis
+                width={35}
                 tick={{
                   fill: "#94a3b8",
-                  fontSize: 11,
+                  fontSize: 12,
                 }}
                 axisLine={false}
                 tickLine={false}
-                width={35}
               />
 
               {/* TOOLTIP */}
@@ -355,21 +512,24 @@ const ChartBox = () => {
                 cursor={{
                   stroke: "#3b82f6",
                   strokeWidth: 1,
-                  strokeDasharray: "5 5",
+                  strokeDasharray:
+                    "5 5",
                 }}
                 contentStyle={{
-                  background: "#0f172a",
+                  background:
+                    "#0f172a",
                   border:
                     "1px solid rgba(255,255,255,0.08)",
-                  borderRadius: "18px",
+                  borderRadius:
+                    "18px",
                   color: "#fff",
-                  backdropFilter: "blur(12px)",
+                  backdropFilter:
+                    "blur(10px)",
                   boxShadow:
-                    "0 10px 40px rgba(0,0,0,0.35)",
+                    "0 10px 30px rgba(0,0,0,0.35)",
                 }}
                 labelStyle={{
                   color: "#fff",
-                  marginBottom: "6px",
                   fontWeight: 600,
                 }}
               />
@@ -380,13 +540,12 @@ const ChartBox = () => {
                 dataKey="users"
                 stroke="#3b82f6"
                 strokeWidth={3}
-                fillOpacity={1}
-                fill="url(#usersGradient)"
+                fill="url(#growthFill)"
                 activeDot={{
-                  r: 6,
-                  strokeWidth: 2,
+                  r: 7,
                   fill: "#3b82f6",
                   stroke: "#fff",
+                  strokeWidth: 2,
                 }}
               />
 
@@ -403,12 +562,15 @@ const ChartBox = () => {
         className="
           relative
           z-10
+
           mt-6
+
           flex
           flex-col
           sm:flex-row
           sm:items-center
           sm:justify-between
+
           gap-4
         "
       >
@@ -418,8 +580,8 @@ const ChartBox = () => {
             flex
             items-center
             gap-2
-            text-xs
-            sm:text-sm
+
+            text-sm
             text-gray-500
             dark:text-gray-400
           "
@@ -435,22 +597,28 @@ const ChartBox = () => {
             "
           />
 
-          Analytics updated in real-time
+          Analytics updated in
+          real-time
 
         </div>
 
         <div
           className="
-            w-full
-            sm:w-auto
-            text-center
             px-4
-            py-2.5
+            py-2
+
             rounded-xl
+
             bg-blue-500/10
             text-blue-500
+
             text-sm
             font-medium
+
+            w-full
+            sm:w-auto
+
+            text-center
           "
         >
           Last 7 Days

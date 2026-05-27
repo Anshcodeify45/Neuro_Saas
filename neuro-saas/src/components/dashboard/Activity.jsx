@@ -1,5 +1,6 @@
 import React, {
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -38,25 +39,32 @@ const Activity = () => {
           res.data
         );
 
-        // HANDLE DIFFERENT API FORMATS
+        // SUPPORT MULTIPLE API STRUCTURES
+        let finalData = [];
 
         if (Array.isArray(res.data)) {
-          setActivity(res.data);
+          finalData = res.data;
         } else if (
           Array.isArray(
             res.data.activities
           )
         ) {
-          setActivity(
-            res.data.activities
-          );
+          finalData =
+            res.data.activities;
         } else if (
           Array.isArray(res.data.data)
         ) {
-          setActivity(res.data.data);
-        } else {
-          setActivity([]);
+          finalData = res.data.data;
         }
+
+        // SORT LATEST FIRST
+        finalData.sort(
+          (a, b) =>
+            new Date(b.createdAt) -
+            new Date(a.createdAt)
+        );
+
+        setActivity(finalData);
       } catch (err) {
         console.log(
           "ACTIVITY ERROR =>",
@@ -75,26 +83,26 @@ const Activity = () => {
   // GROUP BY DATE
   // =========================
 
-  const groupByDate = (data) => {
-    return data.reduce((acc, item) => {
-      const date = item.createdAt
-        ? new Date(
-            item.createdAt
-          ).toDateString()
-        : "Unknown";
+  const grouped = useMemo(() => {
+    return activity.reduce(
+      (acc, item) => {
+        const date = item.createdAt
+          ? new Date(
+              item.createdAt
+            ).toDateString()
+          : "Unknown";
 
-      if (!acc[date]) {
-        acc[date] = [];
-      }
+        if (!acc[date]) {
+          acc[date] = [];
+        }
 
-      acc[date].push(item);
+        acc[date].push(item);
 
-      return acc;
-    }, {});
-  };
-
-  const grouped =
-    groupByDate(activity);
+        return acc;
+      },
+      {}
+    );
+  }, [activity]);
 
   // =========================
   // ICONS
@@ -104,17 +112,17 @@ const Activity = () => {
     switch (type) {
       case "auth":
         return (
-          <ShieldCheck size={16} />
+          <ShieldCheck size={15} />
         );
 
       case "update":
-        return <Pencil size={16} />;
+        return <Pencil size={15} />;
 
       case "delete":
-        return <Trash2 size={16} />;
+        return <Trash2 size={15} />;
 
       default:
-        return <Zap size={16} />;
+        return <Zap size={15} />;
     }
   };
 
@@ -163,47 +171,54 @@ const Activity = () => {
     <motion.div
       initial={{
         opacity: 0,
-        y: 10,
+        y: 20,
       }}
       animate={{
         opacity: 1,
         y: 0,
       }}
       transition={{
-        duration: 0.3,
+        duration: 0.35,
       }}
       className="
         relative
-        overflow-hidden
-        rounded-3xl
+        rounded-[28px]
         border
-        border-gray-200
+        border-gray-200/80
         dark:border-white/10
-        bg-white
-        dark:bg-white/[0.03]
-        backdrop-blur-xl
-        shadow-[0_10px_40px_rgba(0,0,0,0.12)]
 
-        p-4
-        sm:p-5
-        lg:p-6
+        bg-white/90
+        dark:bg-[#0B1120]/90
+
+        backdrop-blur-xl
+
+        shadow-xl
+        shadow-black/[0.04]
+
+        overflow-hidden
 
         h-auto
-        lg:h-[570px]
+        xl:h-[720px]
+
+        flex
+        flex-col
       "
     >
 
-      {/* GLOW */}
+      {/* TOP GLOW */}
       <div
         className="
           absolute
-          top-0
-          right-0
-          w-64
-          h-64
-          bg-blue-500/10
-          blur-[100px]
+          -top-20
+          -right-20
+
+          w-72
+          h-72
+
           rounded-full
+
+          bg-blue-500/10
+          blur-3xl
         "
       />
 
@@ -214,77 +229,129 @@ const Activity = () => {
           z-10
 
           flex
-          flex-col
-          sm:flex-row
-
+          items-start
           sm:items-center
-          sm:justify-between
+          justify-between
 
           gap-4
-          mb-6
+
+          px-5
+          sm:px-6
+
+          pt-5
+          sm:pt-6
+
+          pb-5
+
+          border-b
+          border-gray-100
+          dark:border-white/5
         "
       >
 
+        {/* LEFT */}
         <div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
 
-            <ActivityIcon
-              size={20}
+            <div
               className="
-                text-blue-500
-              "
-            />
+                w-11
+                h-11
 
-            <h2
-              className="
-                text-lg
-                sm:text-xl
-                font-semibold
-                text-gray-900
-                dark:text-white
+                rounded-2xl
+
+                flex
+                items-center
+                justify-center
+
+                bg-blue-100
+                dark:bg-blue-500/10
+
+                text-blue-600
+                dark:text-blue-400
               "
             >
-              Recent Activity
-            </h2>
+              <ActivityIcon
+                size={20}
+              />
+            </div>
+
+            <div>
+
+              <h2
+                className="
+                  text-xl
+                  font-semibold
+                  tracking-tight
+
+                  text-gray-900
+                  dark:text-white
+                "
+              >
+                Recent Activity
+              </h2>
+
+              <p
+                className="
+                  text-sm
+                  text-gray-500
+                  dark:text-gray-400
+
+                  mt-1
+                "
+              >
+                Live user actions and
+                realtime updates
+              </p>
+
+            </div>
 
           </div>
 
-          <p
-            className="
-              text-sm
-              text-gray-500
-              dark:text-gray-400
-              mt-1
-            "
-          >
-            Live user actions and
-            realtime system updates
-          </p>
-
         </div>
 
+        {/* RIGHT */}
         <div
           className="
-            self-start
-            sm:self-auto
+            shrink-0
+
+            flex
+            items-center
+            gap-2
 
             px-3
-            py-1.5
+            py-2
 
-            rounded-xl
-
-            bg-blue-500/10
-            text-blue-500
-
-            text-xs
-            font-medium
+            rounded-2xl
 
             border
-            border-blue-500/10
+            border-blue-200
+            dark:border-blue-500/10
+
+            bg-blue-50
+            dark:bg-blue-500/10
+
+            text-blue-600
+            dark:text-blue-400
+
+            text-xs
+            font-semibold
           "
         >
-          ● Live Feed
+
+          <span
+            className="
+              w-2
+              h-2
+              rounded-full
+              bg-blue-500
+              animate-pulse
+            "
+          />
+
+          Live Feed
+
         </div>
 
       </div>
@@ -295,14 +362,16 @@ const Activity = () => {
           relative
           z-10
 
-          space-y-8
+          flex-1
 
           overflow-y-auto
 
-          lg:h-[470px]
+          px-5
+          sm:px-6
 
-          pr-1
-          sm:pr-2
+          py-5
+
+          space-y-8
 
           custom-scrollbar
         "
@@ -310,29 +379,35 @@ const Activity = () => {
 
         {/* LOADING */}
         {loading ? (
+
           <div
             className="
-              h-[300px]
+              h-[350px]
+
               flex
               items-center
               justify-center
-              text-gray-400
+
               text-sm
+              text-gray-400
             "
           >
             Loading activity...
           </div>
+
         ) : Object.keys(grouped)
             .length === 0 ? (
 
           <div
             className="
-              h-[300px]
+              h-[350px]
+
               flex
               items-center
               justify-center
-              text-gray-400
+
               text-sm
+              text-gray-400
             "
           >
             No recent activity
@@ -351,30 +426,33 @@ const Activity = () => {
                     flex
                     items-center
                     gap-3
-                    mb-5
+
+                    mb-6
                   "
                 >
 
-                  <div
+                  <span
                     className="
-                      text-[11px]
-                      sm:text-xs
-                      font-semibold
+                      text-xs
+                      font-bold
                       uppercase
-                      tracking-wider
+                      tracking-[0.2em]
+
                       text-blue-500
+
                       whitespace-nowrap
                     "
                   >
                     {formatDateLabel(
                       date
                     )}
-                  </div>
+                  </span>
 
                   <div
                     className="
-                      flex-1
                       h-px
+                      flex-1
+
                       bg-gradient-to-r
                       from-blue-500/30
                       to-transparent
@@ -388,17 +466,14 @@ const Activity = () => {
                   className="
                     relative
 
-                    ml-2
-                    sm:ml-3
+                    ml-3
 
                     border-l
                     border-blue-500/20
 
-                    pl-5
-                    sm:pl-8
+                    pl-6
 
-                    space-y-4
-                    sm:space-y-5
+                    space-y-5
                   "
                 >
 
@@ -411,7 +486,7 @@ const Activity = () => {
                         }
                         initial={{
                           opacity: 0,
-                          x: -10,
+                          x: -20,
                         }}
                         animate={{
                           opacity: 1,
@@ -432,26 +507,22 @@ const Activity = () => {
                           className="
                             absolute
 
-                            -left-[35px]
-                            sm:-left-[45px]
+                            -left-[39px]
+                            top-5
 
-                            top-2
-
-                            w-7
-                            h-7
-                            sm:w-8
-                            sm:h-8
+                            w-8
+                            h-8
 
                             rounded-full
-
-                            border
-                            border-white/10
-
-                            bg-[#0f172a]
 
                             flex
                             items-center
                             justify-center
+
+                            bg-[#0f172a]
+
+                            border
+                            border-white/10
 
                             text-white
 
@@ -469,30 +540,55 @@ const Activity = () => {
                         <div
                           className="
                             relative
-                            overflow-hidden
 
-                            rounded-2xl
+                            rounded-3xl
 
                             border
-                            border-gray-200
+                            border-gray-200/80
                             dark:border-white/10
 
-                            bg-gray-50
-                            dark:bg-white/[0.03]
+                            bg-white
+                            dark:bg-white/[0.04]
 
                             backdrop-blur-xl
 
-                            p-4
+                            p-5
 
                             transition-all
                             duration-300
 
-                            hover:border-blue-500/30
-                            hover:bg-blue-500/[0.03]
+                            hover:-translate-y-1
+                            hover:shadow-xl
+                            hover:border-blue-500/20
                           "
                         >
 
-                          <div className="relative z-10">
+                          {/* HOVER GLOW */}
+                          <div
+                            className="
+                              absolute
+                              inset-0
+
+                              opacity-0
+                              group-hover:opacity-100
+
+                              transition-opacity
+                              duration-500
+
+                              rounded-3xl
+
+                              bg-gradient-to-r
+                              from-blue-500/[0.03]
+                              to-indigo-500/[0.03]
+                            "
+                          />
+
+                          <div
+                            className="
+                              relative
+                              z-10
+                            "
+                          >
 
                             <div
                               className="
@@ -503,7 +599,7 @@ const Activity = () => {
                                 sm:items-start
                                 sm:justify-between
 
-                                gap-3
+                                gap-4
                               "
                             >
 
@@ -512,30 +608,33 @@ const Activity = () => {
 
                                 <h3
                                   className="
+                                    text-base
+                                    sm:text-lg
+
                                     font-semibold
-                                    text-sm
-                                    sm:text-base
+
                                     text-gray-900
                                     dark:text-white
                                   "
                                 >
-                                  {a.action}
+                                  {a.action ||
+                                    "New Activity"}
                                 </h3>
 
                                 <p
                                   className="
-                                    text-xs
-                                    sm:text-sm
+                                    mt-2
+
+                                    text-sm
+
+                                    leading-7
 
                                     text-gray-500
                                     dark:text-gray-400
-
-                                    mt-1
-
-                                    leading-relaxed
                                   "
                                 >
-                                  {a.details}
+                                  {a.details ||
+                                    "No details available"}
                                 </p>
 
                               </div>
@@ -543,22 +642,21 @@ const Activity = () => {
                               {/* TIME */}
                               <div
                                 className="
-                                  self-start
+                                  shrink-0
 
-                                  whitespace-nowrap
+                                  px-3
+                                  py-1.5
 
-                                  text-[11px]
-                                  sm:text-xs
-
-                                  text-gray-400
+                                  rounded-xl
 
                                   bg-gray-100
                                   dark:bg-white/5
 
-                                  px-2.5
-                                  py-1
+                                  text-xs
+                                  font-medium
 
-                                  rounded-lg
+                                  text-gray-500
+                                  dark:text-gray-400
                                 "
                               >
 

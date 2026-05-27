@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
 
 import {
   Users,
   DollarSign,
   TrendingUp,
+  ArrowUpRight,
 } from "lucide-react";
 
 import { motion } from "framer-motion";
 
 import { getStats } from "../../api/analyticsApi";
-
-import GlassCard from "./GlassCard";
 
 const Stats = () => {
   const [stats, setStats] =
@@ -22,7 +24,8 @@ const Stats = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await getStats();
+        const res =
+          await getStats();
 
         setStats(res.data);
       } catch (err) {
@@ -35,15 +38,25 @@ const Stats = () => {
     fetchStats();
   }, []);
 
+  // =========================
+  // STATS DATA
+  // =========================
+
   const data = [
     {
       title: "Total Users",
       value:
         stats?.totalUsers || 0,
-      icon: <Users size={20} />,
-      color: "text-blue-600",
-      bg: "bg-blue-50 dark:bg-blue-500/10",
+      icon: (
+        <Users size={22} />
+      ),
+      iconColor:
+        "text-blue-500",
+      iconBg:
+        "bg-blue-500/10",
       growth: "+12.5%",
+      chartColor:
+        "from-blue-500/20",
     },
     {
       title: "Revenue",
@@ -51,11 +64,15 @@ const Stats = () => {
         stats?.revenue || 0
       }`,
       icon: (
-        <DollarSign size={20} />
+        <DollarSign size={22} />
       ),
-      color: "text-green-600",
-      bg: "bg-green-50 dark:bg-green-500/10",
+      iconColor:
+        "text-green-500",
+      iconBg:
+        "bg-green-500/10",
       growth: "+8.2%",
+      chartColor:
+        "from-green-500/20",
     },
     {
       title: "Growth",
@@ -63,12 +80,15 @@ const Stats = () => {
         stats?.growth || 0
       }%`,
       icon: (
-        <TrendingUp size={20} />
+        <TrendingUp size={22} />
       ),
-      color:
-        "text-purple-600",
-      bg: "bg-purple-50 dark:bg-purple-500/10",
+      iconColor:
+        "text-purple-500",
+      iconBg:
+        "bg-purple-500/10",
       growth: "+4.8%",
+      chartColor:
+        "from-purple-500/20",
     },
   ];
 
@@ -79,8 +99,7 @@ const Stats = () => {
         grid-cols-1
         sm:grid-cols-2
         xl:grid-cols-3
-        gap-4
-        sm:gap-5
+        gap-5
       "
     >
 
@@ -89,158 +108,282 @@ const Stats = () => {
           key={i}
           initial={{
             opacity: 0,
-            y: 15,
+            y: 20,
           }}
           animate={{
             opacity: 1,
             y: 0,
           }}
           transition={{
-            delay: i * 0.1,
+            duration: 0.35,
+            delay: i * 0.08,
           }}
+          whileHover={{
+            y: -5,
+          }}
+          className="
+            relative
+            overflow-hidden
+
+            rounded-3xl
+
+            border
+            border-gray-200
+            dark:border-white/10
+
+            bg-white
+            dark:bg-[#081028]
+
+            backdrop-blur-xl
+
+            shadow-[0_10px_40px_rgba(0,0,0,0.08)]
+            dark:shadow-[0_10px_40px_rgba(0,0,0,0.35)]
+
+            p-5
+            sm:p-6
+
+            min-h-[190px]
+          "
         >
 
-          <GlassCard
+          {/* ========================= */}
+          {/* BACKGROUND GLOW */}
+          {/* ========================= */}
+
+          <div
+            className={`
+              absolute
+              -top-10
+              -right-10
+
+              w-40
+              h-40
+
+              rounded-full
+
+              blur-3xl
+
+              bg-gradient-to-br
+              ${item.chartColor}
+              to-transparent
+
+              opacity-70
+            `}
+          />
+
+          {/* ========================= */}
+          {/* TOP */}
+          {/* ========================= */}
+
+          <div
             className="
               relative
-              overflow-hidden
-              p-4
-              sm:p-5
-              lg:p-6
-              min-h-[170px]
+              z-10
+
+              flex
+              items-start
+              justify-between
             "
           >
 
-            {/* GLOW */}
-            <div
-              className="
-                absolute
-                top-0
-                right-0
-                w-24
-                sm:w-32
-                h-24
-                sm:h-32
-                bg-blue-500/10
-                blur-3xl
-                rounded-full
-              "
-            />
+            {/* LEFT */}
 
-            {/* CONTENT */}
-            <div
-              className="
-                relative
-                z-10
-                flex
-                items-start
-                justify-between
-                gap-4
-              "
-            >
+            <div>
 
-              {/* LEFT */}
-              <div className="flex-1 min-w-0">
+              <p
+                className="
+                  text-sm
+                  font-medium
+                  text-gray-500
+                  dark:text-gray-400
+                "
+              >
+                {item.title}
+              </p>
 
-                <p
-                  className="
-                    text-xs
-                    sm:text-sm
-                    font-medium
-                    text-gray-500
-                    dark:text-gray-400
-                  "
-                >
-                  {item.title}
-                </p>
-
-                {loading ? (
-                  <div
-                    className="
-                      mt-4
-                      h-8
-                      w-24
-                      rounded-lg
-                      bg-gray-200
-                      dark:bg-white/10
-                      animate-pulse
-                    "
-                  />
-                ) : (
-                  <h2
-                    className="
-                      mt-3
-                      text-2xl
-                      sm:text-3xl
-                      font-bold
-                      text-gray-900
-                      dark:text-white
-                      break-words
-                    "
-                  >
-                    {item.value}
-                  </h2>
-                )}
-
+              {loading ? (
                 <div
                   className="
+                    mt-5
+                    h-10
+                    w-28
+
+                    rounded-xl
+
+                    bg-gray-200
+                    dark:bg-white/10
+
+                    animate-pulse
+                  "
+                />
+              ) : (
+                <h2
+                  className="
                     mt-4
-                    inline-flex
-                    items-center
-                    gap-1
-                    rounded-full
-                    bg-green-500/10
-                    px-3
-                    py-1
+
+                    text-3xl
+                    sm:text-4xl
+
+                    font-bold
+
+                    tracking-tight
+
+                    text-gray-900
+                    dark:text-white
                   "
                 >
-
-                  <TrendingUp
-                    size={12}
-                    className="
-                      text-green-500
-                    "
-                  />
-
-                  <p
-                    className="
-                      text-[11px]
-                      sm:text-xs
-                      font-medium
-                      text-green-500
-                    "
-                  >
-                    {item.growth} growth
-                  </p>
-
-                </div>
-
-              </div>
-
-              {/* ICON */}
-              <div
-                className={`
-                  ${item.bg}
-                  ${item.color}
-
-                  w-12
-                  h-12
-                  sm:w-14
-                  sm:h-14
-
-                  rounded-2xl
-                  flex
-                  items-center
-                  justify-center
-                  shrink-0
-                `}
-              >
-                {item.icon}
-              </div>
+                  {item.value}
+                </h2>
+              )}
 
             </div>
 
-          </GlassCard>
+            {/* ICON */}
+
+            <div
+              className={`
+                ${item.iconBg}
+                ${item.iconColor}
+
+                w-14
+                h-14
+
+                rounded-2xl
+
+                flex
+                items-center
+                justify-center
+
+                shadow-lg
+              `}
+            >
+              {item.icon}
+            </div>
+
+          </div>
+
+          {/* ========================= */}
+          {/* BOTTOM */}
+          {/* ========================= */}
+
+          <div
+            className="
+              relative
+              z-10
+
+              mt-8
+
+              flex
+              items-center
+              justify-between
+              gap-3
+            "
+          >
+
+            {/* GROWTH */}
+
+            <div
+              className="
+                inline-flex
+                items-center
+                gap-2
+
+                rounded-full
+
+                bg-green-500/10
+
+                px-3
+                py-1.5
+              "
+            >
+
+              <ArrowUpRight
+                size={14}
+                className="
+                  text-green-500
+                "
+              />
+
+              <span
+                className="
+                  text-xs
+                  sm:text-sm
+
+                  font-semibold
+
+                  text-green-500
+                "
+              >
+                {item.growth}
+              </span>
+
+            </div>
+
+            {/* MINI GRAPH */}
+
+            <div
+              className="
+                flex
+                items-end
+                gap-1.5
+
+                h-10
+              "
+            >
+
+              {[35, 55, 40, 70, 60].map(
+                (bar, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{
+                      height: 0,
+                    }}
+                    animate={{
+                      height: `${bar}%`,
+                    }}
+                    transition={{
+                      delay:
+                        index * 0.08,
+                    }}
+                    className="
+                      w-2
+
+                      rounded-full
+
+                      bg-gradient-to-t
+                      from-blue-500
+                      to-blue-300
+                    "
+                  />
+                )
+              )}
+
+            </div>
+
+          </div>
+
+          {/* ========================= */}
+          {/* HOVER BORDER */}
+          {/* ========================= */}
+
+          <div
+            className="
+              absolute
+              inset-0
+
+              rounded-3xl
+
+              border
+              border-transparent
+
+              hover:border-blue-500/20
+
+              transition-all
+              duration-300
+
+              pointer-events-none
+            "
+          />
 
         </motion.div>
       ))}

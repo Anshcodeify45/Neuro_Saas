@@ -1,5 +1,8 @@
 import React from "react";
-import { useLocation, Link } from "react-router-dom";
+import {
+  useLocation,
+  Link,
+} from "react-router-dom";
 
 import {
   LayoutDashboard,
@@ -10,14 +13,21 @@ import {
   X,
 } from "lucide-react";
 
-const Sidebar = ({ open, setOpen }) => {
+import { motion, AnimatePresence } from "framer-motion";
+
+const Sidebar = ({
+  open,
+  setOpen,
+}) => {
   const location = useLocation();
 
   const menu = [
     {
       name: "Dashboard",
       path: "/dashboard",
-      icon: <LayoutDashboard size={20} />,
+      icon: (
+        <LayoutDashboard size={20} />
+      ),
     },
     {
       name: "Users",
@@ -27,245 +37,434 @@ const Sidebar = ({ open, setOpen }) => {
     {
       name: "Analytics",
       path: "/dashboard/analytics",
-      icon: <BarChart3 size={20} />,
+      icon: (
+        <BarChart3 size={20} />
+      ),
     },
     {
       name: "Settings",
       path: "/dashboard/settings",
-      icon: <Settings size={20} />,
+      icon: (
+        <Settings size={20} />
+      ),
     },
   ];
 
   return (
     <>
-      {/* MOBILE BACKDROP */}
-      <div
-        onClick={() => setOpen(false)}
-        className={`
-          fixed inset-0 z-40 bg-black/50 backdrop-blur-sm
-          transition-opacity duration-300
-          lg:hidden
-          ${
-            open
-              ? "opacity-100 visible"
-              : "opacity-0 invisible"
+      {/* ========================= */}
+      {/* MOBILE MENU BUTTON */}
+      {/* ========================= */}
+
+      {!open && (
+        <button
+          onClick={() =>
+            setOpen(true)
           }
-        `}
-      />
+          className="
+            fixed
+            top-4
+            left-4
+            z-[70]
 
+            lg:hidden
+
+            w-11
+            h-11
+
+            rounded-xl
+
+            border
+            border-white/10
+
+            bg-[#081028]/90
+            backdrop-blur-xl
+
+            flex
+            items-center
+            justify-center
+
+            text-white
+
+            shadow-lg
+          "
+        >
+          <Menu size={22} />
+        </button>
+      )}
+
+      {/* ========================= */}
+      {/* MOBILE BACKDROP */}
+      {/* ========================= */}
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 1,
+            }}
+            exit={{
+              opacity: 0,
+            }}
+            onClick={() =>
+              setOpen(false)
+            }
+            className="
+              fixed
+              inset-0
+              z-40
+
+              bg-black/60
+              backdrop-blur-sm
+
+              lg:hidden
+            "
+          />
+        )}
+      </AnimatePresence>
+
+      {/* ========================= */}
       {/* SIDEBAR */}
-     <aside
-  className={`
-    fixed
-    top-0
-    left-0
-    z-50
-    h-screen
-    bg-white
-    dark:bg-[#081028]
-    border-r
-    border-gray-200
-    dark:border-white/10
-    shadow-xl
-    transition-all
-    duration-300
+      {/* ========================= */}
 
-    ${
-      open
-        ? "translate-x-0 w-64"
-        : "translate-x-0 w-20"
-    }
-  `}
->
+      <motion.aside
+        initial={false}
+        animate={{
+          x:
+            open || window.innerWidth >= 1024
+              ? 0
+              : -300,
+          width:
+            window.innerWidth >= 1024
+              ? open
+                ? 260
+                : 88
+              : 260,
+        }}
+        transition={{
+          duration: 0.25,
+        }}
+        className="
+          fixed
+          top-0
+          left-0
+          z-50
 
+          h-screen
+
+          bg-white
+          dark:bg-[#081028]
+
+          border-r
+          border-gray-200
+          dark:border-white/10
+
+          shadow-2xl
+
+          flex
+          flex-col
+
+          overflow-hidden
+        "
+      >
+
+        {/* ========================= */}
         {/* HEADER */}
+        {/* ========================= */}
+
         <div
           className="
             h-20
+            min-h-[80px]
+
             flex
             items-center
             justify-between
-            px-4
+
+            px-5
+
             border-b
             border-gray-200
-            dark:border-gray-800
-            shrink-0
+            dark:border-white/10
           "
         >
 
           {/* LOGO */}
+
           <div
             className={`
-              overflow-hidden
-              transition-all duration-300
+              flex
+              items-center
+              gap-3
+
+              transition-all
+              duration-300
+
               ${
                 open
-                  ? "opacity-100 w-auto"
-                  : "lg:opacity-0 lg:w-0"
+                  ? "opacity-100"
+                  : "lg:opacity-0"
               }
             `}
           >
-            <h1
+
+            <div
               className="
-                text-xl
+                w-11
+                h-11
+
+                rounded-2xl
+
+                bg-gradient-to-br
+                from-blue-500
+                to-indigo-600
+
+                flex
+                items-center
+                justify-center
+
+                text-white
                 font-bold
-                text-blue-600
-                whitespace-nowrap
+
+                shadow-lg
+                shadow-blue-500/20
               "
             >
-              NeuroDash
-            </h1>
+              N
+            </div>
+
+            {open && (
+              <div>
+
+                <h1
+                  className="
+                    text-lg
+                    font-bold
+                    text-gray-900
+                    dark:text-white
+                  "
+                >
+                  NeuroDash
+                </h1>
+
+                <p
+                  className="
+                    text-xs
+                    text-gray-500
+                    dark:text-gray-400
+                  "
+                >
+                  Admin Panel
+                </p>
+
+              </div>
+            )}
+
           </div>
 
-          {/* TOGGLE BUTTON */}
+          {/* TOGGLE */}
+
           <button
-            onClick={() => setOpen(!open)}
+            onClick={() =>
+              setOpen(!open)
+            }
             className="
-              p-2
+              w-10
+              h-10
+
               rounded-xl
+
+              flex
+              items-center
+              justify-center
+
+              text-gray-600
+              dark:text-gray-300
+
               hover:bg-gray-100
-              dark:hover:bg-gray-800
+              dark:hover:bg-white/10
+
               transition
-              shrink-0
             "
           >
-            {/* MOBILE CLOSE ICON */}
+
+            {/* MOBILE */}
             <span className="lg:hidden">
               <X size={20} />
             </span>
 
-            {/* DESKTOP MENU ICON */}
+            {/* DESKTOP */}
             <span className="hidden lg:block">
               <Menu size={20} />
             </span>
+
           </button>
 
         </div>
 
+        {/* ========================= */}
         {/* NAVIGATION */}
+        {/* ========================= */}
+
         <div
           className="
             flex-1
             overflow-y-auto
+
             px-3
             py-5
+
             space-y-2
           "
         >
 
           {menu.map((item, i) => {
             const active =
-              location.pathname === item.path;
+              location.pathname ===
+              item.path;
 
             return (
               <Link
                 key={i}
                 to={item.path}
                 onClick={() => {
-                  // CLOSE SIDEBAR ON MOBILE
                   if (
-                    window.innerWidth < 1024
+                    window.innerWidth <
+                    1024
                   ) {
                     setOpen(false);
                   }
                 }}
-                title={!open ? item.name : ""}
                 className={`
+                  group
                   relative
+
                   flex
                   items-center
+
                   gap-3
-                  px-3
-                  py-3
+
+                  h-14
+
                   rounded-2xl
+
+                  px-4
+
                   transition-all
-                  duration-200
-                  group
+                  duration-300
 
                   ${
                     active
                       ? `
-                        bg-blue-50
-                        dark:bg-blue-950/40
-                        text-blue-600
-                        dark:text-blue-400
+                        bg-blue-600
+                        text-white
+                        shadow-lg
+                        shadow-blue-500/20
                       `
                       : `
                         text-gray-600
                         dark:text-gray-300
+
                         hover:bg-gray-100
-                        dark:hover:bg-gray-800/70
+                        dark:hover:bg-white/[0.05]
                       `
                   }
                 `}
               >
 
-                {/* ACTIVE INDICATOR */}
+                {/* ACTIVE BAR */}
+
                 {active && (
-                  <span
+                  <motion.div
+                    layoutId="activeSidebar"
                     className="
                       absolute
                       left-0
-                      top-2
-                      bottom-2
+                      top-3
+                      bottom-3
+
                       w-1
-                      bg-blue-600
+
                       rounded-r-full
+
+                      bg-white
                     "
                   />
                 )}
 
                 {/* ICON */}
+
                 <div
                   className="
+                    min-w-[24px]
+
                     flex
                     items-center
                     justify-center
-                    min-w-[40px]
                   "
                 >
                   {item.icon}
                 </div>
 
                 {/* TEXT */}
-                <div
-                  className={`
-                    overflow-hidden
-                    transition-all
-                    duration-300
-                    ${
-                      open
-                        ? "w-auto opacity-100"
-                        : "lg:w-0 lg:opacity-0"
-                    }
-                  `}
-                >
-                  <span
-                    className="
-                      font-medium
-                      whitespace-nowrap
-                    "
-                  >
-                    {item.name}
-                  </span>
-                </div>
+
+                <AnimatePresence>
+
+                  {(open ||
+                    window.innerWidth <
+                      1024) && (
+                    <motion.span
+                      initial={{
+                        opacity: 0,
+                        x: -10,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        x: 0,
+                      }}
+                      exit={{
+                        opacity: 0,
+                        x: -10,
+                      }}
+                      className="
+                        font-medium
+                        whitespace-nowrap
+                      "
+                    >
+                      {item.name}
+                    </motion.span>
+                  )}
+
+                </AnimatePresence>
 
                 {/* TOOLTIP */}
+
                 {!open && (
                   <div
                     className="
                       hidden
                       lg:group-hover:flex
+
                       absolute
-                      left-20
+                      left-[95px]
+
                       px-3
                       py-2
-                      rounded-lg
+
+                      rounded-xl
+
                       bg-gray-900
+
                       text-white
                       text-sm
+
                       whitespace-nowrap
-                      shadow-lg
+
+                      shadow-xl
+
                       z-50
                     "
                   >
@@ -279,37 +478,73 @@ const Sidebar = ({ open, setOpen }) => {
 
         </div>
 
+        {/* ========================= */}
         {/* FOOTER */}
+        {/* ========================= */}
+
         <div
           className={`
             border-t
             border-gray-200
-            dark:border-gray-800
+            dark:border-white/10
+
             p-4
+
             transition-all
             duration-300
-            overflow-hidden
+
             ${
               open
                 ? "opacity-100"
-                : "lg:opacity-0 lg:h-0 lg:p-0"
+                : "lg:opacity-0"
             }
           `}
         >
 
-          <p
-            className="
-              text-xs
-              text-gray-500
-              text-center
-            "
-          >
-            NeuroDash v1.0
-          </p>
+          {open && (
+            <div
+              className="
+                rounded-2xl
+
+                bg-gray-100
+                dark:bg-white/[0.04]
+
+                border
+                border-gray-200
+                dark:border-white/10
+
+                p-4
+              "
+            >
+
+              <p
+                className="
+                  text-sm
+                  font-medium
+                  text-gray-900
+                  dark:text-white
+                "
+              >
+                NeuroDash v1.0
+              </p>
+
+              <p
+                className="
+                  text-xs
+                  mt-1
+                  text-gray-500
+                  dark:text-gray-400
+                "
+              >
+                Responsive admin dashboard
+              </p>
+
+            </div>
+          )}
 
         </div>
 
-      </aside>
+      </motion.aside>
     </>
   );
 };

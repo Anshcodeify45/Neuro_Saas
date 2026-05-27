@@ -31,9 +31,9 @@ import {
 
 import { motion } from "framer-motion";
 
-
+// ========================================
 // DATA
-
+// ========================================
 
 const weeklyData = [
   {
@@ -184,16 +184,17 @@ const COLORS = [
   "#14b8a6",
 ];
 
+// ========================================
 // COMPONENT
-
+// ========================================
 
 const Analytics = () => {
   const [range, setRange] =
     useState("7days");
 
-
+  // ========================================
   // DYNAMIC DATA
-
+  // ========================================
 
   const analyticsData =
     useMemo(() => {
@@ -209,8 +210,9 @@ const Analytics = () => {
       }
     }, [range]);
 
+  // ========================================
   // TOTALS
-
+  // ========================================
 
   const totalUsers =
     analyticsData.reduce(
@@ -233,9 +235,9 @@ const Analytics = () => {
       0
     );
 
-
+  // ========================================
   // EXPORT CSV
-
+  // ========================================
 
   const exportCSV = () => {
     const headers = [
@@ -284,30 +286,249 @@ const Analytics = () => {
     link.click();
   };
 
+  // ========================================
+  // CARD COMPONENT
+  // ========================================
+
+  const StatCard = ({
+    title,
+    value,
+    icon,
+    color,
+  }) => (
+    <motion.div
+      whileHover={{
+        y: -5,
+      }}
+      transition={{
+        duration: 0.2,
+      }}
+      className="
+        relative
+        overflow-hidden
+
+        rounded-[28px]
+
+        border
+        border-gray-200/80
+        dark:border-white/10
+
+        bg-white
+        dark:bg-[#0B1120]
+
+        p-5
+        sm:p-6
+
+        shadow-sm
+        hover:shadow-xl
+
+        transition-all
+        duration-300
+      "
+    >
+
+      {/* GLOW */}
+      <div
+        className={`
+          absolute
+          top-0
+          right-0
+
+          w-32
+          h-32
+
+          rounded-full
+          blur-3xl
+          opacity-10
+
+          ${color}
+        `}
+      />
+
+      <div
+        className="
+          relative
+          z-10
+
+          flex
+          items-center
+          justify-between
+        "
+      >
+
+        <div>
+
+          <p
+            className="
+              text-sm
+              text-gray-500
+              dark:text-gray-400
+            "
+          >
+            {title}
+          </p>
+
+          <h2
+            className="
+              mt-3
+
+              text-3xl
+              font-bold
+
+              text-gray-900
+              dark:text-white
+            "
+          >
+            {value}
+          </h2>
+
+        </div>
+
+        <div
+          className="
+            w-14
+            h-14
+
+            rounded-2xl
+
+            flex
+            items-center
+            justify-center
+
+            bg-white/10
+            dark:bg-white/[0.04]
+
+            border
+            border-gray-200
+            dark:border-white/10
+          "
+        >
+
+          {icon}
+
+        </div>
+
+      </div>
+
+    </motion.div>
+  );
+
+  // ========================================
+  // CHART CARD
+  // ========================================
+
+  const ChartCard = ({
+    title,
+    description,
+    children,
+  }) => (
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: 20,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      className="
+        rounded-[30px]
+
+        border
+        border-gray-200/80
+        dark:border-white/10
+
+        bg-white
+        dark:bg-[#0B1120]
+
+        p-5
+        sm:p-6
+
+        shadow-sm
+      "
+    >
+
+      <div>
+
+        <h2
+          className="
+            text-lg
+            sm:text-xl
+
+            font-semibold
+
+            text-gray-900
+            dark:text-white
+          "
+        >
+          {title}
+        </h2>
+
+        <p
+          className="
+            mt-1
+
+            text-sm
+
+            text-gray-500
+            dark:text-gray-400
+          "
+        >
+          {description}
+        </p>
+
+      </div>
+
+      <div
+        className="
+          h-[260px]
+          sm:h-[320px]
+
+          mt-6
+        "
+      >
+        {children}
+      </div>
+
+    </motion.div>
+  );
+
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div
+      className="
+        space-y-6
+        sm:space-y-8
+      "
+    >
 
+      {/* ======================================== */}
       {/* HEADER */}
-
+      {/* ======================================== */}
 
       <div
         className="
           flex
           flex-col
           xl:flex-row
+
           xl:items-center
           xl:justify-between
+
           gap-5
         "
       >
 
+        {/* LEFT */}
         <div>
 
           <h1
             className="
-              text-2xl
-              sm:text-3xl
+              text-3xl
+              sm:text-4xl
+
               font-bold
+              tracking-tight
+
               text-gray-900
               dark:text-white
             "
@@ -318,135 +539,106 @@ const Analytics = () => {
           <p
             className="
               mt-2
+
               text-sm
+              sm:text-base
+
               text-gray-500
               dark:text-gray-400
             "
           >
             Advanced analytics &
-            real-time business insights
+            real-time business
+            insights
           </p>
 
         </div>
 
-        {/* CONTROLS */}
+        {/* RIGHT */}
         <div
           className="
             flex
             flex-col
             sm:flex-row
-            sm:items-center
+
             gap-3
+
             w-full
             xl:w-auto
           "
         >
 
-          {/* RANGE BUTTONS */}
+          {/* RANGE */}
           <div
             className="
               grid
               grid-cols-3
-              sm:flex
-              items-center
+
               rounded-2xl
+
               border
               border-gray-200
               dark:border-white/10
+
               bg-white
-              dark:bg-white/[0.03]
+              dark:bg-[#0B1120]
+
               p-1
-              w-full
-              sm:w-auto
             "
           >
 
-            <button
-              onClick={() =>
-                setRange("7days")
-              }
-              className={`
-                px-3
-                sm:px-4
-                py-2.5
-                rounded-xl
-                text-xs
-                sm:text-sm
-                font-medium
-                transition-all
-                ${
-                  range === "7days"
-                    ? `
-                      bg-blue-600
-                      text-white
-                    `
-                    : `
-                      text-gray-500
-                      dark:text-gray-400
-                    `
-                }
-              `}
-            >
-              7 Days
-            </button>
+            {[
+              {
+                label: "7 Days",
+                value: "7days",
+              },
+              {
+                label: "30 Days",
+                value: "30days",
+              },
+              {
+                label: "1 Year",
+                value: "1year",
+              },
+            ].map((item) => (
 
-            <button
-              onClick={() =>
-                setRange("30days")
-              }
-              className={`
-                px-3
-                sm:px-4
-                py-2.5
-                rounded-xl
-                text-xs
-                sm:text-sm
-                font-medium
-                transition-all
-                ${
-                  range === "30days"
-                    ? `
-                      bg-blue-600
-                      text-white
-                    `
-                    : `
-                      text-gray-500
-                      dark:text-gray-400
-                    `
+              <button
+                key={item.value}
+                onClick={() =>
+                  setRange(
+                    item.value
+                  )
                 }
-              `}
-            >
-              30 Days
-            </button>
+                className={`
+                  px-4
+                  py-2.5
 
-            <button
-              onClick={() =>
-                setRange("1year")
-              }
-              className={`
-                px-3
-                sm:px-4
-                py-2.5
-                rounded-xl
-                text-xs
-                sm:text-sm
-                font-medium
-                transition-all
-                ${
-                  range === "1year"
-                    ? `
-                      bg-blue-600
-                      text-white
-                    `
-                    : `
-                      text-gray-500
-                      dark:text-gray-400
-                    `
-                }
-              `}
-            >
-              1 Year
-            </button>
+                  rounded-xl
+
+                  text-sm
+                  font-medium
+
+                  transition-all
+
+                  ${
+                    range ===
+                    item.value
+                      ? `
+                        bg-blue-600
+                        text-white
+                        shadow-lg
+                      `
+                      : `
+                        text-gray-500
+                        dark:text-gray-400
+                      `
+                  }
+                `}
+              >
+                {item.label}
+              </button>
+
+            ))}
 
           </div>
 
@@ -458,19 +650,24 @@ const Analytics = () => {
               items-center
               justify-center
               gap-2
+
               px-5
               py-3
+
               rounded-2xl
+
               bg-blue-600
               hover:bg-blue-700
+
               text-white
               text-sm
               font-medium
+
+              transition-all
+              duration-300
+
               shadow-lg
               shadow-blue-500/20
-              transition-all
-              w-full
-              sm:w-auto
             "
           >
 
@@ -484,711 +681,370 @@ const Analytics = () => {
 
       </div>
 
-
+      {/* ======================================== */}
       {/* STATS */}
-
+      {/* ======================================== */}
 
       <div
         className="
           grid
           grid-cols-1
           sm:grid-cols-2
-          2xl:grid-cols-4
-          gap-4
-          sm:gap-6
+          xl:grid-cols-4
+
+          gap-5
         "
       >
 
-        {/* USERS */}
-        <motion.div
-          whileHover={{ y: -5 }}
-          className="
-            rounded-3xl
-            p-5
-            sm:p-6
-            bg-white
-            dark:bg-white/[0.03]
-            border
-            border-gray-200
-            dark:border-white/10
-            shadow-sm
-          "
-        >
-
-          <div className="flex items-center justify-between">
-
-            <div>
-
-              <p
-                className="
-                  text-sm
-                  text-gray-500
-                  dark:text-gray-400
-                "
-              >
-                Total Users
-              </p>
-
-              <h2
-                className="
-                  mt-3
-                  text-2xl
-                  sm:text-3xl
-                  font-bold
-                  text-gray-900
-                  dark:text-white
-                "
-              >
-                {totalUsers.toLocaleString()}
-              </h2>
-
-            </div>
-
-            <div
+        <StatCard
+          title="Total Users"
+          value={totalUsers.toLocaleString()}
+          icon={
+            <Users
               className="
-                w-12
-                h-12
-                sm:w-14
-                sm:h-14
-                rounded-2xl
-                bg-blue-500/10
-                flex
-                items-center
-                justify-center
                 text-blue-500
               "
-            >
+              size={24}
+            />
+          }
+          color="bg-blue-500"
+        />
 
-              <Users size={24} />
-
-            </div>
-
-          </div>
-
-        </motion.div>
-
-        {/* REVENUE */}
-        <motion.div
-          whileHover={{ y: -5 }}
-          className="
-            rounded-3xl
-            p-5
-            sm:p-6
-            bg-white
-            dark:bg-white/[0.03]
-            border
-            border-gray-200
-            dark:border-white/10
-            shadow-sm
-          "
-        >
-
-          <div className="flex items-center justify-between">
-
-            <div>
-
-              <p
-                className="
-                  text-sm
-                  text-gray-500
-                  dark:text-gray-400
-                "
-              >
-                Revenue
-              </p>
-
-              <h2
-                className="
-                  mt-3
-                  text-2xl
-                  sm:text-3xl
-                  font-bold
-                  text-gray-900
-                  dark:text-white
-                "
-              >
-                $
-                {totalRevenue.toLocaleString()}
-              </h2>
-
-            </div>
-
-            <div
+        <StatCard
+          title="Revenue"
+          value={`$${totalRevenue.toLocaleString()}`}
+          icon={
+            <TrendingUp
               className="
-                w-12
-                h-12
-                sm:w-14
-                sm:h-14
-                rounded-2xl
-                bg-green-500/10
-                flex
-                items-center
-                justify-center
                 text-green-500
               "
-            >
+              size={24}
+            />
+          }
+          color="bg-green-500"
+        />
 
-              <TrendingUp size={24} />
-
-            </div>
-
-          </div>
-
-        </motion.div>
-
-        {/* SESSIONS */}
-        <motion.div
-          whileHover={{ y: -5 }}
-          className="
-            rounded-3xl
-            p-5
-            sm:p-6
-            bg-white
-            dark:bg-white/[0.03]
-            border
-            border-gray-200
-            dark:border-white/10
-            shadow-sm
-          "
-        >
-
-          <div className="flex items-center justify-between">
-
-            <div>
-
-              <p
-                className="
-                  text-sm
-                  text-gray-500
-                  dark:text-gray-400
-                "
-              >
-                Sessions
-              </p>
-
-              <h2
-                className="
-                  mt-3
-                  text-2xl
-                  sm:text-3xl
-                  font-bold
-                  text-gray-900
-                  dark:text-white
-                "
-              >
-                {totalSessions.toLocaleString()}
-              </h2>
-
-            </div>
-
-            <div
+        <StatCard
+          title="Sessions"
+          value={totalSessions.toLocaleString()}
+          icon={
+            <Activity
               className="
-                w-12
-                h-12
-                sm:w-14
-                sm:h-14
-                rounded-2xl
-                bg-purple-500/10
-                flex
-                items-center
-                justify-center
                 text-purple-500
               "
-            >
+              size={24}
+            />
+          }
+          color="bg-purple-500"
+        />
 
-              <Activity size={24} />
-
-            </div>
-
-          </div>
-
-        </motion.div>
-
-        {/* CONVERSION */}
-        <motion.div
-          whileHover={{ y: -5 }}
-          className="
-            rounded-3xl
-            p-5
-            sm:p-6
-            bg-white
-            dark:bg-white/[0.03]
-            border
-            border-gray-200
-            dark:border-white/10
-            shadow-sm
-          "
-        >
-
-          <div className="flex items-center justify-between">
-
-            <div>
-
-              <p
-                className="
-                  text-sm
-                  text-gray-500
-                  dark:text-gray-400
-                "
-              >
-                Conversion
-              </p>
-
-              <h2
-                className="
-                  mt-3
-                  text-2xl
-                  sm:text-3xl
-                  font-bold
-                  text-gray-900
-                  dark:text-white
-                "
-              >
-                82%
-              </h2>
-
-            </div>
-
-            <div
+        <StatCard
+          title="Conversion"
+          value="82%"
+          icon={
+            <UserPlus
               className="
-                w-12
-                h-12
-                sm:w-14
-                sm:h-14
-                rounded-2xl
-                bg-orange-500/10
-                flex
-                items-center
-                justify-center
                 text-orange-500
               "
-            >
-
-              <UserPlus size={24} />
-
-            </div>
-
-          </div>
-
-        </motion.div>
+              size={24}
+            />
+          }
+          color="bg-orange-500"
+        />
 
       </div>
 
-      {/* GRAPHS */}
-
+      {/* ======================================== */}
+      {/* CHARTS */}
+      {/* ======================================== */}
 
       <div
         className="
           grid
           grid-cols-1
           2xl:grid-cols-2
+
           gap-5
           sm:gap-6
         "
       >
 
         {/* AREA CHART */}
-        <div
-          className="
-            rounded-3xl
-            p-4
-            sm:p-6
-            bg-white
-            dark:bg-white/[0.03]
-            border
-            border-gray-200
-            dark:border-white/10
-          "
+        <ChartCard
+          title="User Growth"
+          description="Area chart visualization"
         >
 
-          <h2
-            className="
-              text-lg
-              sm:text-xl
-              font-semibold
-              text-gray-900
-              dark:text-white
-            "
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
           >
-            User Growth
-          </h2>
 
-          <p
-            className="
-              text-sm
-              text-gray-500
-              dark:text-gray-400
-              mt-1
-            "
-          >
-            Area chart visualization
-          </p>
-
-          <div className="h-[260px] sm:h-[320px] mt-5">
-
-            <ResponsiveContainer
-              width="100%"
-              height="100%"
+            <AreaChart
+              data={analyticsData}
             >
 
-              <AreaChart
-                data={analyticsData}
-              >
+              <defs>
 
-                <defs>
-
-                  <linearGradient
-                    id="usersGradient"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-
-                    <stop
-                      offset="5%"
-                      stopColor="#3b82f6"
-                      stopOpacity={0.5}
-                    />
-
-                    <stop
-                      offset="95%"
-                      stopColor="#3b82f6"
-                      stopOpacity={0}
-                    />
-
-                  </linearGradient>
-
-                </defs>
-
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  vertical={false}
-                  stroke="#1f2937"
-                />
-
-                <XAxis
-                  dataKey="day"
-                  tick={{
-                    fill: "#94a3b8",
-                    fontSize: 12,
-                  }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-
-                <YAxis
-                  hide={window.innerWidth < 640}
-                  tick={{
-                    fill: "#94a3b8",
-                    fontSize: 12,
-                  }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-
-                <Tooltip />
-
-                <Area
-                  type="monotone"
-                  dataKey="users"
-                  stroke="#3b82f6"
-                  strokeWidth={3}
-                  fill="url(#usersGradient)"
-                />
-
-              </AreaChart>
-
-            </ResponsiveContainer>
-
-          </div>
-
-        </div>
-
-        {/* LINE CHART */}
-        <div
-          className="
-            rounded-3xl
-            p-4
-            sm:p-6
-            bg-white
-            dark:bg-white/[0.03]
-            border
-            border-gray-200
-            dark:border-white/10
-          "
-        >
-
-          <h2
-            className="
-              text-lg
-              sm:text-xl
-              font-semibold
-              text-gray-900
-              dark:text-white
-            "
-          >
-            Revenue Trend
-          </h2>
-
-          <p
-            className="
-              text-sm
-              text-gray-500
-              dark:text-gray-400
-              mt-1
-            "
-          >
-            Revenue performance analysis
-          </p>
-
-          <div className="h-[260px] sm:h-[320px] mt-5">
-
-            <ResponsiveContainer
-              width="100%"
-              height="100%"
-            >
-
-              <LineChart
-                data={analyticsData}
-              >
-
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  vertical={false}
-                  stroke="#1f2937"
-                />
-
-                <XAxis
-                  dataKey="day"
-                  tick={{
-                    fill: "#94a3b8",
-                    fontSize: 12,
-                  }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-
-                <YAxis
-                  hide={window.innerWidth < 640}
-                  tick={{
-                    fill: "#94a3b8",
-                    fontSize: 12,
-                  }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-
-                <Tooltip />
-
-                <Legend />
-
-                <Line
-                  type="monotone"
-                  dataKey="revenue"
-                  stroke="#8b5cf6"
-                  strokeWidth={3}
-                  dot={{
-                    r: 4,
-                  }}
-                />
-
-              </LineChart>
-
-            </ResponsiveContainer>
-
-          </div>
-
-        </div>
-
-        {/* BAR CHART */}
-        <div
-          className="
-            rounded-3xl
-            p-4
-            sm:p-6
-            bg-white
-            dark:bg-white/[0.03]
-            border
-            border-gray-200
-            dark:border-white/10
-          "
-        >
-
-          <h2
-            className="
-              text-lg
-              sm:text-xl
-              font-semibold
-              text-gray-900
-              dark:text-white
-            "
-          >
-            Sessions Analytics
-          </h2>
-
-          <p
-            className="
-              text-sm
-              text-gray-500
-              dark:text-gray-400
-              mt-1
-            "
-          >
-            User sessions overview
-          </p>
-
-          <div className="h-[260px] sm:h-[320px] mt-5">
-
-            <ResponsiveContainer
-              width="100%"
-              height="100%"
-            >
-
-              <BarChart
-                data={analyticsData}
-              >
-
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  vertical={false}
-                  stroke="#1f2937"
-                />
-
-                <XAxis
-                  dataKey="day"
-                  tick={{
-                    fill: "#94a3b8",
-                    fontSize: 12,
-                  }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-
-                <YAxis
-                  hide={window.innerWidth < 640}
-                  tick={{
-                    fill: "#94a3b8",
-                    fontSize: 12,
-                  }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-
-                <Tooltip />
-
-                <Bar
-                  dataKey="sessions"
-                  fill="#14b8a6"
-                  radius={[
-                    10,
-                    10,
-                    0,
-                    0,
-                  ]}
-                />
-
-              </BarChart>
-
-            </ResponsiveContainer>
-
-          </div>
-
-        </div>
-
-        {/* PIE CHART */}
-        <div
-          className="
-            rounded-3xl
-            p-4
-            sm:p-6
-            bg-white
-            dark:bg-white/[0.03]
-            border
-            border-gray-200
-            dark:border-white/10
-          "
-        >
-
-          <h2
-            className="
-              text-lg
-              sm:text-xl
-              font-semibold
-              text-gray-900
-              dark:text-white
-            "
-          >
-            Traffic Sources
-          </h2>
-
-          <p
-            className="
-              text-sm
-              text-gray-500
-              dark:text-gray-400
-              mt-1
-            "
-          >
-            Device usage statistics
-          </p>
-
-          <div className="h-[260px] sm:h-[320px] mt-5">
-
-            <ResponsiveContainer
-              width="100%"
-              height="100%"
-            >
-
-              <PieChart>
-
-                <Pie
-                  data={trafficData}
-                  dataKey="value"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={
-                    window.innerWidth < 640
-                      ? 45
-                      : 70
-                  }
-                  outerRadius={
-                    window.innerWidth < 640
-                      ? 75
-                      : 100
-                  }
-                  paddingAngle={5}
+                <linearGradient
+                  id="usersGradient"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
                 >
 
-                  {trafficData.map(
-                    (
-                      entry,
-                      index
-                    ) => (
+                  <stop
+                    offset="5%"
+                    stopColor="#3b82f6"
+                    stopOpacity={0.5}
+                  />
 
-                      <Cell
-                        key={index}
-                        fill={
-                          COLORS[index]
-                        }
-                      />
+                  <stop
+                    offset="95%"
+                    stopColor="#3b82f6"
+                    stopOpacity={0}
+                  />
 
-                    )
-                  )}
+                </linearGradient>
 
-                </Pie>
+              </defs>
 
-                <Tooltip />
+              <CartesianGrid
+                strokeDasharray="3 3"
+                vertical={false}
+                stroke="#334155"
+                opacity={0.3}
+              />
 
-                <Legend />
+              <XAxis
+                dataKey="day"
+                tick={{
+                  fill: "#94a3b8",
+                  fontSize: 12,
+                }}
+                axisLine={false}
+                tickLine={false}
+              />
 
-              </PieChart>
+              <YAxis
+                hide={
+                  window.innerWidth <
+                  640
+                }
+                tick={{
+                  fill: "#94a3b8",
+                  fontSize: 12,
+                }}
+                axisLine={false}
+                tickLine={false}
+              />
 
-            </ResponsiveContainer>
+              <Tooltip />
 
-          </div>
+              <Area
+                type="monotone"
+                dataKey="users"
+                stroke="#3b82f6"
+                strokeWidth={3}
+                fill="url(#usersGradient)"
+              />
 
-        </div>
+            </AreaChart>
+
+          </ResponsiveContainer>
+
+        </ChartCard>
+
+        {/* LINE CHART */}
+        <ChartCard
+          title="Revenue Trend"
+          description="Revenue performance analysis"
+        >
+
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
+          >
+
+            <LineChart
+              data={analyticsData}
+            >
+
+              <CartesianGrid
+                strokeDasharray="3 3"
+                vertical={false}
+                stroke="#334155"
+                opacity={0.3}
+              />
+
+              <XAxis
+                dataKey="day"
+                tick={{
+                  fill: "#94a3b8",
+                  fontSize: 12,
+                }}
+                axisLine={false}
+                tickLine={false}
+              />
+
+              <YAxis
+                hide={
+                  window.innerWidth <
+                  640
+                }
+                tick={{
+                  fill: "#94a3b8",
+                  fontSize: 12,
+                }}
+                axisLine={false}
+                tickLine={false}
+              />
+
+              <Tooltip />
+
+              <Legend />
+
+              <Line
+                type="monotone"
+                dataKey="revenue"
+                stroke="#8b5cf6"
+                strokeWidth={3}
+                dot={{
+                  r: 4,
+                }}
+              />
+
+            </LineChart>
+
+          </ResponsiveContainer>
+
+        </ChartCard>
+
+        {/* BAR CHART */}
+        <ChartCard
+          title="Sessions Analytics"
+          description="User sessions overview"
+        >
+
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
+          >
+
+            <BarChart
+              data={analyticsData}
+            >
+
+              <CartesianGrid
+                strokeDasharray="3 3"
+                vertical={false}
+                stroke="#334155"
+                opacity={0.3}
+              />
+
+              <XAxis
+                dataKey="day"
+                tick={{
+                  fill: "#94a3b8",
+                  fontSize: 12,
+                }}
+                axisLine={false}
+                tickLine={false}
+              />
+
+              <YAxis
+                hide={
+                  window.innerWidth <
+                  640
+                }
+                tick={{
+                  fill: "#94a3b8",
+                  fontSize: 12,
+                }}
+                axisLine={false}
+                tickLine={false}
+              />
+
+              <Tooltip />
+
+              <Bar
+                dataKey="sessions"
+                fill="#14b8a6"
+                radius={[
+                  10,
+                  10,
+                  0,
+                  0,
+                ]}
+              />
+
+            </BarChart>
+
+          </ResponsiveContainer>
+
+        </ChartCard>
+
+        {/* PIE CHART */}
+        <ChartCard
+          title="Traffic Sources"
+          description="Device usage statistics"
+        >
+
+          <ResponsiveContainer
+            width="100%"
+            height="100%"
+          >
+
+            <PieChart>
+
+              <Pie
+                data={trafficData}
+                dataKey="value"
+                cx="50%"
+                cy="50%"
+                innerRadius={
+                  window.innerWidth <
+                  640
+                    ? 45
+                    : 70
+                }
+                outerRadius={
+                  window.innerWidth <
+                  640
+                    ? 75
+                    : 100
+                }
+                paddingAngle={5}
+              >
+
+                {trafficData.map(
+                  (
+                    entry,
+                    index
+                  ) => (
+
+                    <Cell
+                      key={index}
+                      fill={
+                        COLORS[index]
+                      }
+                    />
+
+                  )
+                )}
+
+              </Pie>
+
+              <Tooltip />
+
+              <Legend />
+
+            </PieChart>
+
+          </ResponsiveContainer>
+
+        </ChartCard>
 
       </div>
 
