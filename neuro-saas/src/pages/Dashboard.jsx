@@ -447,9 +447,7 @@ const Dashboard = () => {
     grid
     grid-cols-1
     2xl:grid-cols-12
-
     gap-6
-
     items-stretch
   "
 >
