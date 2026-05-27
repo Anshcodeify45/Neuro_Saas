@@ -295,7 +295,7 @@ const Activity = () => {
         overflow-hidden
 
         h-full
-        min-h-[720px]
+        min-h-[650px]
 
         rounded-[28px]
 
