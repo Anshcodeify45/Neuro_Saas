@@ -241,7 +241,7 @@ const Activity = () => {
         overflow-hidden
         bg-white/70
         backdrop-blur-2xl
-        min-h-[650px]
+        min-h-[630px]
         flex
         flex-col
       "
