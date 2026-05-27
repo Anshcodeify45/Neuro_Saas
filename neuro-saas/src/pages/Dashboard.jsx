@@ -485,19 +485,9 @@ const Dashboard = () => {
             <div
               className="
                 rounded-[30px]
-
-                border
-                border-gray-200
-                dark:border-white/10
-
                 bg-white/70
                 dark:bg-white/[0.03]
-
                 backdrop-blur-2xl
-
-                shadow-[0_10px_40px_rgba(0,0,0,0.08)]
-                dark:shadow-[0_10px_40px_rgba(0,0,0,0.35)]
-
                 p-2
                 sm:p-3
               "
