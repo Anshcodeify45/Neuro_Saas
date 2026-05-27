@@ -140,14 +140,11 @@ const Table = () => {
         duration: 0.3,
       }}
       className="
-        relative
-        overflow-hidden
-        rounded-2xl sm:rounded-3xl
-        border border-gray-200 dark:border-white/10
-        bg-white dark:bg-white/[0.03]
-        backdrop-blur-xl
-        shadow-[0_10px_40px_rgba(0,0,0,0.12)]
-        p-4 sm:p-6
+      relative
+      overflow-hidden
+      bg-transparent
+      p-4
+      sm:p-6
       "
     >
       {/* GLOW */}
