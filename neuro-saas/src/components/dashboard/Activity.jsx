@@ -14,6 +14,8 @@ import {
   Pencil,
   Trash2,
   Zap,
+  Clock3,
+  ArrowUpRight,
 } from "lucide-react";
 
 const Activity = () => {
@@ -32,7 +34,7 @@ const Activity = () => {
       async () => {
         try {
           const res = await axios.get(
-            "http://localhost:5000/api/activity"
+            "https://neuro-saas.onrender.com/api/activity"
           );
 
           let finalData = [];
@@ -105,29 +107,31 @@ const Activity = () => {
             {
               _id: 1,
               action:
-                "User Login",
+                "Admin Login",
               details:
-                "Admin logged into dashboard",
+                "Dashboard accessed from Chrome browser",
               type: "auth",
               createdAt:
                 new Date(),
             },
+
             {
               _id: 2,
               action:
                 "Analytics Updated",
               details:
-                "Revenue statistics refreshed",
+                "Revenue metrics refreshed successfully",
               type: "update",
               createdAt:
                 new Date(),
             },
+
             {
               _id: 3,
               action:
-                "User Deleted",
+                "User Removed",
               details:
-                "A test account was removed",
+                "Test account deleted from database",
               type: "delete",
               createdAt:
                 new Date(),
@@ -195,6 +199,42 @@ const Activity = () => {
   };
 
   // ===================================
+  // ICON COLORS
+  // ===================================
+
+  const getIconStyle = (type) => {
+    switch (type) {
+      case "auth":
+        return `
+          bg-emerald-500/15
+          text-emerald-500
+          border-emerald-500/20
+        `;
+
+      case "update":
+        return `
+          bg-blue-500/15
+          text-blue-500
+          border-blue-500/20
+        `;
+
+      case "delete":
+        return `
+          bg-red-500/15
+          text-red-500
+          border-red-500/20
+        `;
+
+      default:
+        return `
+          bg-purple-500/15
+          text-purple-500
+          border-purple-500/20
+        `;
+    }
+  };
+
+  // ===================================
   // DATE LABEL
   // ===================================
 
@@ -212,6 +252,20 @@ const Activity = () => {
       today.toDateString()
     ) {
       return "Today";
+    }
+
+    const yesterday =
+      new Date();
+
+    yesterday.setDate(
+      today.getDate() - 1
+    );
+
+    if (
+      date.toDateString() ===
+      yesterday.toDateString()
+    ) {
+      return "Yesterday";
     }
 
     return date.toLocaleDateString(
@@ -234,27 +288,45 @@ const Activity = () => {
         y: 0,
       }}
       transition={{
-        duration: 0.3,
+        duration: 0.35,
       }}
       className="
         relative
         overflow-hidden
-        min-h-[600px]
+
+        h-full
+        min-h-[650px]
+
+        rounded-[28px]
+
+        border
+        border-gray-200/70
+        dark:border-white/10
+
+        bg-white/80
+        dark:bg-[#081120]/80
+
+        backdrop-blur-2xl
+
         flex
         flex-col
       "
     >
-      {/* GLOW */}
+      {/* BACKGROUND GLOW */}
       <div
         className="
           absolute
-          top-0
-          right-0
+          -top-20
+          -right-20
+
           w-72
           h-72
-          bg-blue-500/10
-          blur-[120px]
+
           rounded-full
+
+          bg-blue-500/10
+
+          blur-[120px]
         "
       />
 
@@ -273,69 +345,72 @@ const Activity = () => {
           p-6
 
           border-b
-          border-gray-200/70
+          border-gray-200/60
           dark:border-white/5
         "
       >
-        <div>
+        {/* LEFT */}
+        <div
+          className="
+            flex
+            items-center
+            gap-4
+          "
+        >
           <div
             className="
+              w-14
+              h-14
+
+              rounded-2xl
+
+              bg-blue-500/10
+
               flex
               items-center
-              gap-3
+              justify-center
+
+              text-blue-500
+
+              shadow-lg
+              shadow-blue-500/10
             "
           >
-            <div
+            <ActivityIcon
+              size={24}
+            />
+          </div>
+
+          <div>
+            <h2
               className="
-                w-12
-                h-12
+                text-2xl
+                font-bold
 
-                rounded-2xl
-
-                bg-blue-500/10
-
-                flex
-                items-center
-                justify-center
-
-                text-blue-500
+                text-gray-900
+                dark:text-white
               "
             >
-              <ActivityIcon
-                size={20}
-              />
-            </div>
+              Recent Activity
+            </h2>
 
-            <div>
-              <h2
-                className="
-                  text-2xl
-                  font-bold
+            <p
+              className="
+                mt-1
 
-                  text-gray-900
-                  dark:text-white
-                "
-              >
-                Recent Activity
-              </h2>
+                text-sm
 
-              <p
-                className="
-                  mt-1
-
-                  text-sm
-
-                  text-gray-500
-                  dark:text-gray-400
-                "
-              >
-                Live user actions and
-                system updates
-              </p>
-            </div>
+                text-gray-500
+                dark:text-gray-400
+              "
+            >
+              Live user actions &
+              realtime updates
+            </p>
           </div>
         </div>
 
+        {/* RIGHT */}
         <div
           className="
             hidden
@@ -345,11 +420,14 @@ const Activity = () => {
             gap-2
 
             px-4
-            py-2
+            py-2.5
 
             rounded-2xl
 
             bg-blue-500/10
+
+            border
+            border-blue-500/10
 
             text-blue-500
 
@@ -387,8 +465,11 @@ const Activity = () => {
           p-6
 
           space-y-8
+
+          custom-scrollbar
         "
       >
+        {/* LOADING */}
         {loading ? (
           <div
             className="
@@ -397,26 +478,87 @@ const Activity = () => {
               justify-center
 
               h-[400px]
-
-              text-gray-400
             "
           >
-            Loading activity...
+            <div
+              className="
+                w-10
+                h-10
+
+                rounded-full
+
+                border-4
+                border-blue-500/20
+                border-t-blue-500
+
+                animate-spin
+              "
+            />
           </div>
         ) : Object.keys(grouped)
             .length === 0 ? (
           <div
             className="
               flex
+              flex-col
               items-center
               justify-center
 
               h-[400px]
 
-              text-gray-400
+              text-center
             "
           >
-            No recent activity
+            <div
+              className="
+                w-16
+                h-16
+
+                rounded-3xl
+
+                bg-gray-100
+                dark:bg-white/[0.04]
+
+                flex
+                items-center
+                justify-center
+
+                mb-4
+              "
+            >
+              <ActivityIcon
+                size={28}
+                className="
+                  text-gray-400
+                "
+              />
+            </div>
+
+            <h3
+              className="
+                text-lg
+                font-semibold
+
+                text-gray-700
+                dark:text-gray-300
+              "
+            >
+              No Activity Found
+            </h3>
+
+            <p
+              className="
+                mt-2
+
+                text-sm
+
+                text-gray-500
+                dark:text-gray-400
+              "
+            >
+              Recent actions will
+              appear here
+            </p>
           </div>
         ) : (
           Object.entries(grouped).map(
@@ -436,10 +578,12 @@ const Activity = () => {
                     className="
                       text-xs
                       font-bold
-                      tracking-[0.2em]
+                      tracking-[0.18em]
                       uppercase
 
                       text-blue-500
+
+                      whitespace-nowrap
                     "
                   >
                     {formatDateLabel(
@@ -459,15 +603,16 @@ const Activity = () => {
                   />
                 </div>
 
-                {/* ITEMS */}
+                {/* TIMELINE */}
                 <div
                   className="
                     relative
 
-                    border-l
-                    border-blue-500/20
-
                     ml-4
+
+                    border-l
+                    border-blue-500/15
+
                     pl-8
 
                     space-y-5
@@ -479,7 +624,7 @@ const Activity = () => {
                         key={a._id}
                         initial={{
                           opacity: 0,
-                          x: -10,
+                          x: -15,
                         }}
                         animate={{
                           opacity: 1,
@@ -491,11 +636,12 @@ const Activity = () => {
                         }}
                         className="
                           relative
+                          group
                         "
                       >
                         {/* ICON */}
                         <div
-                          className="
+                          className={`
                             absolute
 
                             -left-[47px]
@@ -506,17 +652,20 @@ const Activity = () => {
 
                             rounded-full
 
-                            bg-[#0f172a]
-
                             border
-                            border-white/10
 
                             flex
                             items-center
                             justify-center
 
-                            text-white
-                          "
+                            backdrop-blur-xl
+
+                            shadow-lg
+
+                            ${getIconStyle(
+                              a.type
+                            )}
+                          `}
                         >
                           {getIcon(
                             a.type
@@ -526,28 +675,53 @@ const Activity = () => {
                         {/* CARD */}
                         <div
                           className="
-                            rounded-3xl
+                            relative
+                            overflow-hidden
+
+                            rounded-[24px]
 
                             border
                             border-gray-200/70
                             dark:border-white/10
 
-                            bg-white/80
+                            bg-white/70
                             dark:bg-white/[0.03]
 
                             backdrop-blur-xl
 
                             p-5
 
-                            hover:border-blue-500/20
-                            hover:shadow-xl
-
                             transition-all
                             duration-300
+
+                            hover:-translate-y-1
+                            hover:border-blue-500/20
+                            hover:shadow-[0_10px_30px_rgba(59,130,246,0.08)]
                           "
                         >
+                          {/* HOVER GLOW */}
                           <div
                             className="
+                              absolute
+                              inset-0
+
+                              opacity-0
+                              group-hover:opacity-100
+
+                              transition-opacity
+                              duration-500
+
+                              bg-gradient-to-r
+                              from-blue-500/[0.03]
+                              to-indigo-500/[0.03]
+                            "
+                          />
+
+                          <div
+                            className="
+                              relative
+                              z-10
+
                               flex
                               items-start
                               justify-between
@@ -555,18 +729,38 @@ const Activity = () => {
                               gap-4
                             "
                           >
-                            <div>
-                              <h3
+                            {/* LEFT */}
+                            <div className="flex-1">
+                              <div
                                 className="
-                                  text-base
-                                  font-semibold
-
-                                  text-gray-900
-                                  dark:text-white
+                                  flex
+                                  items-center
+                                  gap-2
                                 "
                               >
-                                {a.action}
-                              </h3>
+                                <h3
+                                  className="
+                                    text-base
+                                    font-semibold
+
+                                    text-gray-900
+                                    dark:text-white
+                                  "
+                                >
+                                  {a.action}
+                                </h3>
+
+                                <ArrowUpRight
+                                  size={15}
+                                  className="
+                                    text-blue-500
+                                    opacity-0
+                                    group-hover:opacity-100
+
+                                    transition-all
+                                  "
+                                />
+                              </div>
 
                               <p
                                 className="
@@ -583,17 +777,26 @@ const Activity = () => {
                               </p>
                             </div>
 
+                            {/* TIME */}
                             <div
                               className="
                                 shrink-0
 
+                                flex
+                                items-center
+                                gap-2
+
                                 px-3
-                                py-1.5
+                                py-2
 
                                 rounded-xl
 
-                                bg-gray-100
-                                dark:bg-white/5
+                                bg-gray-100/80
+                                dark:bg-white/[0.04]
+
+                                border
+                                border-gray-200/60
+                                dark:border-white/5
 
                                 text-xs
                                 font-medium
@@ -602,6 +805,10 @@ const Activity = () => {
                                 dark:text-gray-400
                               "
                             >
+                              <Clock3
+                                size={13}
+                              />
+
                               {new Date(
                                 a.createdAt
                               ).toLocaleTimeString(
