@@ -239,9 +239,7 @@ const Activity = () => {
       className="
         relative
         overflow-hidden
-        bg-white/70
-        backdrop-blur-2xl
-        min-h-[630px]
+        min-h-[620px]
         flex
         flex-col
       "
@@ -252,14 +250,10 @@ const Activity = () => {
           absolute
           top-0
           right-0
-
           w-72
           h-72
-
           bg-blue-500/10
-
           blur-[120px]
-
           rounded-full
         "
       />
