@@ -186,20 +186,14 @@ const Activity = () => {
         border
         border-gray-200/80
         dark:border-white/10
-
         bg-white/90
         dark:bg-[#0B1120]/90
-
         backdrop-blur-xl
-
         shadow-xl
         shadow-black/[0.04]
-
         overflow-hidden
-
         h-auto
-        xl:h-[630px]
-
+        xl:h-[645px]
         flex
         flex-col
       "
