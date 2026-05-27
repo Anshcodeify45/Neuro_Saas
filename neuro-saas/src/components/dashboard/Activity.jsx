@@ -295,7 +295,7 @@ const Activity = () => {
         overflow-hidden
 
         h-full
-        min-h-[600px]
+        min-h-[500px]
 
         rounded-[28px]
 
@@ -462,7 +462,7 @@ const Activity = () => {
           p-6
           space-y-8
           custom-scrollbar
-          max-h-[600px]
+          max-h-[500px]
         "
       >
         {/* LOADING */}

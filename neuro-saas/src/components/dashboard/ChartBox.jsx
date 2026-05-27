@@ -108,7 +108,7 @@ const ChartBox = () => {
           overflow-hidden
 
           h-full
-          min-h-[600px]
+          min-h-[500px]
 
           rounded-[30px]
 
