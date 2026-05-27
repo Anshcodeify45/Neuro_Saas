@@ -295,7 +295,7 @@ const Activity = () => {
         overflow-hidden
 
         h-full
-        min-h-[650px]
+        min-h-[720px]
 
         rounded-[28px]
 
@@ -453,20 +453,16 @@ const Activity = () => {
       </div>
 
       {/* CONTENT */}
-      <div
+     <div
         className="
           relative
           z-10
-
           flex-1
-
           overflow-y-auto
-
           p-6
-
           space-y-8
-
           custom-scrollbar
+          max-h-[720px]
         "
       >
         {/* LOADING */}
