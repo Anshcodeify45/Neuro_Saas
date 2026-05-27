@@ -198,7 +198,7 @@ const Activity = () => {
         overflow-hidden
 
         h-auto
-        xl:h-[500px]
+        xl:h-[620px]
 
         flex
         flex-col
