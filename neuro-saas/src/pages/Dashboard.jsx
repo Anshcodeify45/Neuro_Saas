@@ -18,7 +18,6 @@ const Dashboard = () => {
       className="
         relative
         min-h-screen
-
         overflow-hidden
 
         bg-[#f4f7fb]
@@ -29,80 +28,74 @@ const Dashboard = () => {
       "
     >
 
-      {/* ========================= */}
-      {/* BACKGROUND GLOW */}
-      {/* ========================= */}
-
+      {/* BACKGROUND BLURS */}
       <div
         className="
           absolute
-          top-0
-          left-0
+          top-[-150px]
+          left-[-120px]
 
-          w-[500px]
-          h-[500px]
+          w-[350px]
+          sm:w-[500px]
+
+          h-[350px]
+          sm:h-[500px]
 
           bg-blue-500/10
-
           blur-[120px]
-
           rounded-full
+          pointer-events-none
         "
       />
 
       <div
         className="
           absolute
-          bottom-0
-          right-0
+          bottom-[-120px]
+          right-[-120px]
 
-          w-[400px]
-          h-[400px]
+          w-[300px]
+          sm:w-[450px]
+
+          h-[300px]
+          sm:h-[450px]
 
           bg-purple-500/10
-
           blur-[120px]
-
           rounded-full
+          pointer-events-none
         "
       />
 
-      {/* ========================= */}
-      {/* CONTENT */}
-      {/* ========================= */}
-
+      {/* MAIN */}
       <div
         className="
           relative
           z-10
 
-          px-4
-          sm:px-6
-          lg:px-8
+          w-full
 
-          py-6
-          sm:py-8
+          px-3
+          sm:px-5
+          lg:px-6
+
+          py-4
+          sm:py-6
         "
       >
 
-        {/* ========================= */}
-        {/* CONTAINER */}
-        {/* ========================= */}
-
         <div
           className="
+            w-full
             max-w-[1600px]
             mx-auto
 
-            space-y-6
-            sm:space-y-7
+            space-y-5
+            sm:space-y-6
           "
         >
 
-          {/* ========================= */}
-          {/* HERO HEADER */}
-          {/* ========================= */}
-
+          {/* HERO */}
           <motion.div
             initial={{
               opacity: 0,
@@ -119,28 +112,27 @@ const Dashboard = () => {
               relative
               overflow-hidden
 
-              rounded-[32px]
+              rounded-[28px]
 
               border
               border-gray-200
               dark:border-white/10
 
-              bg-white/80
+              bg-white/70
               dark:bg-white/[0.03]
 
               backdrop-blur-2xl
 
-              shadow-[0_10px_50px_rgba(0,0,0,0.08)]
-              dark:shadow-[0_10px_50px_rgba(0,0,0,0.35)]
+              shadow-[0_10px_40px_rgba(0,0,0,0.08)]
+              dark:shadow-[0_10px_40px_rgba(0,0,0,0.35)]
 
-              p-5
+              p-4
               sm:p-6
               lg:p-8
             "
           >
 
-            {/* HEADER GLOW */}
-
+            {/* GLOW */}
             <div
               className="
                 absolute
@@ -151,9 +143,7 @@ const Dashboard = () => {
                 h-72
 
                 bg-blue-500/10
-
                 blur-[100px]
-
                 rounded-full
               "
             />
@@ -175,10 +165,7 @@ const Dashboard = () => {
             >
 
               {/* LEFT */}
-
-              <div>
-
-                {/* BADGE */}
+              <div className="min-w-0">
 
                 <div
                   className="
@@ -196,41 +183,38 @@ const Dashboard = () => {
                     text-blue-600
                     dark:text-blue-400
 
-                    text-sm
+                    text-xs
+                    sm:text-sm
                     font-medium
 
                     mb-5
                   "
                 >
 
-                  <Sparkles size={16} />
+                  <Sparkles size={15} />
 
                   AI Powered Dashboard
 
                 </div>
 
-                {/* TITLE */}
-
                 <h1
                   className="
-                    text-3xl
+                    text-2xl
                     sm:text-4xl
                     lg:text-5xl
 
                     font-bold
 
+                    leading-tight
+
                     tracking-tight
 
                     text-gray-900
                     dark:text-white
-
-                    leading-tight
                   "
                 >
                   Dashboard Overview
                 </h1>
-
-                {/* DESC */}
 
                 <p
                   className="
@@ -248,34 +232,30 @@ const Dashboard = () => {
                   "
                 >
                   Monitor your users,
-                  performance,
-                  analytics,
-                  revenue and
-                  realtime activity
-                  through a clean,
-                  modern and
-                  responsive admin
-                  dashboard.
+                  revenue,
+                  realtime activity,
+                  analytics and
+                  system performance
+                  through a clean
+                  responsive admin dashboard.
                 </p>
 
               </div>
 
               {/* RIGHT */}
-
               <div
                 className="
-                  flex
-                  flex-col
-                  sm:flex-row
-
+                  grid
+                  grid-cols-1
+                  sm:grid-cols-2
                   gap-4
+
                   w-full
                   xl:w-auto
                 "
               >
 
                 {/* STATUS */}
-
                 <div
                   className="
                     flex
@@ -291,10 +271,10 @@ const Dashboard = () => {
                     bg-gray-50
                     dark:bg-white/[0.04]
 
-                    px-5
+                    px-4
                     py-4
 
-                    min-w-[220px]
+                    min-w-0
                   "
                 >
 
@@ -306,26 +286,23 @@ const Dashboard = () => {
                       items-center
                       justify-center
 
-                      w-12
-                      h-12
+                      w-11
+                      h-11
 
                       rounded-2xl
 
                       bg-green-500/10
+                      shrink-0
                     "
                   >
 
                     <div
                       className="
                         absolute
-
                         w-3
                         h-3
-
                         rounded-full
-
                         bg-green-500
-
                         animate-ping
                       "
                     />
@@ -333,23 +310,20 @@ const Dashboard = () => {
                     <div
                       className="
                         relative
-
                         w-3
                         h-3
-
                         rounded-full
-
                         bg-green-500
                       "
                     />
 
                   </div>
 
-                  <div>
+                  <div className="min-w-0">
 
                     <p
                       className="
-                        text-xs
+                        text-[10px]
                         uppercase
                         tracking-wider
 
@@ -364,7 +338,9 @@ const Dashboard = () => {
                       className="
                         mt-1
 
-                        text-lg
+                        text-sm
+                        sm:text-base
+
                         font-semibold
 
                         text-gray-900
@@ -378,8 +354,7 @@ const Dashboard = () => {
 
                 </div>
 
-                {/* UPDATE */}
-
+                {/* UPDATED */}
                 <div
                   className="
                     flex
@@ -395,10 +370,10 @@ const Dashboard = () => {
                     bg-gray-50
                     dark:bg-white/[0.04]
 
-                    px-5
+                    px-4
                     py-4
 
-                    min-w-[220px]
+                    min-w-0
                   "
                 >
 
@@ -408,26 +383,25 @@ const Dashboard = () => {
                       items-center
                       justify-center
 
-                      w-12
-                      h-12
+                      w-11
+                      h-11
 
                       rounded-2xl
 
                       bg-blue-500/10
 
                       text-blue-500
+                      shrink-0
                     "
                   >
-
-                    <Clock3 size={20} />
-
+                    <Clock3 size={18} />
                   </div>
 
-                  <div>
+                  <div className="min-w-0">
 
                     <p
                       className="
-                        text-xs
+                        text-[10px]
                         uppercase
                         tracking-wider
 
@@ -442,7 +416,9 @@ const Dashboard = () => {
                       className="
                         mt-1
 
-                        text-lg
+                        text-sm
+                        sm:text-base
+
                         font-semibold
 
                         text-gray-900
@@ -462,30 +438,10 @@ const Dashboard = () => {
 
           </motion.div>
 
-          {/* ========================= */}
           {/* STATS */}
-          {/* ========================= */}
+          <Stats />
 
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 15,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              delay: 0.1,
-            }}
-          >
-            <Stats />
-          </motion.div>
-
-          {/* ========================= */}
           {/* CHART + ACTIVITY */}
-          {/* ========================= */}
-
           <div
             className="
               grid
@@ -498,84 +454,50 @@ const Dashboard = () => {
             "
           >
 
-            {/* CHART */}
-
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 20,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                delay: 0.2,
-              }}
+            <div
               className="
                 2xl:col-span-8
-
                 min-w-0
               "
             >
               <ChartBox />
-            </motion.div>
+            </div>
 
-            {/* ACTIVITY */}
-
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 20,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                delay: 0.3,
-              }}
+            <div
               className="
                 2xl:col-span-4
-
                 min-w-0
               "
             >
               <Activity />
-            </motion.div>
+            </div>
 
           </div>
 
-          {/* ========================= */}
           {/* TABLE */}
-          {/* ========================= */}
-
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 20,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              delay: 0.4,
-            }}
+          <div
             className="
               min-w-0
-
               overflow-hidden
             "
           >
 
             <div
               className="
-                rounded-[32px]
+                rounded-[30px]
+
+                border
+                border-gray-200
+                dark:border-white/10
+
+                bg-white/70
                 dark:bg-white/[0.03]
+
                 backdrop-blur-2xl
+
                 shadow-[0_10px_40px_rgba(0,0,0,0.08)]
                 dark:shadow-[0_10px_40px_rgba(0,0,0,0.35)]
+
                 p-2
                 sm:p-3
               "
@@ -583,7 +505,7 @@ const Dashboard = () => {
               <Table />
             </div>
 
-          </motion.div>
+          </div>
 
         </div>
 

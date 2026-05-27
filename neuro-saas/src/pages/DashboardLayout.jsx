@@ -1,20 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+} from "react";
+
 import { Outlet } from "react-router-dom";
+
+import {
+  Menu,
+  Moon,
+  Sun,
+} from "lucide-react";
 
 import Sidebar from "../components/dashboard/SideBar";
 import Topbar from "../components/dashboard/Topbar";
 
 const DashboardLayout = () => {
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] =
+    useState(false);
 
-  // MOBILE CLOSED
-  const [sidebarOpen, setSidebarOpen] = useState(
-    window.innerWidth >= 1024
-  );
+  const [sidebarOpen, setSidebarOpen] =
+    useState(
+      window.innerWidth >= 1024
+    );
 
   // DARK MODE
   useEffect(() => {
-    const root = document.documentElement;
+    const root =
+      document.documentElement;
 
     dark
       ? root.classList.add("dark")
@@ -24,7 +36,9 @@ const DashboardLayout = () => {
   // RESPONSIVE SIDEBAR
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 1024) {
+      if (
+        window.innerWidth < 1024
+      ) {
         setSidebarOpen(false);
       } else {
         setSidebarOpen(true);
@@ -49,14 +63,14 @@ const DashboardLayout = () => {
     <div
       className="
         min-h-screen
-        bg-gray-50
-        dark:bg-gray-950
         flex
+
+        bg-[#f4f7fb]
+        dark:bg-[#020817]
+
         overflow-hidden
       "
     >
-
-  
 
       {/* SIDEBAR */}
       <Sidebar
@@ -64,13 +78,14 @@ const DashboardLayout = () => {
         setOpen={setSidebarOpen}
       />
 
-      {/* MAIN AREA */}
+      {/* MAIN */}
       <div
         className={`
           flex-1
           flex
           flex-col
           min-w-0
+
           transition-all
           duration-300
 
@@ -88,11 +103,12 @@ const DashboardLayout = () => {
             sticky
             top-0
             z-30
+
             px-3
-            sm:px-4
+            sm:px-5
             lg:px-6
-            py-3
-            bg-transparent
+
+            pt-3
           "
         >
 
@@ -101,21 +117,61 @@ const DashboardLayout = () => {
               flex
               items-center
               justify-between
-              gap-4
-              rounded-2xl
+              gap-3
+
+              rounded-[26px]
+
               border
               border-gray-200/70
               dark:border-white/10
-              bg-white/80
-              dark:bg-gray-900/80
-              backdrop-blur-xl
+
+              bg-white/70
+              dark:bg-white/[0.04]
+
+              backdrop-blur-2xl
+
               px-4
               py-3
-              shadow-sm
+
+              shadow-[0_8px_30px_rgba(0,0,0,0.06)]
+              dark:shadow-[0_8px_30px_rgba(0,0,0,0.3)]
             "
           >
 
-            {/* LEFT */}
+            {/* MOBILE MENU */}
+            <button
+              onClick={() =>
+                setSidebarOpen(true)
+              }
+              className="
+                lg:hidden
+
+                flex
+                items-center
+                justify-center
+
+                w-11
+                h-11
+
+                rounded-xl
+
+                border
+                border-gray-200
+                dark:border-white/10
+
+                bg-white
+                dark:bg-white/[0.05]
+
+                text-gray-700
+                dark:text-white
+
+                shrink-0
+              "
+            >
+              <Menu size={20} />
+            </button>
+
+            {/* TOPBAR */}
             <div className="flex-1 min-w-0">
               <Topbar />
             </div>
@@ -128,41 +184,60 @@ const DashboardLayout = () => {
               className="
                 hidden
                 md:flex
+
                 items-center
                 gap-3
+
                 px-4
-                py-2
+                py-2.5
+
                 rounded-2xl
+
                 border
                 border-gray-200
                 dark:border-white/10
+
                 bg-white
-                dark:bg-white/5
-                hover:shadow-md
-                transition
+                dark:bg-white/[0.04]
+
+                transition-all
+                duration-300
+
+                hover:scale-[1.02]
               "
             >
 
               <div
                 className="
-                  w-9
-                  h-9
+                  w-10
+                  h-10
+
                   rounded-xl
+
                   flex
                   items-center
                   justify-center
+
                   bg-gray-100
-                  dark:bg-white/10
+                  dark:bg-white/[0.06]
                 "
               >
-                {dark ? "🌙" : "☀️"}
+                {dark ? (
+                  <Moon size={18} />
+                ) : (
+                  <Sun size={18} />
+                )}
               </div>
 
-              <div className="hidden lg:block">
+              <div className="hidden xl:block text-left">
+
                 <p
                   className="
                     text-sm
                     font-semibold
+
+                    text-gray-900
+                    dark:text-white
                   "
                 >
                   {dark
@@ -174,10 +249,12 @@ const DashboardLayout = () => {
                   className="
                     text-xs
                     text-gray-500
+                    dark:text-gray-400
                   "
                 >
                   Switch appearance
                 </p>
+
               </div>
 
             </button>
@@ -186,23 +263,25 @@ const DashboardLayout = () => {
 
         </header>
 
-        {/* PAGE CONTENT */}
+        {/* PAGE */}
         <main
           className="
             flex-1
             overflow-y-auto
+
             px-3
-            sm:px-4
+            sm:px-5
             lg:px-6
+
             pb-6
           "
         >
 
           <div
             className="
-              max-w-[1400px]
-              mx-auto
               w-full
+              max-w-[1600px]
+              mx-auto
             "
           >
             <Outlet />
